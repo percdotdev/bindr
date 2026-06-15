@@ -1,8 +1,8 @@
 import {
   resolveCrosshairAlpha,
   resolveCrosshairRgb,
-} from '@/features/crosshair/lib/crosshair-color';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+} from '@/features/crosshair/lib/model/crosshair-color';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 
 export const PREVIEW_CANVAS_SIZE = 50;
 export const PREVIEW_DISPLAY_SIZE = 50;

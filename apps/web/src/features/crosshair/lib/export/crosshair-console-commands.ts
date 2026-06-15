@@ -1,8 +1,8 @@
 import {
   isCustomCrosshairColor,
   resolveCrosshairRgb,
-} from '@/features/crosshair/lib/crosshair-color';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+} from '@/features/crosshair/lib/model/crosshair-color';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 
 function formatConsoleNumber(value: number): string {
   const rounded = Math.round(value * 10) / 10;

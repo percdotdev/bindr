@@ -1,7 +1,7 @@
 import {
   RAW_SHARE_CODE_PATTERN,
   SHARE_CODE_PATTERN,
-} from '@/features/crosshair/lib/share-code-dictionary';
+} from '@/features/crosshair/lib/share-code/share-code-dictionary';
 
 export function normalizeShareCode(shareCode: string): string {
   let cleanCode = shareCode.trim();

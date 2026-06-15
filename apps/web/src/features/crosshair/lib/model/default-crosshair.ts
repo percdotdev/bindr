@@ -1,4 +1,4 @@
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 
 export const DEFAULT_CROSSHAIR: CrosshairSettings = {
   gap: -2,

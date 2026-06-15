@@ -2,19 +2,19 @@
 
 import { parseAsString, useQueryState } from 'nuqs';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { applyCrosshairColor } from '@/features/crosshair/lib/crosshair-color';
+import { applyCrosshairColor } from '@/features/crosshair/lib/model/crosshair-color';
+import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/model/default-crosshair';
+import type {
+  CrosshairField,
+  CrosshairSettings,
+} from '@/features/crosshair/lib/model/types';
+import { decodeShareCode } from '@/features/crosshair/lib/share-code/decode-share-code';
+import { encodeShareCode } from '@/features/crosshair/lib/share-code/encode-share-code';
 import {
   clearStoredCrosshair,
   loadStoredCrosshair,
   saveStoredCrosshair,
-} from '@/features/crosshair/lib/crosshair-storage';
-import { decodeShareCode } from '@/features/crosshair/lib/decode-share-code';
-import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/default-crosshair';
-import { encodeShareCode } from '@/features/crosshair/lib/encode-share-code';
-import type {
-  CrosshairField,
-  CrosshairSettings,
-} from '@/features/crosshair/lib/types';
+} from '@/features/crosshair/lib/storage/crosshair-storage';
 
 function updateShareCodeParam(
   setCodeParam: ReturnType<typeof useQueryState>[1],

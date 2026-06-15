@@ -1,5 +1,5 @@
 /* biome-ignore-all lint/suspicious/noBitwiseOperators: Valve share-code payload is bitwise */
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 
 function signedByte(value: number): number {
   return (value ^ 0x80) - 0x80;

@@ -1,7 +1,7 @@
-import { normalizeShareCode } from '@/features/crosshair/lib/normalize-share-code';
-import { crosshairSettingsToBytes } from '@/features/crosshair/lib/share-code-bytes';
-import { SHARE_CODE_DICTIONARY } from '@/features/crosshair/lib/share-code-dictionary';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
+import { normalizeShareCode } from '@/features/crosshair/lib/share-code/normalize-share-code';
+import { crosshairSettingsToBytes } from '@/features/crosshair/lib/share-code/share-code-bytes';
+import { SHARE_CODE_DICTIONARY } from '@/features/crosshair/lib/share-code/share-code-dictionary';
 
 function bytesToShareCode(bytes: number[]): string {
   const hexString = bytes

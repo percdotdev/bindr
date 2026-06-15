@@ -24,8 +24,8 @@ When assisting with code generation, database schemas, or routing, strictly adhe
 Use the in-repo share-code codec (ported from [girlglock/cs2-crosshair](https://github.com/girlglock/cs2-crosshair)) in Client Components. Do **not** use `csgo-sharecode` — it mishandles extended size bytes and is case-sensitive on the wrong normalization path.
 
 ```typescript
-import { decodeShareCode } from '@/features/crosshair/lib/decode-share-code';
-import { encodeShareCode } from '@/features/crosshair/lib/encode-share-code';
+import { decodeShareCode } from '@/features/crosshair/lib/share-code/decode-share-code';
+import { encodeShareCode } from '@/features/crosshair/lib/share-code/encode-share-code';
 
 const crosshair = decodeShareCode('CSGO-AJswe-2jNcK-nMpEQ-rHV5J-5JWAB');
 const shareCode = encodeShareCode(crosshair);
