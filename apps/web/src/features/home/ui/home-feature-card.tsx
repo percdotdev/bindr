@@ -15,6 +15,7 @@ interface HomeFeatureCardProps {
   description: string;
   href: string;
   icon: LucideIcon;
+  index: string;
   title: string;
 }
 
@@ -24,6 +25,7 @@ export function HomeFeatureCard({
   description,
   href,
   icon: Icon,
+  index,
   title,
 }: HomeFeatureCardProps) {
   return (
@@ -34,15 +36,20 @@ export function HomeFeatureCard({
       )}
       href={href}
     >
-      <Card className='h-full ring-foreground/10 transition-shadow group-hover:ring-foreground/20'>
+      <Card className='h-full ring-foreground/10 transition-shadow group-hover:ring-foreground/25'>
         <CardHeader>
-          <div className='mb-1 flex size-8 items-center justify-center bg-muted ring-1 ring-foreground/10'>
-            <Icon aria-hidden className='size-4' />
+          <div className='flex items-center justify-between'>
+            <div className='flex size-8 items-center justify-center bg-muted ring-1 ring-foreground/10'>
+              <Icon aria-hidden className='size-4' />
+            </div>
+            <span className='font-mono text-[10px] text-muted-foreground tabular-nums'>
+              {index}
+            </span>
           </div>
-          <CardTitle>{title}</CardTitle>
+          <CardTitle className='mt-1'>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardFooter className='mt-auto border-foreground/10 text-muted-foreground text-xs group-hover:text-foreground'>
+        <CardFooter className='mt-auto border-foreground/10 text-muted-foreground text-xs transition-colors group-hover:text-foreground'>
           {cta} →
         </CardFooter>
       </Card>

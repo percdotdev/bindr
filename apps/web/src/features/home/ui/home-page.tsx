@@ -5,11 +5,73 @@ import {
   FileCode2,
   Keyboard,
   SlidersHorizontal,
-  Sparkles,
 } from 'lucide-react';
 import Link from 'next/link';
 
+import { HomeConsole } from '@/features/home/ui/home-console';
 import { HomeFeatureCard } from '@/features/home/ui/home-feature-card';
+
+const TOOLS = [
+  {
+    index: '01',
+    href: '/crosshair',
+    icon: Crosshair,
+    title: 'Crosshair editor',
+    description:
+      'Decode CSGO share codes, tweak gap, color and style, preview on real maps, export console commands.',
+    cta: 'Open editor',
+  },
+  {
+    index: '02',
+    href: '/binds',
+    icon: Keyboard,
+    title: 'Bind generator',
+    description:
+      'Assign commands on a visual keyboard and export grouped bind lines or a ready-to-paste cfg.',
+    cta: 'Build binds',
+  },
+  {
+    index: '03',
+    href: '/config',
+    icon: SlidersHorizontal,
+    title: 'Game config',
+    description:
+      'Dial in viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders.',
+    cta: 'Tune cvars',
+  },
+  {
+    index: '04',
+    href: '/autoexec',
+    icon: FileCode2,
+    title: 'Autoexec composer',
+    description:
+      'Merge crosshair, config and binds into one autoexec.cfg with per-section toggles.',
+    cta: 'Compose cfg',
+  },
+] as const;
+
+const STEPS = [
+  {
+    step: '01',
+    title: 'Import',
+    detail: 'Paste a share code or start from MM-safe 2026 presets.',
+  },
+  {
+    step: '02',
+    title: 'Customize',
+    detail: 'Sliders, toggles and a visual keyboard — no syntax to memorize.',
+  },
+  {
+    step: '03',
+    title: 'Preview',
+    detail: 'Crosshairs render on real maps; cfg output updates live.',
+  },
+  {
+    step: '04',
+    title: 'Export',
+    detail: 'Copy console commands or download a single autoexec.cfg.',
+  },
+] as const;
 
 const CATALOG_LINKS = [
   { href: '/binds/recommended', label: 'Recommended binds' },
@@ -19,120 +81,110 @@ const CATALOG_LINKS = [
 const VALUE_PROPS = [
   {
     label: 'Browser-only',
-    detail: 'Parse, preview, and export without installing anything.',
+    detail: 'Parse, preview and export without installing anything.',
   },
   {
     label: 'MM-safe defaults',
-    detail:
-      'Binds and cvars follow current Valve rules — no banned aliases or scripts.',
+    detail: 'Binds and cvars follow current Valve rules — no banned scripts.',
   },
   {
-    label: 'Your config, local-first',
-    detail: 'Edits persist in the browser until cloud save ships.',
+    label: 'Local-first',
+    detail: 'Edits persist in your browser until cloud save ships.',
   },
 ] as const;
 
 export function HomePage() {
   return (
-    <main className='mx-auto flex w-full max-w-4xl flex-col gap-14 px-6 py-10 md:py-16'>
-      <section className='flex flex-col gap-6'>
-        <p className='font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]'>
-          Counter-Strike 2 config studio
-        </p>
-        <div className='flex flex-col gap-4'>
-          <h1 className='font-medium font-mono text-3xl tracking-tight md:text-4xl'>
-            bindr.lol
-          </h1>
-          <p className='max-w-xl text-muted-foreground text-sm leading-relaxed md:text-base'>
-            Tune your crosshair on map previews, build binds from a visual
-            keyboard, and dial in game cvars — then copy console commands or
-            drop a cfg into your game folder. No downloads, no cheats.
+    <main className='mx-auto flex w-full max-w-4xl flex-col gap-16 px-6 py-12 md:py-20'>
+      <section className='grid items-center gap-10 lg:grid-cols-[1.1fr_1fr]'>
+        <div className='flex flex-col gap-6'>
+          <p className='inline-flex w-fit items-center gap-2 border border-foreground/10 bg-muted/40 px-2.5 py-1 font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]'>
+            <span className='size-1.5 rounded-full bg-foreground/40' />
+            Counter-Strike 2 config studio
+          </p>
+          <div className='flex flex-col gap-4'>
+            <h1 className='font-medium font-mono text-4xl tracking-tight md:text-5xl'>
+              bindr.lol
+            </h1>
+            <p className='max-w-xl text-muted-foreground text-sm leading-relaxed md:text-base'>
+              Build your crosshair, binds and game cvars in the browser, then
+              copy console commands or drop one{' '}
+              <code className='bg-muted px-1 py-0.5 font-mono text-foreground text-xs'>
+                autoexec.cfg
+              </code>{' '}
+              into your game folder. No downloads, no cheats.
+            </p>
+          </div>
+          <div className='flex flex-wrap gap-2'>
+            <Link
+              className={cn(buttonVariants(), 'inline-flex')}
+              href='/crosshair'
+            >
+              Start with crosshair
+            </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'inline-flex'
+              )}
+              href='/autoexec'
+            >
+              Compose autoexec
+            </Link>
+          </div>
+        </div>
+        <HomeConsole />
+      </section>
+
+      <section className='flex flex-col gap-4'>
+        <div className='flex items-baseline justify-between'>
+          <h2 className='font-medium text-sm'>Tools</h2>
+          <p className='text-muted-foreground text-xs'>
+            Everything client-side
           </p>
         </div>
-        <div className='flex flex-wrap gap-2'>
-          <Link
-            className={cn(buttonVariants(), 'inline-flex')}
-            href='/crosshair'
-          >
-            Crosshair editor
-          </Link>
-          <Link
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'inline-flex'
-            )}
-            href='/binds'
-          >
-            Bind generator
-          </Link>
-          <Link
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'inline-flex'
-            )}
-            href='/config'
-          >
-            Game config
-          </Link>
-          <Link
-            className={cn(
-              buttonVariants({ variant: 'outline' }),
-              'inline-flex'
-            )}
-            href='/autoexec'
-          >
-            Autoexec
-          </Link>
+        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
+          {TOOLS.map((tool) => (
+            <HomeFeatureCard
+              cta={tool.cta}
+              description={tool.description}
+              href={tool.href}
+              icon={tool.icon}
+              index={tool.index}
+              key={tool.href}
+              title={tool.title}
+            />
+          ))}
+        </div>
+      </section>
+
+      <section className='flex flex-col gap-5'>
+        <h2 className='font-medium text-sm'>How it works</h2>
+        <div className='grid gap-px overflow-hidden border border-foreground/10 bg-foreground/10 sm:grid-cols-2 lg:grid-cols-4'>
+          {STEPS.map((item) => (
+            <div
+              className='flex flex-col gap-2 bg-background p-4'
+              key={item.step}
+            >
+              <span className='font-mono text-[10px] text-muted-foreground tabular-nums'>
+                {item.step}
+              </span>
+              <p className='font-medium text-sm'>{item.title}</p>
+              <p className='text-muted-foreground text-xs leading-relaxed'>
+                {item.detail}
+              </p>
+            </div>
+          ))}
         </div>
       </section>
 
       <section className='flex flex-col gap-4'>
         <div className='flex flex-col gap-1'>
-          <h2 className='font-medium text-sm'>Tools</h2>
+          <h2 className='font-medium text-sm'>Curated catalogs</h2>
           <p className='text-muted-foreground text-xs'>
-            Everything runs client-side — fast previews, no uploads required.
+            Start from MM-safe 2026 meta presets and keep only what you want.
           </p>
         </div>
-        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
-          <HomeFeatureCard
-            cta='Open editor'
-            description='Decode CSGO share codes, tweak gap, color, and style, preview on Mirage or Dust II, export console commands.'
-            href='/crosshair'
-            icon={Crosshair}
-            title='Crosshair editor'
-          />
-          <HomeFeatureCard
-            cta='Build binds'
-            description='Click keys on a keyboard layout, assign commands, and export grouped bind lines or a ready-to-paste cfg.'
-            href='/binds'
-            icon={Keyboard}
-            title='Bind generator'
-          />
-          <HomeFeatureCard
-            cta='Tune cvars'
-            description='Adjust viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders, then export a cfg.'
-            href='/config'
-            icon={SlidersHorizontal}
-            title='Game config'
-          />
-          <HomeFeatureCard
-            cta='Compose cfg'
-            description='Merge your crosshair, config and binds into one autoexec.cfg with per-section toggles, then copy or download.'
-            href='/autoexec'
-            icon={FileCode2}
-            title='Autoexec composer'
-          />
-        </div>
-      </section>
-
-      <section className='flex flex-col gap-4'>
-        <div className='flex items-center gap-2'>
-          <Sparkles aria-hidden className='size-4 text-muted-foreground' />
-          <h2 className='font-medium text-sm'>Curated catalogs</h2>
-        </div>
-        <p className='text-muted-foreground text-xs'>
-          Start from MM-safe 2026 meta presets and keep only what you want.
-        </p>
         <div className='flex flex-wrap gap-2'>
           {CATALOG_LINKS.map((item) => (
             <Link
