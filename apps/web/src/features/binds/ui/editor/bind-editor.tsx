@@ -1,14 +1,17 @@
 'use client';
 
+import { Button } from '@workspace/ui/components/button';
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@workspace/ui/components/card';
+import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
+import { RECOMMENDED_BIND_TEMPLATES } from '@/features/binds/lib/model/recommended-binds';
 import { BindCommandForm } from '@/features/binds/ui/controls/bind-command-form';
 import { BindList } from '@/features/binds/ui/controls/bind-list';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
@@ -18,14 +21,20 @@ import { BindExportPanel } from '@/features/binds/ui/export/bind-export-panel';
 
 export function BindEditor() {
   const {
+    activeKeys,
     binds,
     clearBinds,
+    loadRecommendedBinds,
     removeBind,
     selectKey,
     selectedBind,
     selectedKey,
     upsertBind,
   } = useBindEditor();
+
+  const allRecommendedAdded = RECOMMENDED_BIND_TEMPLATES.every((template) =>
+    activeKeys.has(template.key)
+  );
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
@@ -44,9 +53,32 @@ export function BindEditor() {
         >
           Browse recommended binds →
         </Link>
+        <div className='flex flex-wrap items-center gap-2'>
+          <BindExportPanel binds={binds} />
+          <ConfirmAlertDialog
+            confirmLabel='Add all'
+            description='This replaces your entire bind config with the full recommended set. Any custom binds are removed.'
+            destructive={false}
+            disabled={allRecommendedAdded}
+            onConfirm={loadRecommendedBinds}
+            title='Add all recommended binds?'
+            trigger={<Button type='button' variant='outline' />}
+          >
+            <SparklesIcon data-icon='inline-start' />
+            Add all
+          </ConfirmAlertDialog>
+          <ConfirmAlertDialog
+            confirmLabel='Clear all'
+            description='This removes every bind from your config. Saved binds in local storage are cleared too.'
+            disabled={binds.length === 0}
+            onConfirm={clearBinds}
+            title='Clear all binds?'
+            trigger={<Button type='button' variant='ghost' />}
+          >
+            Clear all
+          </ConfirmAlertDialog>
+        </div>
       </div>
-
-      <BindExportPanel binds={binds} />
 
       <Card>
         <CardHeader>
@@ -87,29 +119,12 @@ export function BindEditor() {
       <Card>
         <CardHeader className='flex flex-row items-center justify-between gap-3'>
           <CardTitle>Active binds</CardTitle>
-          <div className='flex items-center gap-3'>
-            <Link
-              className='text-muted-foreground text-xs underline-offset-4 hover:underline'
-              href='/binds/recommended'
-            >
-              Add from recommended
-            </Link>
-            <ConfirmAlertDialog
-              confirmLabel='Clear all'
-              description='This removes every bind from your config. Saved binds in local storage are cleared too.'
-              disabled={binds.length === 0}
-              onConfirm={clearBinds}
-              title='Clear all binds?'
-              trigger={
-                <button
-                  className='text-muted-foreground text-xs underline-offset-4 hover:underline disabled:pointer-events-none disabled:no-underline disabled:opacity-50'
-                  type='button'
-                />
-              }
-            >
-              Clear all
-            </ConfirmAlertDialog>
-          </div>
+          <Link
+            className='text-muted-foreground text-xs underline-offset-4 hover:underline'
+            href='/binds/recommended'
+          >
+            Add from recommended
+          </Link>
         </CardHeader>
         <CardContent>
           <BindList
