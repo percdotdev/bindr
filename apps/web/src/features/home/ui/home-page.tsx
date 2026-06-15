@@ -1,48 +1,103 @@
 import { buttonVariants } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
+import { Crosshair, Keyboard, Sparkles } from 'lucide-react';
 import Link from 'next/link';
+
+import { HomeFeatureCard } from '@/features/home/ui/home-feature-card';
+
+const VALUE_PROPS = [
+  {
+    label: 'Browser-only',
+    detail: 'Parse, preview, and export without installing anything.',
+  },
+  {
+    label: 'MM-safe defaults',
+    detail: 'Recommended binds follow current Valve rules — no banned aliases.',
+  },
+  {
+    label: 'Your config, local-first',
+    detail: 'Edits persist in the browser until cloud save ships.',
+  },
+] as const;
 
 export function HomePage() {
   return (
-    <div className='flex min-h-svh p-6'>
-      <div className='flex min-w-0 max-w-md flex-col gap-4 text-sm leading-loose'>
-        <div>
-          <h1 className='font-medium'>Bindr</h1>
-          <p>
-            Import, customize, and share CS2 crosshairs and binds in the
-            browser.
+    <main className='mx-auto flex w-full max-w-4xl flex-col gap-14 px-6 py-10 md:py-16'>
+      <section className='flex flex-col gap-6'>
+        <p className='font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]'>
+          Counter-Strike 2
+        </p>
+        <div className='flex flex-col gap-4'>
+          <h1 className='font-medium font-mono text-3xl tracking-tight md:text-4xl'>
+            bindr.lol
+          </h1>
+          <p className='max-w-xl text-muted-foreground text-sm leading-relaxed md:text-base'>
+            Import share codes, tune your crosshair on map previews, and build
+            bind configs from a visual keyboard — then copy console commands or
+            drop a cfg into your game folder.
           </p>
-          <div className='mt-2 flex flex-wrap gap-2'>
-            <Link
-              className={cn(buttonVariants(), 'inline-flex w-fit')}
-              href='/crosshair'
-            >
-              Open crosshair editor
-            </Link>
-            <Link
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'inline-flex w-fit'
-              )}
-              href='/binds'
-            >
-              Open bind generator
-            </Link>
-            <Link
-              className={cn(
-                buttonVariants({ variant: 'outline' }),
-                'inline-flex w-fit'
-              )}
-              href='/binds/recommended'
-            >
-              Browse recommended binds
-            </Link>
+        </div>
+        <div className='flex flex-wrap gap-2'>
+          <Link
+            className={cn(buttonVariants(), 'inline-flex')}
+            href='/crosshair'
+          >
+            Crosshair editor
+          </Link>
+          <Link
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'inline-flex'
+            )}
+            href='/binds'
+          >
+            Bind generator
+          </Link>
+        </div>
+      </section>
+
+      <section className='flex flex-col gap-4'>
+        <div className='flex flex-col gap-1'>
+          <h2 className='font-medium text-sm'>Tools</h2>
+          <p className='text-muted-foreground text-xs'>
+            Everything runs client-side — fast previews, no uploads required.
+          </p>
+        </div>
+        <div className='grid gap-4 md:grid-cols-3'>
+          <HomeFeatureCard
+            cta='Open editor'
+            description='Decode CSGO share codes, tweak gap, color, and style, preview on Mirage or Dust II, export console commands.'
+            href='/crosshair'
+            icon={Crosshair}
+            title='Crosshair editor'
+          />
+          <HomeFeatureCard
+            cta='Build binds'
+            description='Click keys on a keyboard layout, assign console commands, and export grouped bind lines or a ready-to-paste cfg.'
+            href='/binds'
+            icon={Keyboard}
+            title='Bind generator'
+          />
+          <HomeFeatureCard
+            cta='Browse catalog'
+            description='Curated 2026 meta binds — grenade slots, knife, drop, lineup release, radar toggles. Add what you need.'
+            href='/binds/recommended'
+            icon={Sparkles}
+            title='Recommended binds'
+          />
+        </div>
+      </section>
+
+      <section className='grid gap-6 border-foreground/10 border-t pt-10 sm:grid-cols-3'>
+        {VALUE_PROPS.map((item) => (
+          <div className='flex flex-col gap-1' key={item.label}>
+            <p className='font-medium text-xs'>{item.label}</p>
+            <p className='text-muted-foreground text-xs leading-relaxed'>
+              {item.detail}
+            </p>
           </div>
-        </div>
-        <div className='font-mono text-muted-foreground text-xs'>
-          (Press <kbd>t</kbd> to toggle theme)
-        </div>
-      </div>
-    </div>
+        ))}
+      </section>
+    </main>
   );
 }
