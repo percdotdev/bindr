@@ -20,6 +20,11 @@ const TOOL_LINKS = [
     label: 'config',
     match: (pathname: string) => pathname.startsWith('/config'),
   },
+  {
+    href: '/autoexec',
+    label: 'autoexec',
+    match: (pathname: string) => pathname.startsWith('/autoexec'),
+  },
 ] as const;
 
 export function SiteNav() {

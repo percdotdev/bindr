@@ -1,6 +1,12 @@
 import { buttonVariants } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
-import { Crosshair, Keyboard, SlidersHorizontal, Sparkles } from 'lucide-react';
+import {
+  Crosshair,
+  FileCode2,
+  Keyboard,
+  SlidersHorizontal,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { HomeFeatureCard } from '@/features/home/ui/home-feature-card';
@@ -68,6 +74,15 @@ export function HomePage() {
           >
             Game config
           </Link>
+          <Link
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'inline-flex'
+            )}
+            href='/autoexec'
+          >
+            Autoexec
+          </Link>
         </div>
       </section>
 
@@ -78,7 +93,7 @@ export function HomePage() {
             Everything runs client-side — fast previews, no uploads required.
           </p>
         </div>
-        <div className='grid gap-4 md:grid-cols-3'>
+        <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>
           <HomeFeatureCard
             cta='Open editor'
             description='Decode CSGO share codes, tweak gap, color, and style, preview on Mirage or Dust II, export console commands.'
@@ -99,6 +114,13 @@ export function HomePage() {
             href='/config'
             icon={SlidersHorizontal}
             title='Game config'
+          />
+          <HomeFeatureCard
+            cta='Compose cfg'
+            description='Merge your crosshair, config and binds into one autoexec.cfg with per-section toggles, then copy or download.'
+            href='/autoexec'
+            icon={FileCode2}
+            title='Autoexec composer'
           />
         </div>
       </section>
