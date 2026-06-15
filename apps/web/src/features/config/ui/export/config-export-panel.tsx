@@ -1,0 +1,57 @@
+'use client';
+
+import { Button } from '@workspace/ui/components/button';
+import { toast } from 'sonner';
+
+import { formatConfigCfg } from '@/features/config/lib/export/format-config-cfg';
+import type { ViewmodelSettings } from '@/features/config/lib/model/types';
+
+interface ConfigExportPanelProps {
+  viewmodel: ViewmodelSettings;
+}
+
+async function copyText(text: string, label: string) {
+  try {
+    await navigator.clipboard.writeText(text);
+    toast.success(`${label} copied`);
+  } catch {
+    toast.error(`Could not copy ${label.toLowerCase()}`);
+  }
+}
+
+function downloadCfg(text: string) {
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const anchor = document.createElement('a');
+  anchor.href = url;
+  anchor.download = 'bindr-config.cfg';
+  anchor.click();
+  URL.revokeObjectURL(url);
+}
+
+export function ConfigExportPanel({ viewmodel }: ConfigExportPanelProps) {
+  const cfg = formatConfigCfg(viewmodel);
+
+  return (
+    <div className='flex flex-wrap gap-2'>
+      <Button
+        onClick={() => {
+          copyText(cfg, 'Config cfg');
+        }}
+        type='button'
+        variant='outline'
+      >
+        Copy cfg
+      </Button>
+      <Button
+        onClick={() => {
+          downloadCfg(cfg);
+        }}
+        type='button'
+        variant='outline'
+      >
+        Download cfg
+      </Button>
+    </div>
+  );
+}

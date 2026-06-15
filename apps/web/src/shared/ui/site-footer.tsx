@@ -3,6 +3,7 @@ import Link from 'next/link';
 const FOOTER_LINKS = [
   { href: '/crosshair', label: 'crosshair' },
   { href: '/binds', label: 'binds' },
+  { href: '/config', label: 'config' },
   { href: '/binds/recommended', label: 'recommended' },
 ] as const;
 

@@ -15,6 +15,11 @@ const TOOL_LINKS = [
     label: 'binds',
     match: (pathname: string) => pathname.startsWith('/binds'),
   },
+  {
+    href: '/config',
+    label: 'config',
+    match: (pathname: string) => pathname.startsWith('/config'),
+  },
 ] as const;
 
 export function SiteNav() {
