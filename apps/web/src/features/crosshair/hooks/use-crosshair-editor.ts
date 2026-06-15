@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { parseAsString, useQueryState } from 'nuqs';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { applyCrosshairColor } from '@/features/crosshair/lib/crosshair-color';
 import {
   clearStoredCrosshair,
@@ -15,30 +16,76 @@ import type {
   CrosshairSettings,
 } from '@/features/crosshair/lib/types';
 
+function updateShareCodeParam(
+  setCodeParam: ReturnType<typeof useQueryState>[1],
+  shareCode: string | null
+) {
+  setCodeParam(shareCode).catch(() => undefined);
+}
+
 export function useCrosshairEditor(
   initialCrosshair: CrosshairSettings = DEFAULT_CROSSHAIR
 ) {
   const [crosshair, setCrosshair] = useState(initialCrosshair);
-  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
+  const [hasInitialized, setHasInitialized] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
+  const skipUrlSyncRef = useRef(false);
+
+  const [codeParam, setCodeParam] = useQueryState(
+    'code',
+    parseAsString.withOptions({
+      clearOnDefault: true,
+      history: 'replace',
+    })
+  );
 
   const shareCode = useMemo(() => encodeShareCode(crosshair), [crosshair]);
 
   useEffect(() => {
+    if (hasInitialized) {
+      return;
+    }
+
+    if (codeParam) {
+      try {
+        setCrosshair(decodeShareCode(codeParam));
+        setHasInitialized(true);
+        return;
+      } catch {
+        setImportError('Invalid share code in URL');
+      }
+    }
+
     const stored = loadStoredCrosshair();
     if (stored) {
       setCrosshair(stored);
     }
-    setHasLoadedStorage(true);
-  }, []);
+
+    setHasInitialized(true);
+  }, [codeParam, hasInitialized]);
 
   useEffect(() => {
-    if (!hasLoadedStorage) {
+    if (!hasInitialized) {
       return;
     }
 
     saveStoredCrosshair(crosshair);
-  }, [crosshair, hasLoadedStorage]);
+  }, [crosshair, hasInitialized]);
+
+  useEffect(() => {
+    if (!hasInitialized || skipUrlSyncRef.current) {
+      skipUrlSyncRef.current = false;
+      return;
+    }
+
+    const timeout = window.setTimeout(() => {
+      updateShareCodeParam(setCodeParam, shareCode);
+    }, 300);
+
+    return () => {
+      window.clearTimeout(timeout);
+    };
+  }, [hasInitialized, setCodeParam, shareCode]);
 
   const updateField = useCallback(
     <K extends CrosshairField>(field: K, value: CrosshairSettings[K]) => {
@@ -91,24 +138,32 @@ export function useCrosshairEditor(
     []
   );
 
-  const importShareCode = useCallback((code: string): boolean => {
-    try {
-      setCrosshair(decodeShareCode(code));
-      setImportError(null);
-      return true;
-    } catch (error) {
-      setImportError(
-        error instanceof Error ? error.message : 'Failed to import share code'
-      );
-      return false;
-    }
-  }, []);
+  const importShareCode = useCallback(
+    (code: string): boolean => {
+      try {
+        const decoded = decodeShareCode(code);
+        skipUrlSyncRef.current = true;
+        setCrosshair(decoded);
+        updateShareCodeParam(setCodeParam, encodeShareCode(decoded));
+        setImportError(null);
+        return true;
+      } catch (error) {
+        setImportError(
+          error instanceof Error ? error.message : 'Failed to import share code'
+        );
+        return false;
+      }
+    },
+    [setCodeParam]
+  );
 
   const resetCrosshair = useCallback(() => {
+    skipUrlSyncRef.current = true;
     setCrosshair(DEFAULT_CROSSHAIR);
     clearStoredCrosshair();
+    updateShareCodeParam(setCodeParam, null);
     setImportError(null);
-  }, []);
+  }, [setCodeParam]);
 
   return {
     crosshair,
