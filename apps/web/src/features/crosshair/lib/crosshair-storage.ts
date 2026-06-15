@@ -1,21 +1,30 @@
+import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/default-crosshair';
 import type { CrosshairSettings } from '@/features/crosshair/lib/types';
 
 const STORAGE_KEY = 'bindr:crosshair:v1';
 
-function isCrosshairSettings(value: unknown): value is CrosshairSettings {
+const CROSSHAIR_SETTING_KEYS = Object.keys(
+  DEFAULT_CROSSHAIR
+) as (keyof CrosshairSettings)[];
+
+function isCrosshairSettings(
+  value: unknown
+): value is Partial<CrosshairSettings> {
   if (typeof value !== 'object' || value === null) {
     return false;
   }
 
   const candidate = value as Record<string, unknown>;
 
-  return (
-    typeof candidate.gap === 'number' &&
-    typeof candidate.length === 'number' &&
-    typeof candidate.color === 'number' &&
-    typeof candidate.red === 'number' &&
-    typeof candidate.style === 'number'
+  return CROSSHAIR_SETTING_KEYS.every(
+    (key) => typeof candidate[key] === typeof DEFAULT_CROSSHAIR[key]
   );
+}
+
+function normalizeCrosshairSettings(
+  value: Partial<CrosshairSettings>
+): CrosshairSettings {
+  return { ...DEFAULT_CROSSHAIR, ...value };
 }
 
 export function loadStoredCrosshair(): CrosshairSettings | null {
@@ -34,7 +43,7 @@ export function loadStoredCrosshair(): CrosshairSettings | null {
       return null;
     }
 
-    return parsed;
+    return normalizeCrosshairSettings(parsed);
   } catch {
     return null;
   }
