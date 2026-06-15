@@ -1,3 +1,4 @@
+import { formatAutoexecBanner } from '@/features/autoexec/lib/compose/autoexec-banner';
 import { formatBindBody } from '@/features/binds/lib/export/format-cfg';
 import type { BindEntry } from '@/features/binds/lib/model/types';
 import { formatConfigBody } from '@/features/config/lib/export/format-config-cfg';
@@ -7,6 +8,7 @@ import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 import { encodeShareCode } from '@/features/crosshair/lib/share-code/encode-share-code';
 
 export type AutoexecSectionId = 'crosshair' | 'config' | 'binds';
+export type AutoexecToggleId = AutoexecSectionId | 'banner';
 
 export interface AutoexecSource {
   binds: BindEntry[];
@@ -14,7 +16,7 @@ export interface AutoexecSource {
   crosshair: CrosshairSettings;
 }
 
-export type AutoexecInclude = Record<AutoexecSectionId, boolean>;
+export type AutoexecInclude = Record<AutoexecToggleId, boolean>;
 
 const CFG_PATH =
   '// Drop in ...\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\cfg\\autoexec.cfg';
@@ -68,7 +70,13 @@ export function composeAutoexec(
   }
 
   lines.push('host_writeconfig');
-  lines.push('echo "bindr.lol autoexec loaded"');
+  lines.push('');
+
+  if (include.banner) {
+    lines.push(...formatAutoexecBanner());
+  } else {
+    lines.push('echo "bindr.lol autoexec loaded"');
+  }
   lines.push('');
 
   return lines.join('\n');

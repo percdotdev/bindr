@@ -69,6 +69,19 @@ export function AutoexecEditor() {
           </p>
         </CardHeader>
         <CardContent className='flex flex-col gap-4'>
+          <div className='flex items-center justify-between gap-4 border-foreground/10 border-b pb-4'>
+            <div className='flex min-w-0 flex-col gap-0.5'>
+              <Label htmlFor='autoexec-banner'>Console banner</Label>
+              <span className='text-muted-foreground text-xs'>
+                Echo a bindr.lol ASCII wordmark when the cfg loads.
+              </span>
+            </div>
+            <Switch
+              checked={include.banner}
+              id='autoexec-banner'
+              onCheckedChange={() => toggleSection('banner')}
+            />
+          </div>
           {SECTIONS.map((section) => {
             const id = `autoexec-${section.id}`;
             const isBinds = section.id === 'binds';

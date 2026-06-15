@@ -4,7 +4,7 @@ import { useState } from 'react';
 
 import {
   type AutoexecInclude,
-  type AutoexecSectionId,
+  type AutoexecToggleId,
   composeAutoexec,
 } from '@/features/autoexec/lib/compose/compose-autoexec';
 import { useBindStore } from '@/features/binds/lib/storage/bind-store';
@@ -13,6 +13,7 @@ import { useCrosshairStore } from '@/features/crosshair/lib/storage/crosshair-st
 import { useMountEffect } from '@/shared/hooks/use-mount-effect';
 
 const DEFAULT_INCLUDE: AutoexecInclude = {
+  banner: true,
   crosshair: true,
   config: true,
   binds: true,
@@ -35,7 +36,7 @@ export function useAutoexec() {
     hydrateBinds();
   });
 
-  const toggleSection = (id: AutoexecSectionId) => {
+  const toggleSection = (id: AutoexecToggleId) => {
     setInclude((current) => ({ ...current, [id]: !current[id] }));
   };
 
