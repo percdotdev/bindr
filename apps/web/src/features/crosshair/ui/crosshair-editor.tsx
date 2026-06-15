@@ -34,32 +34,30 @@ export function CrosshairEditor() {
         </p>
       </div>
 
-      <div className='grid items-start gap-6 lg:grid-cols-[min(100%,909px)_minmax(0,1fr)]'>
-        <CrosshairPreview crosshair={crosshair} />
+      <CrosshairPreview crosshair={crosshair} />
 
-        <div className='flex flex-col gap-6'>
-          <ShareCodePanel
-            importError={importError}
-            onImport={importShareCode}
-            shareCode={shareCode}
-          />
+      <div className='grid gap-6 lg:grid-cols-2'>
+        <ShareCodePanel
+          importError={importError}
+          onImport={importShareCode}
+          shareCode={shareCode}
+        />
 
-          <Card>
-            <CardHeader>
-              <CardTitle>Appearance</CardTitle>
-            </CardHeader>
-            <CardContent className='flex flex-col gap-4'>
-              <CrosshairAppearanceControls
-                crosshair={crosshair}
-                onUpdate={updateField}
-              />
-              <Separator />
-              <Button onClick={resetCrosshair} type='button' variant='outline'>
-                Reset to default
-              </Button>
-            </CardContent>
-          </Card>
-        </div>
+        <Card>
+          <CardHeader>
+            <CardTitle>Appearance</CardTitle>
+          </CardHeader>
+          <CardContent className='flex flex-col gap-4'>
+            <CrosshairAppearanceControls
+              crosshair={crosshair}
+              onUpdate={updateField}
+            />
+            <Separator />
+            <Button onClick={resetCrosshair} type='button' variant='outline'>
+              Reset to default
+            </Button>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

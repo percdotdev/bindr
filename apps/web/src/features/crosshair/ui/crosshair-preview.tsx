@@ -67,66 +67,68 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
   const activeMap = PREVIEW_MAP_BACKGROUNDS[activeMapIndex];
 
   return (
-    <div
-      className='relative w-full max-w-[909px] overflow-hidden rounded-none bg-black ring-1 ring-foreground/10'
-      style={{ aspectRatio: `${PREVIEW_MAP_WIDTH} / ${PREVIEW_MAP_HEIGHT}` }}
-    >
-      <Carousel className='absolute inset-0 size-full' setApi={setCarouselApi}>
-        <CarouselContent className='ml-0 h-full'>
-          {PREVIEW_MAP_BACKGROUNDS.map((map) => (
-            <CarouselItem className='h-full pl-0' key={map.id}>
-              <div className='relative size-full'>
+    <div className='mx-auto w-full max-w-[909px] ring-1 ring-foreground/10'>
+      <div
+        className='relative w-full overflow-hidden bg-black'
+        style={{ aspectRatio: `${PREVIEW_MAP_WIDTH} / ${PREVIEW_MAP_HEIGHT}` }}
+      >
+        <Carousel
+          className='absolute inset-0 size-full'
+          setApi={setCarouselApi}
+        >
+          <CarouselContent className='ml-0 h-full'>
+            {PREVIEW_MAP_BACKGROUNDS.map((map) => (
+              <CarouselItem className='h-full pl-0' key={map.id}>
                 <Image
                   alt={`${map.label} crosshair preview background`}
-                  className='object-cover'
-                  fill
+                  className='size-full object-cover'
+                  height={PREVIEW_MAP_HEIGHT}
                   priority={map.id === 'inferno'}
-                  quality={90}
-                  sizes='909px'
                   src={map.src}
                   unoptimized
+                  width={PREVIEW_MAP_WIDTH}
                 />
-              </div>
-            </CarouselItem>
-          ))}
-        </CarouselContent>
-        <CarouselPrevious
-          className={cn(
-            'top-1/2 left-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
-          )}
-          variant='outline'
-        />
-        <CarouselNext
-          className={cn(
-            'top-1/2 right-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
-          )}
-          variant='outline'
-        />
-      </Carousel>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious
+            className={cn(
+              'top-1/2 left-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
+            )}
+            variant='outline'
+          />
+          <CarouselNext
+            className={cn(
+              'top-1/2 right-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
+            )}
+            variant='outline'
+          />
+        </Carousel>
 
-      <div
-        aria-hidden
-        className='pointer-events-none absolute inset-0 bg-linear-to-b from-black/10 to-black/30'
-      />
-
-      <div className='pointer-events-none absolute top-1/2 left-1/2 flex size-[50px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden'>
-        <canvas
-          aria-label='Crosshair preview'
-          className='block'
-          height={PREVIEW_CANVAS_SIZE}
-          ref={canvasRef}
-          style={{
-            height: PREVIEW_DISPLAY_SIZE,
-            imageRendering: 'pixelated',
-            width: PREVIEW_DISPLAY_SIZE,
-          }}
-          width={PREVIEW_CANVAS_SIZE}
+        <div
+          aria-hidden
+          className='pointer-events-none absolute inset-0 bg-linear-to-b from-black/10 to-black/30'
         />
+
+        <div className='pointer-events-none absolute top-1/2 left-1/2 flex size-[50px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden'>
+          <canvas
+            aria-label='Crosshair preview'
+            className='block'
+            height={PREVIEW_CANVAS_SIZE}
+            ref={canvasRef}
+            style={{
+              height: PREVIEW_DISPLAY_SIZE,
+              imageRendering: 'pixelated',
+              width: PREVIEW_DISPLAY_SIZE,
+            }}
+            width={PREVIEW_CANVAS_SIZE}
+          />
+        </div>
+
+        <p className='pointer-events-none absolute right-2 bottom-2 font-mono text-[10px] text-white/70'>
+          {activeMap?.label ?? 'Map preview'}
+        </p>
       </div>
-
-      <p className='pointer-events-none absolute right-2 bottom-2 font-mono text-[10px] text-white/70'>
-        {activeMap?.label ?? 'Map preview'}
-      </p>
     </div>
   );
 }
