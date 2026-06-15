@@ -16,6 +16,7 @@ import {
   isValidElement,
   type ReactElement,
   type ReactNode,
+  useState,
 } from 'react';
 
 interface ConfirmAlertDialogProps {
@@ -39,6 +40,8 @@ export function ConfirmAlertDialog({
   title,
   trigger,
 }: ConfirmAlertDialogProps) {
+  const [open, setOpen] = useState(false);
+
   if (disabled) {
     if (!isValidElement(trigger)) {
       return null;
@@ -48,7 +51,7 @@ export function ConfirmAlertDialog({
   }
 
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger render={trigger}>{children}</AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
@@ -58,7 +61,10 @@ export function ConfirmAlertDialog({
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
           <AlertDialogAction
-            onClick={onConfirm}
+            onClick={() => {
+              onConfirm();
+              setOpen(false);
+            }}
             variant={destructive ? 'destructive' : 'default'}
           >
             {confirmLabel}

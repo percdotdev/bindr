@@ -13,14 +13,17 @@ import {
 } from '@workspace/ui/components/alert-dialog';
 import { Button } from '@workspace/ui/components/button';
 import { RotateCcwIcon } from 'lucide-react';
+import { useState } from 'react';
 
 interface ConfigResetAlertProps {
   onReset: () => void;
 }
 
 export function ConfigResetAlert({ onReset }: ConfigResetAlertProps) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger
         render={<Button size='sm' type='button' variant='ghost' />}
       >
@@ -31,13 +34,19 @@ export function ConfigResetAlert({ onReset }: ConfigResetAlertProps) {
         <AlertDialogHeader>
           <AlertDialogTitle>Reset config?</AlertDialogTitle>
           <AlertDialogDescription>
-            This restores default viewmodel settings and clears your saved
+            This restores every section to Valve defaults and clears your saved
             draft.
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onReset} variant='destructive'>
+          <AlertDialogAction
+            onClick={() => {
+              onReset();
+              setOpen(false);
+            }}
+            variant='destructive'
+          >
             Reset
           </AlertDialogAction>
         </AlertDialogFooter>

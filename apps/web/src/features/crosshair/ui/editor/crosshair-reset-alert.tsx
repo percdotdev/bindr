@@ -13,14 +13,17 @@ import {
 } from '@workspace/ui/components/alert-dialog';
 import { Button } from '@workspace/ui/components/button';
 import { RotateCcwIcon } from 'lucide-react';
+import { useState } from 'react';
 
 interface CrosshairResetAlertProps {
   onReset: () => void;
 }
 
 export function CrosshairResetAlert({ onReset }: CrosshairResetAlertProps) {
+  const [open, setOpen] = useState(false);
+
   return (
-    <AlertDialog>
+    <AlertDialog onOpenChange={setOpen} open={open}>
       <AlertDialogTrigger
         render={<Button size='sm' type='button' variant='ghost' />}
       >
@@ -36,7 +39,13 @@ export function CrosshairResetAlert({ onReset }: CrosshairResetAlertProps) {
         </AlertDialogHeader>
         <AlertDialogFooter>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <AlertDialogAction onClick={onReset} variant='destructive'>
+          <AlertDialogAction
+            onClick={() => {
+              onReset();
+              setOpen(false);
+            }}
+            variant='destructive'
+          >
             Reset
           </AlertDialogAction>
         </AlertDialogFooter>
