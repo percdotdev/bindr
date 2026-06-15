@@ -1,7 +1,7 @@
-"use client";
+'use client';
 
-import { ThemeProvider as NextThemesProvider, useTheme } from "next-themes";
-import { type ComponentProps, useEffect } from "react";
+import { ThemeProvider as NextThemesProvider, useTheme } from 'next-themes';
+import { type ComponentProps, useEffect } from 'react';
 
 function ThemeProvider({
   children,
@@ -9,8 +9,8 @@ function ThemeProvider({
 }: ComponentProps<typeof NextThemesProvider>) {
   return (
     <NextThemesProvider
-      attribute="class"
-      defaultTheme="system"
+      attribute='class'
+      defaultTheme='system'
       disableTransitionOnChange
       enableSystem
       {...props}
@@ -28,9 +28,9 @@ function isTypingTarget(target: EventTarget | null) {
 
   return (
     target.isContentEditable ||
-    target.tagName === "INPUT" ||
-    target.tagName === "TEXTAREA" ||
-    target.tagName === "SELECT"
+    target.tagName === 'INPUT' ||
+    target.tagName === 'TEXTAREA' ||
+    target.tagName === 'SELECT'
   );
 }
 
@@ -47,7 +47,7 @@ function ThemeHotkey() {
         return;
       }
 
-      if (event.key.toLowerCase() !== "d") {
+      if (event.key.toLowerCase() !== 'd') {
         return;
       }
 
@@ -55,13 +55,13 @@ function ThemeHotkey() {
         return;
       }
 
-      setTheme(resolvedTheme === "dark" ? "light" : "dark");
+      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
     }
 
-    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener('keydown', onKeyDown);
 
     return () => {
-      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener('keydown', onKeyDown);
     };
   }, [resolvedTheme, setTheme]);
 
