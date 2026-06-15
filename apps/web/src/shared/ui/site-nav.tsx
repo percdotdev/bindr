@@ -1,31 +1,80 @@
 'use client';
 
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from '@workspace/ui/components/navigation-menu';
 import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
-const TOOL_LINKS = [
+interface NavLink {
+  description: string;
+  href: string;
+  label: string;
+}
+
+const EDITOR_LINKS: NavLink[] = [
   {
     href: '/crosshair',
-    label: 'crosshair',
-    match: (pathname: string) => pathname.startsWith('/crosshair'),
+    label: 'Crosshair editor',
+    description: 'Decode share codes, preview, export console commands.',
   },
   {
     href: '/binds',
-    label: 'binds',
-    match: (pathname: string) => pathname.startsWith('/binds'),
+    label: 'Bind generator',
+    description: 'Assign commands on a visual keyboard, export cfg.',
   },
   {
     href: '/config',
-    label: 'config',
-    match: (pathname: string) => pathname.startsWith('/config'),
+    label: 'Game config',
+    description: 'Viewmodel, mouse, radar, network, audio, HUD cvars.',
   },
   {
     href: '/autoexec',
-    label: 'autoexec',
-    match: (pathname: string) => pathname.startsWith('/autoexec'),
+    label: 'Autoexec composer',
+    description: 'Merge crosshair, config and binds into one cfg.',
   },
-] as const;
+];
+
+const CATALOG_LINKS: NavLink[] = [
+  {
+    href: '/binds/recommended',
+    label: 'Recommended binds',
+    description: 'MM-safe 2026 meta bind templates.',
+  },
+  {
+    href: '/config/recommended',
+    label: 'Recommended config',
+    description: 'Curated cvar bundles per section.',
+  },
+];
+
+function NavMenuLink({
+  active,
+  description,
+  href,
+  label,
+}: NavLink & { active: boolean }) {
+  return (
+    <li>
+      <NavigationMenuLink
+        active={active}
+        className='flex-col items-start gap-0.5'
+        render={<Link href={href} />}
+      >
+        <span className='font-medium text-foreground'>{label}</span>
+        <span className='text-[11px] text-muted-foreground leading-snug'>
+          {description}
+        </span>
+      </NavigationMenuLink>
+    </li>
+  );
+}
 
 export function SiteNav() {
   const pathname = usePathname();
@@ -34,42 +83,54 @@ export function SiteNav() {
   return (
     <header
       className={cn(
-        'mx-auto flex w-full max-w-4xl items-baseline gap-4 px-6 pt-6 pb-1',
+        'mx-auto flex w-full max-w-4xl items-center gap-4 px-6 pt-6 pb-1',
         onHome ? 'justify-end' : 'justify-between'
       )}
     >
       {onHome ? null : (
         <Link
-          className='font-mono text-muted-foreground text-xs transition-colors hover:text-foreground'
+          className='font-mono text-foreground text-xs transition-colors hover:text-muted-foreground'
           href='/'
         >
-          ← bindr.lol
+          bindr.lol
         </Link>
       )}
-      <nav
-        aria-label='Tools'
-        className='flex items-baseline gap-4 font-mono text-xs'
-      >
-        {TOOL_LINKS.map((item) => {
-          const isActive = item.match(pathname);
-
-          return (
-            <Link
-              aria-current={isActive ? 'page' : undefined}
-              className={cn(
-                'transition-colors',
-                isActive
-                  ? 'text-foreground underline decoration-foreground/30 underline-offset-[6px]'
-                  : 'text-muted-foreground hover:text-foreground'
-              )}
-              href={item.href}
-              key={item.href}
-            >
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+      <NavigationMenu align='end' className='font-mono'>
+        <NavigationMenuList>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>editors</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className='grid w-[280px] gap-0.5'>
+                {EDITOR_LINKS.map((item) => (
+                  <NavMenuLink
+                    active={pathname === item.href}
+                    description={item.description}
+                    href={item.href}
+                    key={item.href}
+                    label={item.label}
+                  />
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuTrigger>catalogs</NavigationMenuTrigger>
+            <NavigationMenuContent>
+              <ul className='grid w-[280px] gap-0.5'>
+                {CATALOG_LINKS.map((item) => (
+                  <NavMenuLink
+                    active={pathname === item.href}
+                    description={item.description}
+                    href={item.href}
+                    key={item.href}
+                    label={item.label}
+                  />
+                ))}
+              </ul>
+            </NavigationMenuContent>
+          </NavigationMenuItem>
+        </NavigationMenuList>
+      </NavigationMenu>
     </header>
   );
 }
