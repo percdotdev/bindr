@@ -2,6 +2,24 @@ import type { BindEntry } from '@/features/binds/lib/model/types';
 
 const STORAGE_KEY = 'bindr:binds:v1';
 
+function isOptionalString(value: unknown): boolean {
+  return value === undefined || typeof value === 'string';
+}
+
+function isOptionalBoolean(value: unknown): boolean {
+  return value === undefined || typeof value === 'boolean';
+}
+
+function isBindCategory(value: unknown): boolean {
+  return (
+    value === undefined ||
+    value === 'utility' ||
+    value === 'weapons' ||
+    value === 'radar' ||
+    value === 'lineups'
+  );
+}
+
 function isBindEntry(value: unknown): value is BindEntry {
   if (typeof value !== 'object' || value === null) {
     return false;
@@ -12,7 +30,11 @@ function isBindEntry(value: unknown): value is BindEntry {
   return (
     typeof candidate.id === 'string' &&
     typeof candidate.key === 'string' &&
-    typeof candidate.command === 'string'
+    typeof candidate.command === 'string' &&
+    isOptionalString(candidate.label) &&
+    isOptionalString(candidate.description) &&
+    isOptionalBoolean(candidate.mmSafe) &&
+    isBindCategory(candidate.category)
   );
 }
 

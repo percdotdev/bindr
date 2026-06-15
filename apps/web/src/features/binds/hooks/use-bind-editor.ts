@@ -1,6 +1,12 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+
+import {
+  createRecommendedBinds,
+  getRecommendedTemplateById,
+  templateToBindEntry,
+} from '@/features/binds/lib/model/recommended-binds';
 import type { BindEntry } from '@/features/binds/lib/model/types';
 import {
   clearStoredBinds,
@@ -22,11 +28,7 @@ export function useBindEditor() {
       return;
     }
 
-    const stored = loadStoredBinds();
-    if (stored) {
-      setBinds(stored);
-    }
-
+    setBinds(loadStoredBinds() ?? []);
     setHasInitialized(true);
   }, [hasInitialized]);
 
@@ -39,7 +41,7 @@ export function useBindEditor() {
   }, [binds, hasInitialized]);
 
   const selectKey = useCallback((key: string) => {
-    setSelectedKey(key);
+    setSelectedKey((current) => (current === key ? null : key));
   }, []);
 
   const upsertBind = useCallback((key: string, command: string) => {
@@ -81,11 +83,44 @@ export function useBindEditor() {
     clearStoredBinds();
   }, []);
 
+  const addRecommendedBind = useCallback((templateId: string) => {
+    const template = getRecommendedTemplateById(templateId);
+    if (!template) {
+      return false;
+    }
+
+    const entry = templateToBindEntry(template);
+
+    setBinds((current) => {
+      const existingIndex = current.findIndex((bind) => bind.key === entry.key);
+
+      if (existingIndex === -1) {
+        return [...current, entry];
+      }
+
+      return current.map((bind, index) =>
+        index === existingIndex ? { ...entry, id: bind.id } : bind
+      );
+    });
+
+    return true;
+  }, []);
+
+  const loadRecommendedBinds = useCallback(() => {
+    setBinds(createRecommendedBinds());
+    setSelectedKey(null);
+  }, []);
+
+  const activeKeys = new Set(binds.map((bind) => bind.key));
+
   const selectedBind = binds.find((bind) => bind.key === selectedKey) ?? null;
 
   return {
+    activeKeys,
+    addRecommendedBind,
     binds,
     clearBinds,
+    loadRecommendedBinds,
     removeBind,
     selectKey,
     selectedBind,

@@ -28,6 +28,15 @@ export function HomePage() {
             >
               Open bind generator
             </Link>
+            <Link
+              className={cn(
+                buttonVariants({ variant: 'outline' }),
+                'inline-flex w-fit'
+              )}
+              href='/binds/recommended'
+            >
+              Browse recommended binds
+            </Link>
           </div>
         </div>
         <div className='font-mono text-muted-foreground text-xs'>

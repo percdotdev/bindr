@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@workspace/ui/components/button';
-import { toast } from '@workspace/ui/components/sonner';
+import { toast } from 'sonner';
 import { formatBindLines } from '@/features/binds/lib/export/format-bind';
 import { formatBindCfg } from '@/features/binds/lib/export/format-cfg';
 import type { BindEntry } from '@/features/binds/lib/model/types';
