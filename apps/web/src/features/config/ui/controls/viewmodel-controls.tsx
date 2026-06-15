@@ -14,6 +14,7 @@ import type {
   ViewmodelSettings,
 } from '@/features/config/lib/model/types';
 import { VIEWMODEL_PRESETS } from '@/features/config/lib/model/viewmodel-presets';
+import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 const VIEWMODEL_FIELDS: {
@@ -55,6 +56,30 @@ const VIEWMODEL_FIELDS: {
     min: -2,
     max: 2,
     step: 0.1,
+  },
+  {
+    id: 'viewmodel-bob-lat',
+    field: 'bobLat',
+    label: 'Bob lateral',
+    min: 0,
+    max: 1,
+    step: 0.05,
+  },
+  {
+    id: 'viewmodel-bob-vert',
+    field: 'bobVert',
+    label: 'Bob vertical',
+    min: 0,
+    max: 1,
+    step: 0.05,
+  },
+  {
+    id: 'viewmodel-bob-lower',
+    field: 'bobLowerAmt',
+    label: 'Run dip',
+    min: 0,
+    max: 30,
+    step: 1,
   },
 ];
 
@@ -122,9 +147,19 @@ export function ViewmodelControls({
             onUpdate(control.field, value);
           }}
           step={control.step}
-          value={viewmodel[control.field]}
+          value={viewmodel[control.field] as number}
         />
       ))}
+
+      <ConfigSwitchRow
+        description='cl_righthand — switch the weapon to your left hand when off.'
+        enabled={viewmodel.rightHand}
+        id='viewmodel-right-hand'
+        label='Right-handed'
+        onChange={(enabled) => {
+          onUpdate('rightHand', enabled);
+        }}
+      />
     </div>
   );
 }

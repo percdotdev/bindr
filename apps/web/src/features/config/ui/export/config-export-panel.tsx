@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@workspace/ui/components/button';
+import { CopyIcon, DownloadIcon } from 'lucide-react';
 import { toast } from 'sonner';
 
 import { formatConfigCfg } from '@/features/config/lib/export/format-config-cfg';
@@ -41,6 +42,7 @@ export function ConfigExportPanel({ config }: ConfigExportPanelProps) {
         type='button'
         variant='outline'
       >
+        <CopyIcon data-icon='inline-start' />
         Copy cfg
       </Button>
       <Button
@@ -50,6 +52,7 @@ export function ConfigExportPanel({ config }: ConfigExportPanelProps) {
         type='button'
         variant='outline'
       >
+        <DownloadIcon data-icon='inline-start' />
         Download cfg
       </Button>
     </div>
