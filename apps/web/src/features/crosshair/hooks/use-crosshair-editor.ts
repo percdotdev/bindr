@@ -1,7 +1,8 @@
 'use client';
 
 import { parseAsString, useQueryState } from 'nuqs';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+
 import { applyCrosshairColor } from '@/features/crosshair/lib/model/crosshair-color';
 import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/model/default-crosshair';
 import type {
@@ -15,6 +16,7 @@ import {
   loadStoredCrosshair,
   saveStoredCrosshair,
 } from '@/features/crosshair/lib/storage/crosshair-storage';
+import { useMountEffect } from '@/shared/hooks/use-mount-effect';
 
 function updateShareCodeParam(
   setCodeParam: ReturnType<typeof useQueryState>[1],
@@ -23,13 +25,58 @@ function updateShareCodeParam(
   setCodeParam(shareCode).catch(() => undefined);
 }
 
+let urlSyncTimer: ReturnType<typeof setTimeout> | undefined;
+
+function scheduleShareCodeUrlUpdate(
+  setCodeParam: ReturnType<typeof useQueryState>[1],
+  crosshair: CrosshairSettings
+) {
+  if (urlSyncTimer) {
+    clearTimeout(urlSyncTimer);
+  }
+
+  urlSyncTimer = setTimeout(() => {
+    updateShareCodeParam(setCodeParam, encodeShareCode(crosshair));
+  }, 300);
+}
+
+function applyFieldUpdate<K extends CrosshairField>(
+  current: CrosshairSettings,
+  field: K,
+  value: CrosshairSettings[K]
+): CrosshairSettings {
+  const next = { ...current, [field]: value };
+
+  if (field === 'red' || field === 'green' || field === 'blue') {
+    next.color = 5;
+  }
+
+  if (
+    field === 'outline' &&
+    typeof value === 'number' &&
+    value > 0 &&
+    !next.outlineEnabled
+  ) {
+    next.outlineEnabled = true;
+  }
+
+  if (
+    field === 'alpha' &&
+    typeof value === 'number' &&
+    value < 255 &&
+    !next.alphaEnabled
+  ) {
+    next.alphaEnabled = true;
+  }
+
+  return next;
+}
+
 export function useCrosshairEditor(
   initialCrosshair: CrosshairSettings = DEFAULT_CROSSHAIR
 ) {
   const [crosshair, setCrosshair] = useState(initialCrosshair);
-  const [hasInitialized, setHasInitialized] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
-  const skipUrlSyncRef = useRef(false);
 
   const [codeParam, setCodeParam] = useQueryState(
     'code',
@@ -41,15 +88,10 @@ export function useCrosshairEditor(
 
   const shareCode = useMemo(() => encodeShareCode(crosshair), [crosshair]);
 
-  useEffect(() => {
-    if (hasInitialized) {
-      return;
-    }
-
+  useMountEffect(() => {
     if (codeParam) {
       try {
         setCrosshair(decodeShareCode(codeParam));
-        setHasInitialized(true);
         return;
       } catch {
         setImportError('Invalid share code in URL');
@@ -60,91 +102,55 @@ export function useCrosshairEditor(
     if (stored) {
       setCrosshair(stored);
     }
-
-    setHasInitialized(true);
-  }, [codeParam, hasInitialized]);
-
-  useEffect(() => {
-    if (!hasInitialized) {
-      return;
-    }
-
-    saveStoredCrosshair(crosshair);
-  }, [crosshair, hasInitialized]);
-
-  useEffect(() => {
-    if (!hasInitialized || skipUrlSyncRef.current) {
-      skipUrlSyncRef.current = false;
-      return;
-    }
-
-    const timeout = window.setTimeout(() => {
-      updateShareCodeParam(setCodeParam, shareCode);
-    }, 300);
-
-    return () => {
-      window.clearTimeout(timeout);
-    };
-  }, [hasInitialized, setCodeParam, shareCode]);
+  });
 
   const updateField = useCallback(
     <K extends CrosshairField>(field: K, value: CrosshairSettings[K]) => {
       setCrosshair((current) => {
-        const next = { ...current, [field]: value };
-
-        if (field === 'red' || field === 'green' || field === 'blue') {
-          next.color = 5;
-        }
-
-        if (
-          field === 'outline' &&
-          typeof value === 'number' &&
-          value > 0 &&
-          !next.outlineEnabled
-        ) {
-          next.outlineEnabled = true;
-        }
-
-        if (
-          field === 'alpha' &&
-          typeof value === 'number' &&
-          value < 255 &&
-          !next.alphaEnabled
-        ) {
-          next.alphaEnabled = true;
-        }
-
+        const next = applyFieldUpdate(current, field, value);
+        saveStoredCrosshair(next);
+        scheduleShareCodeUrlUpdate(setCodeParam, next);
         return next;
       });
       setImportError(null);
     },
-    []
+    [setCodeParam]
   );
 
-  const updateColor = useCallback((color: number) => {
-    setCrosshair((current) => applyCrosshairColor(current, color));
-    setImportError(null);
-  }, []);
+  const updateColor = useCallback(
+    (color: number) => {
+      setCrosshair((current) => {
+        const next = applyCrosshairColor(current, color);
+        saveStoredCrosshair(next);
+        scheduleShareCodeUrlUpdate(setCodeParam, next);
+        return next;
+      });
+      setImportError(null);
+    },
+    [setCodeParam]
+  );
 
   const updateCustomRgb = useCallback(
     (rgb: { blue: number; green: number; red: number }) => {
-      setCrosshair((current) => ({
-        ...current,
-        ...rgb,
-        color: 5,
-      }));
+      setCrosshair((current) => {
+        const next = { ...current, ...rgb, color: 5 };
+        saveStoredCrosshair(next);
+        scheduleShareCodeUrlUpdate(setCodeParam, next);
+        return next;
+      });
       setImportError(null);
     },
-    []
+    [setCodeParam]
   );
 
   const importShareCode = useCallback(
     (code: string): boolean => {
       try {
         const decoded = decodeShareCode(code);
-        skipUrlSyncRef.current = true;
+        const encoded = encodeShareCode(decoded);
         setCrosshair(decoded);
-        updateShareCodeParam(setCodeParam, encodeShareCode(decoded));
+        saveStoredCrosshair(decoded);
+        updateShareCodeParam(setCodeParam, encoded);
         setImportError(null);
         return true;
       } catch (error) {
@@ -158,7 +164,6 @@ export function useCrosshairEditor(
   );
 
   const resetCrosshair = useCallback(() => {
-    skipUrlSyncRef.current = true;
     setCrosshair(DEFAULT_CROSSHAIR);
     clearStoredCrosshair();
     updateShareCodeParam(setCodeParam, null);
