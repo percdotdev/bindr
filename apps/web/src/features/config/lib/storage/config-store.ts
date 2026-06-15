@@ -9,6 +9,7 @@ import {
   removeRecommendedTemplate,
 } from '@/features/config/lib/model/recommended-config';
 import type {
+  ConfigSectionKey,
   ConfigSettings,
   ViewmodelField,
   ViewmodelSettings,
@@ -29,6 +30,11 @@ interface ConfigStore {
   loadAllRecommendedConfigs: () => void;
   removeRecommendedConfig: (templateId: string) => boolean;
   resetConfig: () => void;
+  updateField: <S extends ConfigSectionKey, K extends keyof ConfigSettings[S]>(
+    section: S,
+    field: K,
+    value: ConfigSettings[S][K]
+  ) => void;
   updateViewmodelField: <K extends ViewmodelField>(
     field: K,
     value: ViewmodelSettings[K]
@@ -54,16 +60,21 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     });
   },
 
-  updateViewmodelField: (field, value) => {
+  updateField: (section, field, value) => {
+    const current = get().config;
     const next: ConfigSettings = {
-      ...get().config,
-      viewmodel: {
-        ...get().config.viewmodel,
+      ...current,
+      [section]: {
+        ...current[section],
         [field]: value,
       },
     };
     persistConfig(next);
     set({ config: next });
+  },
+
+  updateViewmodelField: (field, value) => {
+    get().updateField('viewmodel', field, value);
   },
 
   applyViewmodelPreset: (presetId) => {

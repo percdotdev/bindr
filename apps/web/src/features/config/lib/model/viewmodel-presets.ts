@@ -22,6 +22,10 @@ export const VIEWMODEL_PRESETS: ViewmodelPreset[] = [
       offsetY: 0,
       offsetZ: -1.5,
       presetPos: 0,
+      rightHand: true,
+      bobLat: 0.1,
+      bobVert: 0.1,
+      bobLowerAmt: 5,
     },
   },
 ];

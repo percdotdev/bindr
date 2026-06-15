@@ -3,123 +3,40 @@ import type { ConfigSettings } from '@/features/config/lib/model/types';
 
 const STORAGE_KEY = 'bindr:config:v1';
 
-function isBoolean(value: unknown): value is boolean {
-  return typeof value === 'boolean';
-}
-
 function isStringArray(value: unknown): value is string[] {
   return (
     Array.isArray(value) && value.every((item) => typeof item === 'string')
   );
 }
 
-function isViewmodelSettings(
-  value: unknown
-): value is ConfigSettings['viewmodel'] {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-
-  return (
-    typeof candidate.fov === 'number' &&
-    typeof candidate.offsetX === 'number' &&
-    typeof candidate.offsetY === 'number' &&
-    typeof candidate.offsetZ === 'number' &&
-    (candidate.presetPos === undefined ||
-      typeof candidate.presetPos === 'number')
-  );
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
 }
 
-function isRadarSettings(value: unknown): value is ConfigSettings['radar'] {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-
-  return (
-    typeof candidate.scale === 'number' &&
-    typeof candidate.hudScale === 'number' &&
-    isBoolean(candidate.alwaysCentered) &&
-    isBoolean(candidate.rotate) &&
-    typeof candidate.iconScaleMin === 'number' &&
-    isBoolean(candidate.squareWithScoreboard)
-  );
-}
-
-function isNetworkSettings(value: unknown): value is ConfigSettings['network'] {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-
-  return (
-    typeof candidate.rate === 'number' &&
-    typeof candidate.interpRatio === 'number' &&
-    typeof candidate.interp === 'number' &&
-    typeof candidate.updaterate === 'number' &&
-    typeof candidate.cmdrate === 'number' &&
-    typeof candidate.maxPing === 'number'
-  );
-}
-
-function isPerformanceSettings(
-  value: unknown
-): value is ConfigSettings['performance'] {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-
-  return (
-    typeof candidate.fpsMax === 'number' &&
-    typeof candidate.fpsMaxUi === 'number' &&
-    isBoolean(candidate.drawTracersFirstPerson) &&
-    isBoolean(candidate.autohelp) &&
-    isBoolean(candidate.gameInstructor) &&
-    isBoolean(candidate.showHelp) &&
-    isBoolean(candidate.disableFreezeCam) &&
-    isBoolean(candidate.lowLatencySleep)
-  );
-}
-
-function isHudSettings(value: unknown): value is ConfigSettings['hud'] {
-  if (typeof value !== 'object' || value === null) {
-    return false;
-  }
-
-  const candidate = value as Record<string, unknown>;
-
-  return (
-    isBoolean(candidate.showBuildInfo) &&
-    typeof candidate.teamidOverheadFadeNearCrosshair === 'number'
-  );
+/**
+ * Section objects are validated loosely so older saved drafts that predate newer
+ * cvars still load — `normalizeConfigSettings` backfills any missing fields from
+ * defaults. We only reject values that are clearly not objects.
+ */
+function isOptionalSection(value: unknown): boolean {
+  return value === undefined || isPlainObject(value);
 }
 
 function isConfigSettings(value: unknown): value is Partial<ConfigSettings> {
-  if (typeof value !== 'object' || value === null) {
+  if (!isPlainObject(value)) {
     return false;
   }
 
-  const candidate = value as Record<string, unknown>;
-
-  const hasValidRecommendations =
-    candidate.enabledRecommendations === undefined ||
-    isStringArray(candidate.enabledRecommendations);
-
   return (
-    (candidate.viewmodel === undefined ||
-      isViewmodelSettings(candidate.viewmodel)) &&
-    (candidate.radar === undefined || isRadarSettings(candidate.radar)) &&
-    (candidate.network === undefined || isNetworkSettings(candidate.network)) &&
-    (candidate.performance === undefined ||
-      isPerformanceSettings(candidate.performance)) &&
-    (candidate.hud === undefined || isHudSettings(candidate.hud)) &&
-    hasValidRecommendations
+    isOptionalSection(value.viewmodel) &&
+    isOptionalSection(value.mouse) &&
+    isOptionalSection(value.radar) &&
+    isOptionalSection(value.network) &&
+    isOptionalSection(value.audio) &&
+    isOptionalSection(value.performance) &&
+    isOptionalSection(value.hud) &&
+    (value.enabledRecommendations === undefined ||
+      isStringArray(value.enabledRecommendations))
   );
 }
 
@@ -127,26 +44,13 @@ function normalizeConfigSettings(
   value: Partial<ConfigSettings>
 ): ConfigSettings {
   return {
-    viewmodel: {
-      ...DEFAULT_CONFIG.viewmodel,
-      ...value.viewmodel,
-    },
-    radar: {
-      ...DEFAULT_CONFIG.radar,
-      ...value.radar,
-    },
-    network: {
-      ...DEFAULT_CONFIG.network,
-      ...value.network,
-    },
-    performance: {
-      ...DEFAULT_CONFIG.performance,
-      ...value.performance,
-    },
-    hud: {
-      ...DEFAULT_CONFIG.hud,
-      ...value.hud,
-    },
+    viewmodel: { ...DEFAULT_CONFIG.viewmodel, ...value.viewmodel },
+    mouse: { ...DEFAULT_CONFIG.mouse, ...value.mouse },
+    radar: { ...DEFAULT_CONFIG.radar, ...value.radar },
+    network: { ...DEFAULT_CONFIG.network, ...value.network },
+    audio: { ...DEFAULT_CONFIG.audio, ...value.audio },
+    performance: { ...DEFAULT_CONFIG.performance, ...value.performance },
+    hud: { ...DEFAULT_CONFIG.hud, ...value.hud },
     enabledRecommendations: value.enabledRecommendations ?? [],
   };
 }

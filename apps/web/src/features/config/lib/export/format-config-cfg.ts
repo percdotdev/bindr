@@ -14,6 +14,10 @@ export function formatViewmodelLines(viewmodel: ConfigSettings['viewmodel']) {
     `viewmodel_offset_x ${formatNumber(viewmodel.offsetX)}`,
     `viewmodel_offset_y ${formatNumber(viewmodel.offsetY)}`,
     `viewmodel_offset_z ${formatNumber(viewmodel.offsetZ)}`,
+    `cl_righthand ${formatBool(viewmodel.rightHand)}`,
+    `cl_bobamt_lat ${formatNumber(viewmodel.bobLat)}`,
+    `cl_bobamt_vert ${formatNumber(viewmodel.bobVert)}`,
+    `cl_bob_lower_amt ${formatNumber(viewmodel.bobLowerAmt)}`,
   ];
 
   if (viewmodel.presetPos === 0) {
@@ -21,6 +25,14 @@ export function formatViewmodelLines(viewmodel: ConfigSettings['viewmodel']) {
   }
 
   return lines;
+}
+
+export function formatMouseLines(mouse: ConfigSettings['mouse']) {
+  return [
+    `sensitivity ${formatNumber(mouse.sensitivity)}`,
+    `zoom_sensitivity_ratio ${formatNumber(mouse.zoomSensitivityRatio)}`,
+    `m_rawinput ${formatBool(mouse.rawInput)}`,
+  ];
 }
 
 export function formatRadarLines(radar: ConfigSettings['radar']) {
@@ -45,6 +57,20 @@ export function formatNetworkLines(network: ConfigSettings['network']) {
   ];
 }
 
+export function formatAudioLines(audio: ConfigSettings['audio']) {
+  return [
+    `volume ${formatNumber(audio.master)}`,
+    `voice_scale ${formatNumber(audio.voiceScale)}`,
+    `snd_mute_losefocus ${formatBool(audio.muteOnFocusLoss)}`,
+    `snd_roundstart_volume ${formatNumber(audio.musicVolume)}`,
+    `snd_roundend_volume ${formatNumber(audio.musicVolume)}`,
+    `snd_mvp_volume ${formatNumber(audio.musicVolume)}`,
+    `snd_menumusic_volume ${formatNumber(audio.musicVolume)}`,
+    `snd_deathcamera_volume ${formatNumber(audio.musicVolume)}`,
+    `snd_tensecondwarning_volume ${formatNumber(audio.tenSecondWarning)}`,
+  ];
+}
+
 export function formatPerformanceLines(
   performance: ConfigSettings['performance']
 ) {
@@ -52,6 +78,11 @@ export function formatPerformanceLines(
     `fps_max ${performance.fpsMax}`,
     `fps_max_ui ${performance.fpsMaxUi}`,
     `r_drawtracers_firstperson ${formatBool(performance.drawTracersFirstPerson)}`,
+    `r_dynamic ${formatBool(performance.dynamicLight)}`,
+    `mat_queue_mode ${performance.multicore ? '2' : '-1'}`,
+    `cl_forcepreload ${formatBool(performance.forcePreload)}`,
+    `cl_animate_player_models ${formatBool(performance.animatePlayerModels)}`,
+    `mat_disable_bloom ${formatBool(performance.disableBloom)}`,
     `cl_autohelp ${formatBool(performance.autohelp)}`,
     `gameinstructor_enable ${formatBool(performance.gameInstructor)}`,
     `cl_showhelp ${formatBool(performance.showHelp)}`,
@@ -67,8 +98,14 @@ export function formatPerformanceLines(
 
 export function formatHudLines(hud: ConfigSettings['hud']) {
   return [
-    `r_show_build_info ${hud.showBuildInfo}`,
+    `cl_hud_color ${hud.hudColor}`,
+    `hud_scaling ${formatNumber(hud.hudScaling)}`,
+    `cl_teammate_colors_show ${hud.teammateColors}`,
+    `cl_hud_healthammo_style ${hud.healthAmmoStyle}`,
+    `cl_showloadout ${formatBool(hud.showLoadout)}`,
+    `cl_hud_bomb_under_radar ${formatBool(hud.bombUnderRadar)}`,
     `cl_teamid_overhead_fade_near_crosshair ${formatNumber(hud.teamidOverheadFadeNearCrosshair)}`,
+    `r_show_build_info ${hud.showBuildInfo}`,
   ];
 }
 
@@ -80,11 +117,17 @@ export function formatConfigCfg(config: ConfigSettings) {
     '// viewmodel',
     ...formatViewmodelLines(config.viewmodel),
     '',
+    '// mouse',
+    ...formatMouseLines(config.mouse),
+    '',
     '// radar',
     ...formatRadarLines(config.radar),
     '',
     '// network',
     ...formatNetworkLines(config.network),
+    '',
+    '// audio',
+    ...formatAudioLines(config.audio),
     '',
     '// performance',
     ...formatPerformanceLines(config.performance),

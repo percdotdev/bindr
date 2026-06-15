@@ -13,10 +13,12 @@ export function applyConfigPatch(
     viewmodel: patch.viewmodel
       ? { ...config.viewmodel, ...patch.viewmodel }
       : config.viewmodel,
+    mouse: patch.mouse ? { ...config.mouse, ...patch.mouse } : config.mouse,
     radar: patch.radar ? { ...config.radar, ...patch.radar } : config.radar,
     network: patch.network
       ? { ...config.network, ...patch.network }
       : config.network,
+    audio: patch.audio ? { ...config.audio, ...patch.audio } : config.audio,
     performance: patch.performance
       ? { ...config.performance, ...patch.performance }
       : config.performance,
@@ -51,12 +53,18 @@ export function revertConfigPatch(
           DEFAULT_CONFIG.viewmodel
         )
       : config.viewmodel,
+    mouse: patch.mouse
+      ? revertSection(config.mouse, patch.mouse, DEFAULT_CONFIG.mouse)
+      : config.mouse,
     radar: patch.radar
       ? revertSection(config.radar, patch.radar, DEFAULT_CONFIG.radar)
       : config.radar,
     network: patch.network
       ? revertSection(config.network, patch.network, DEFAULT_CONFIG.network)
       : config.network,
+    audio: patch.audio
+      ? revertSection(config.audio, patch.audio, DEFAULT_CONFIG.audio)
+      : config.audio,
     performance: patch.performance
       ? revertSection(
           config.performance,
