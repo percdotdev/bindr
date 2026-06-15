@@ -7,17 +7,12 @@ import {
 } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
 import Link from 'next/link';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { RecommendedConfigCard } from '@/features/config/ui/recommended/recommended-config-card';
+import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 function groupTemplatesByCategory() {
   const groups = new Map<ConfigCategory, typeof RECOMMENDED_CONFIG_TEMPLATES>();
@@ -90,26 +85,25 @@ export function RecommendedConfigPage() {
         }
 
         return (
-          <Card key={category}>
-            <CardHeader>
-              <CardTitle>{CONFIG_CATEGORY_LABELS[category]}</CardTitle>
-            </CardHeader>
-            <CardContent className='flex flex-col gap-3'>
-              {templates.map((template) => (
-                <RecommendedConfigCard
-                  isActive={enabledRecommendations.includes(template.id)}
-                  key={template.id}
-                  onAdd={() => {
-                    addRecommendedConfig(template.id);
-                  }}
-                  onRemove={() => {
-                    removeRecommendedConfig(template.id);
-                  }}
-                  template={template}
-                />
-              ))}
-            </CardContent>
-          </Card>
+          <CollapsibleSection
+            contentClassName='flex flex-col gap-3'
+            key={category}
+            title={CONFIG_CATEGORY_LABELS[category]}
+          >
+            {templates.map((template) => (
+              <RecommendedConfigCard
+                isActive={enabledRecommendations.includes(template.id)}
+                key={template.id}
+                onAdd={() => {
+                  addRecommendedConfig(template.id);
+                }}
+                onRemove={() => {
+                  removeRecommendedConfig(template.id);
+                }}
+                template={template}
+              />
+            ))}
+          </CollapsibleSection>
         );
       })}
     </div>

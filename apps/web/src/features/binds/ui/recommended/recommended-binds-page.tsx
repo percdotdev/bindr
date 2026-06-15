@@ -7,17 +7,12 @@ import {
 } from '@workspace/cs2/binds/recommended/categories';
 import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
 import Link from 'next/link';
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { RecommendedBindCard } from '@/features/binds/ui/recommended/recommended-bind-card';
+import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 function groupTemplatesByCategory() {
   const groups = new Map<BindCategory, typeof RECOMMENDED_BIND_TEMPLATES>();
@@ -86,26 +81,25 @@ export function RecommendedBindsPage() {
         }
 
         return (
-          <Card key={category}>
-            <CardHeader>
-              <CardTitle>{BIND_CATEGORY_LABELS[category]}</CardTitle>
-            </CardHeader>
-            <CardContent className='flex flex-col gap-3'>
-              {templates.map((template) => (
-                <RecommendedBindCard
-                  isActive={activeKeys.has(template.key)}
-                  key={template.id}
-                  onAdd={() => {
-                    addRecommendedBind(template.id);
-                  }}
-                  onRemove={() => {
-                    removeBind(template.key);
-                  }}
-                  template={template}
-                />
-              ))}
-            </CardContent>
-          </Card>
+          <CollapsibleSection
+            contentClassName='flex flex-col gap-3'
+            key={category}
+            title={BIND_CATEGORY_LABELS[category]}
+          >
+            {templates.map((template) => (
+              <RecommendedBindCard
+                isActive={activeKeys.has(template.key)}
+                key={template.id}
+                onAdd={() => {
+                  addRecommendedBind(template.id);
+                }}
+                onRemove={() => {
+                  removeBind(template.key);
+                }}
+                template={template}
+              />
+            ))}
+          </CollapsibleSection>
         );
       })}
     </div>

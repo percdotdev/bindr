@@ -7,12 +7,6 @@ import {
 } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
 import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
@@ -28,6 +22,7 @@ import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { ConfigResetAlert } from '@/features/config/ui/editor/config-reset-alert';
 import { ConfigSectionNav } from '@/features/config/ui/editor/config-section-nav';
 import { ConfigExportPanel } from '@/features/config/ui/export/config-export-panel';
+import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
   viewmodel: 'Weapon position, FOV, bob and handedness.',
@@ -151,15 +146,14 @@ export function ConfigEditor() {
       </div>
 
       {CONFIG_CATEGORY_ORDER.map((category) => (
-        <Card className='scroll-mt-16' id={`config-${category}`} key={category}>
-          <CardHeader>
-            <CardTitle>{CONFIG_CATEGORY_LABELS[category]}</CardTitle>
-            <p className='text-muted-foreground text-xs'>
-              {SECTION_DESCRIPTIONS[category]}
-            </p>
-          </CardHeader>
-          <CardContent>{renderControls(category)}</CardContent>
-        </Card>
+        <CollapsibleSection
+          description={SECTION_DESCRIPTIONS[category]}
+          id={`config-${category}`}
+          key={category}
+          title={CONFIG_CATEGORY_LABELS[category]}
+        >
+          {renderControls(category)}
+        </CollapsibleSection>
       ))}
     </div>
   );

@@ -4,12 +4,6 @@ import {
   showsDynamicCrosshairControls,
   showsSplitCrosshairControls,
 } from '@workspace/cs2/crosshair/model/crosshair-style';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
 import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-editor';
 import { CrosshairAppearanceControls } from '@/features/crosshair/ui/controls/crosshair-appearance-controls';
 import { CrosshairDynamicControls } from '@/features/crosshair/ui/controls/crosshair-dynamic-controls';
@@ -19,6 +13,7 @@ import { CrosshairResetAlert } from '@/features/crosshair/ui/editor/crosshair-re
 import { ShareCodeImportDialog } from '@/features/crosshair/ui/editor/share-code-import-dialog';
 import { CrosshairCopyMenu } from '@/features/crosshair/ui/preview/crosshair-copy-menu';
 import { CrosshairPreview } from '@/features/crosshair/ui/preview/crosshair-preview';
+import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 export function CrosshairEditor() {
   const {
@@ -54,50 +49,38 @@ export function CrosshairEditor() {
 
       <CrosshairPreview crosshair={crosshair} />
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Crosshair</CardTitle>
-        </CardHeader>
-        <CardContent className='flex flex-col gap-6'>
-          <CrosshairStyleSelect
-            onStyleChange={(style) => updateField('style', style)}
-            style={crosshair.style}
-          />
-          <CrosshairAppearanceControls
-            crosshair={crosshair}
-            onColorChange={updateColor}
-            onCustomRgbChange={updateCustomRgb}
-            onUpdate={updateField}
-          />
-        </CardContent>
-      </Card>
+      <CollapsibleSection
+        contentClassName='flex flex-col gap-6'
+        title='Crosshair'
+      >
+        <CrosshairStyleSelect
+          onStyleChange={(style) => updateField('style', style)}
+          style={crosshair.style}
+        />
+        <CrosshairAppearanceControls
+          crosshair={crosshair}
+          onColorChange={updateColor}
+          onCustomRgbChange={updateCustomRgb}
+          onUpdate={updateField}
+        />
+      </CollapsibleSection>
 
       {showsDynamicCrosshairControls(crosshair.style) ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Dynamic</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CrosshairDynamicControls
-              crosshair={crosshair}
-              onUpdate={updateField}
-            />
-          </CardContent>
-        </Card>
+        <CollapsibleSection title='Dynamic'>
+          <CrosshairDynamicControls
+            crosshair={crosshair}
+            onUpdate={updateField}
+          />
+        </CollapsibleSection>
       ) : null}
 
       {showsSplitCrosshairControls(crosshair.style) ? (
-        <Card>
-          <CardHeader>
-            <CardTitle>Split</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <CrosshairSplitControls
-              crosshair={crosshair}
-              onUpdate={updateField}
-            />
-          </CardContent>
-        </Card>
+        <CollapsibleSection title='Split'>
+          <CrosshairSplitControls
+            crosshair={crosshair}
+            onUpdate={updateField}
+          />
+        </CollapsibleSection>
       ) : null}
     </div>
   );

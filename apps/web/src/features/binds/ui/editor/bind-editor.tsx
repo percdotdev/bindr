@@ -2,12 +2,6 @@
 
 import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from '@workspace/ui/components/card';
 import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
@@ -17,6 +11,7 @@ import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-d
 import { KeyboardLayout } from '@/features/binds/ui/controls/keyboard-layout';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { BindExportPanel } from '@/features/binds/ui/export/bind-export-panel';
+import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 export function BindEditor() {
   const {
@@ -79,61 +74,50 @@ export function BindEditor() {
         </div>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Keyboard</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <KeyboardLayout
-            binds={binds}
-            onSelectKey={selectKey}
-            selectedKey={selectedKey}
-          />
-        </CardContent>
-      </Card>
+      <CollapsibleSection title='Keyboard'>
+        <KeyboardLayout
+          binds={binds}
+          onSelectKey={selectKey}
+          selectedKey={selectedKey}
+        />
+      </CollapsibleSection>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Command</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <BindCommandForm
-            command={selectedBind?.command ?? ''}
-            key={selectedKey ?? 'none'}
-            onRemove={() => {
-              if (selectedKey) {
-                removeBind(selectedKey);
-              }
-            }}
-            onSave={(command) => {
-              if (selectedKey) {
-                upsertBind(selectedKey, command);
-              }
-            }}
-            selectedKey={selectedKey}
-          />
-        </CardContent>
-      </Card>
+      <CollapsibleSection title='Command'>
+        <BindCommandForm
+          command={selectedBind?.command ?? ''}
+          key={selectedKey ?? 'none'}
+          onRemove={() => {
+            if (selectedKey) {
+              removeBind(selectedKey);
+            }
+          }}
+          onSave={(command) => {
+            if (selectedKey) {
+              upsertBind(selectedKey, command);
+            }
+          }}
+          selectedKey={selectedKey}
+        />
+      </CollapsibleSection>
 
-      <Card>
-        <CardHeader className='flex flex-row items-center justify-between gap-3'>
-          <CardTitle>Active binds</CardTitle>
+      <CollapsibleSection
+        action={
           <Link
             className='text-muted-foreground text-xs underline-offset-4 hover:underline'
             href='/binds/recommended'
           >
             Add from recommended
           </Link>
-        </CardHeader>
-        <CardContent>
-          <BindList
-            binds={binds}
-            onRemove={removeBind}
-            onSelectKey={selectKey}
-            selectedKey={selectedKey}
-          />
-        </CardContent>
-      </Card>
+        }
+        title='Active binds'
+      >
+        <BindList
+          binds={binds}
+          onRemove={removeBind}
+          onSelectKey={selectKey}
+          selectedKey={selectedKey}
+        />
+      </CollapsibleSection>
     </div>
   );
 }
