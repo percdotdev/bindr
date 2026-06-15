@@ -16,6 +16,7 @@ import {
   RECOMMENDED_BIND_TEMPLATES,
 } from '@/features/binds/lib/model/recommended-binds';
 import type { BindCategory } from '@/features/binds/lib/model/types';
+import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { RecommendedBindCard } from '@/features/binds/ui/recommended/recommended-bind-card';
 
@@ -56,13 +57,15 @@ export function RecommendedBindsPage() {
           </p>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
-          <Button
-            onClick={loadRecommendedBinds}
-            type='button'
-            variant='outline'
+          <ConfirmAlertDialog
+            confirmLabel='Add all'
+            description='This replaces your entire bind config with the full recommended set. Any custom binds are removed.'
+            onConfirm={loadRecommendedBinds}
+            title='Add all recommended binds?'
+            trigger={<Button type='button' variant='outline' />}
           >
             Add all ({RECOMMENDED_BIND_TEMPLATES.length})
-          </Button>
+          </ConfirmAlertDialog>
           <span className='text-muted-foreground text-xs'>
             {addedCount} of {RECOMMENDED_BIND_TEMPLATES.length} in your config
           </span>

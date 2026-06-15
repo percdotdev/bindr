@@ -11,6 +11,7 @@ import Link from 'next/link';
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
 import { BindCommandForm } from '@/features/binds/ui/controls/bind-command-form';
 import { BindList } from '@/features/binds/ui/controls/bind-list';
+import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { KeyboardLayout } from '@/features/binds/ui/controls/keyboard-layout';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { BindExportPanel } from '@/features/binds/ui/export/bind-export-panel';
@@ -93,13 +94,20 @@ export function BindEditor() {
             >
               Add from recommended
             </Link>
-            <button
-              className='text-muted-foreground text-xs underline-offset-4 hover:underline'
-              onClick={clearBinds}
-              type='button'
+            <ConfirmAlertDialog
+              confirmLabel='Clear all'
+              description='This removes every bind from your config. Saved binds in local storage are cleared too.'
+              onConfirm={clearBinds}
+              title='Clear all binds?'
+              trigger={
+                <button
+                  className='text-muted-foreground text-xs underline-offset-4 hover:underline'
+                  type='button'
+                />
+              }
             >
               Clear all
-            </button>
+            </ConfirmAlertDialog>
           </div>
         </CardHeader>
         <CardContent>
