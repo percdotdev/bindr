@@ -28,6 +28,21 @@
           }
         }
       }
+    },
+    {
+      // Vendored magicui terminal — keep upstream source untouched.
+      "includes": ["packages/ui/src/components/terminal.tsx"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noNestedTernary": "off",
+            "noSubstr": "off"
+          },
+          "suspicious": {
+            "noArrayIndexKey": "off"
+          }
+        }
+      }
     }
   ]
 }
