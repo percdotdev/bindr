@@ -35,8 +35,16 @@ export interface PerformanceSettings {
   showHelp: boolean;
 }
 
+export interface HudSettings {
+  /** r_show_build_info — version/debug text in corner */
+  showBuildInfo: boolean;
+  /** cl_teamid_overhead_fade_near_crosshair (0.75–1) */
+  teamidOverheadFadeNearCrosshair: number;
+}
+
 export interface ConfigSettings {
   enabledRecommendations: string[];
+  hud: HudSettings;
   network: NetworkSettings;
   performance: PerformanceSettings;
   radar: RadarSettings;
@@ -45,7 +53,12 @@ export interface ConfigSettings {
 
 export type ViewmodelField = keyof ViewmodelSettings;
 
-export type ConfigCategory = 'network' | 'performance' | 'radar' | 'viewmodel';
+export type ConfigCategory =
+  | 'hud'
+  | 'network'
+  | 'performance'
+  | 'radar'
+  | 'viewmodel';
 
 export interface ViewmodelPreset {
   description: string;
@@ -56,6 +69,7 @@ export interface ViewmodelPreset {
 }
 
 export interface ConfigPatch {
+  hud?: Partial<HudSettings>;
   network?: Partial<NetworkSettings>;
   performance?: Partial<PerformanceSettings>;
   radar?: Partial<RadarSettings>;

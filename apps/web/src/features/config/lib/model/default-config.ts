@@ -1,5 +1,6 @@
 import type {
   ConfigSettings,
+  HudSettings,
   NetworkSettings,
   PerformanceSettings,
   RadarSettings,
@@ -44,10 +45,17 @@ export const DEFAULT_PERFORMANCE: PerformanceSettings = {
   lowLatencySleep: false,
 };
 
+/** Stock HUD — build info visible; teamid fade at minimum in allowed range. */
+export const DEFAULT_HUD: HudSettings = {
+  showBuildInfo: true,
+  teamidOverheadFadeNearCrosshair: 0.75,
+};
+
 export const DEFAULT_CONFIG: ConfigSettings = {
   viewmodel: DEFAULT_VIEWMODEL,
   radar: DEFAULT_RADAR,
   network: DEFAULT_NETWORK,
   performance: DEFAULT_PERFORMANCE,
+  hud: DEFAULT_HUD,
   enabledRecommendations: [],
 };

@@ -20,6 +20,7 @@ export function applyConfigPatch(
     performance: patch.performance
       ? { ...config.performance, ...patch.performance }
       : config.performance,
+    hud: patch.hud ? { ...config.hud, ...patch.hud } : config.hud,
   };
 }
 
@@ -63,5 +64,8 @@ export function revertConfigPatch(
           DEFAULT_CONFIG.performance
         )
       : config.performance,
+    hud: patch.hud
+      ? revertSection(config.hud, patch.hud, DEFAULT_CONFIG.hud)
+      : config.hud,
   };
 }

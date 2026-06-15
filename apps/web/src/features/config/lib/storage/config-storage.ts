@@ -87,6 +87,19 @@ function isPerformanceSettings(
   );
 }
 
+function isHudSettings(value: unknown): value is ConfigSettings['hud'] {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  return (
+    isBoolean(candidate.showBuildInfo) &&
+    typeof candidate.teamidOverheadFadeNearCrosshair === 'number'
+  );
+}
+
 function isConfigSettings(value: unknown): value is Partial<ConfigSettings> {
   if (typeof value !== 'object' || value === null) {
     return false;
@@ -105,6 +118,7 @@ function isConfigSettings(value: unknown): value is Partial<ConfigSettings> {
     (candidate.network === undefined || isNetworkSettings(candidate.network)) &&
     (candidate.performance === undefined ||
       isPerformanceSettings(candidate.performance)) &&
+    (candidate.hud === undefined || isHudSettings(candidate.hud)) &&
     hasValidRecommendations
   );
 }
@@ -128,6 +142,10 @@ function normalizeConfigSettings(
     performance: {
       ...DEFAULT_CONFIG.performance,
       ...value.performance,
+    },
+    hud: {
+      ...DEFAULT_CONFIG.hud,
+      ...value.hud,
     },
     enabledRecommendations: value.enabledRecommendations ?? [],
   };
