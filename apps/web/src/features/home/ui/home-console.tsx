@@ -18,7 +18,7 @@ export function HomeConsole() {
       <TypingAnimation className='text-foreground'>
         ] exec autoexec
       </TypingAnimation>
-      <AnimatedSpan className='text-muted-foreground/50'>
+      <AnimatedSpan className='text-muted-foreground'>
         ===============================================
       </AnimatedSpan>
       {BANNER_ART.map((line) => (
@@ -26,10 +26,10 @@ export function HomeConsole() {
           {line}
         </AnimatedSpan>
       ))}
-      <AnimatedSpan className='text-muted-foreground/60'>
+      <AnimatedSpan className='text-muted-foreground'>
         {'   bindr.lol  -  browser CS2 config studio'}
       </AnimatedSpan>
-      <AnimatedSpan className='text-muted-foreground/50'>
+      <AnimatedSpan className='text-muted-foreground'>
         ===============================================
       </AnimatedSpan>
       <TypingAnimation className='text-muted-foreground'>

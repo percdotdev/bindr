@@ -343,6 +343,22 @@ flowchart TB
 | `BETTER_AUTH_*_CLIENT_*` | OAuth provider credentials |
 | `POLAR_*` | Webhook secret, access token |
 
+### Design system
+
+> House rules — keep every surface consistent. Works every time.
+
+| Token | Rule | In code |
+|-------|------|---------|
+| **Typography** | Geist; body 16/14px (regular & medium), titles 18px | `font-sans`; `text-base` / `text-sm`, titles `text-lg` |
+| **Primary** | `#181818` text | `--foreground` |
+| **Secondary** | `#6A6A6A` text — **solid, never opacity-faded** | `--muted-foreground` → `text-muted-foreground` (no `/50`–`/70`) |
+| **Spacing** | 4px rule, no exceptions | `--spacing: 0.25rem`; only 4px multiples |
+| **Radius** | 8 → 40px range | `--radius` scale (`rounded-sm` … `rounded-4xl`) |
+| **Icons** | 18px, 1.5px stroke, 24px bounding box | lucide `size-[18px] stroke-[1.5]` inside a 24px box |
+
+**Contrast (WCAG AA):** secondary text stays solid `#6A6A6A` (`muted-foreground`).
+Never lower opacity on text — faded `/50`–`/70` muted text fails AA.
+
 ---
 
 ## 7. Data & auth
