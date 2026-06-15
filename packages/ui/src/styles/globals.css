@@ -131,3 +131,36 @@
     cursor: pointer;
   }
 }
+
+@layer components {
+  .figma-range::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+    margin-top: -2px;
+    -webkit-appearance: none;
+    appearance: none;
+    background: #2563eb;
+    border: 2px solid #ffffff;
+    border-radius: 9999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .figma-range::-webkit-slider-runnable-track {
+    height: 100%;
+    border-radius: 9999px;
+  }
+
+  .figma-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    background: #2563eb;
+    border: 2px solid #ffffff;
+    border-radius: 9999px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.35);
+  }
+
+  .figma-range::-moz-range-track {
+    height: 100%;
+    border-radius: 9999px;
+  }
+}
