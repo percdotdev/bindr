@@ -2,6 +2,7 @@
   "devDependencies": {
     "@biomejs/biome": "2.4.16",
     "@workspace/typescript-config": "workspace:*",
+    "bumpp": "^11.1.0",
     "husky": "^9.1.7",
     "turbo": "^2.9.15",
     "typescript": "^5",
@@ -14,7 +15,9 @@
     "typecheck": "turbo typecheck",
     "check": "ultracite check",
     "fix": "ultracite fix",
-    "prepare": "husky"
+    "prepare": "husky",
+    "release": "pnpm dlx bumpp -r",
+    "dependencies:update": "pnpm dlx taze -r -w -f"
   },
   "version": "0.0.1",
   "workspaces": [
