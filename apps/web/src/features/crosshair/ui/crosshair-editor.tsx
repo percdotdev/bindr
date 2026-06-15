@@ -8,10 +8,17 @@ import {
 } from '@workspace/ui/components/card';
 
 import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-editor';
+import {
+  showsDynamicCrosshairControls,
+  showsSplitCrosshairControls,
+} from '@/features/crosshair/lib/crosshair-style';
 import { CrosshairAppearanceControls } from '@/features/crosshair/ui/crosshair-appearance-controls';
+import { CrosshairCopyMenu } from '@/features/crosshair/ui/crosshair-copy-menu';
+import { CrosshairDynamicControls } from '@/features/crosshair/ui/crosshair-dynamic-controls';
 import { CrosshairPreview } from '@/features/crosshair/ui/crosshair-preview';
 import { CrosshairResetAlert } from '@/features/crosshair/ui/crosshair-reset-alert';
-import { ShareCodeExportDialog } from '@/features/crosshair/ui/share-code-export-dialog';
+import { CrosshairSplitControls } from '@/features/crosshair/ui/crosshair-split-controls';
+import { CrosshairStyleSelect } from '@/features/crosshair/ui/crosshair-style-select';
 import { ShareCodeImportDialog } from '@/features/crosshair/ui/share-code-import-dialog';
 
 export function CrosshairEditor() {
@@ -27,21 +34,21 @@ export function CrosshairEditor() {
   } = useCrosshairEditor();
 
   return (
-    <div className='mx-auto flex w-full max-w-3xl flex-col gap-6 p-6'>
-      <div className='flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between'>
-        <div className='flex flex-col gap-2'>
+    <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
+      <div className='flex flex-col gap-3'>
+        <div className='flex flex-col gap-1'>
           <h1 className='font-medium text-sm'>Crosshair editor</h1>
           <p className='text-muted-foreground text-xs'>
             Import a Valve share code, tweak settings, and copy the result back
             into CS2.
           </p>
         </div>
-        <div className='flex flex-wrap gap-2'>
+        <div className='flex items-center gap-2'>
           <ShareCodeImportDialog
             importError={importError}
             onImport={importShareCode}
           />
-          <ShareCodeExportDialog shareCode={shareCode} />
+          <CrosshairCopyMenu crosshair={crosshair} shareCode={shareCode} />
           <CrosshairResetAlert onReset={resetCrosshair} />
         </div>
       </div>
@@ -50,9 +57,13 @@ export function CrosshairEditor() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Appearance</CardTitle>
+          <CardTitle>Crosshair</CardTitle>
         </CardHeader>
-        <CardContent>
+        <CardContent className='flex flex-col gap-6'>
+          <CrosshairStyleSelect
+            onStyleChange={(style) => updateField('style', style)}
+            style={crosshair.style}
+          />
           <CrosshairAppearanceControls
             crosshair={crosshair}
             onColorChange={updateColor}
@@ -61,6 +72,34 @@ export function CrosshairEditor() {
           />
         </CardContent>
       </Card>
+
+      {showsDynamicCrosshairControls(crosshair.style) ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Dynamic</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CrosshairDynamicControls
+              crosshair={crosshair}
+              onUpdate={updateField}
+            />
+          </CardContent>
+        </Card>
+      ) : null}
+
+      {showsSplitCrosshairControls(crosshair.style) ? (
+        <Card>
+          <CardHeader>
+            <CardTitle>Split</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <CrosshairSplitControls
+              crosshair={crosshair}
+              onUpdate={updateField}
+            />
+          </CardContent>
+        </Card>
+      ) : null}
     </div>
   );
 }

@@ -24,11 +24,6 @@ export function renderCrosshair(
 ) {
   context.clearRect(0, 0, canvasSize, canvasSize);
 
-  const style = crosshair.style;
-  if (style < 2) {
-    return;
-  }
-
   const center = { x: canvasSize / 2, y: canvasSize / 2 };
   const [red, green, blue] = resolveCrosshairRgb(crosshair);
   const alpha = resolveCrosshairAlpha(crosshair);
