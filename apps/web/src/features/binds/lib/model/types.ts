@@ -1,4 +1,12 @@
-export type BindCategory = 'lineups' | 'radar' | 'utility' | 'weapons';
+export type BindCategory =
+  | 'buy'
+  | 'comms'
+  | 'lineups'
+  | 'misc'
+  | 'movement'
+  | 'radar'
+  | 'utility'
+  | 'weapons';
 
 export interface BindEntry {
   category?: BindCategory;
