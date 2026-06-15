@@ -246,20 +246,132 @@ export const RECOMMENDED_CONFIG_TEMPLATES: RecommendedConfigTemplate[] = [
       },
     },
   },
+  {
+    id: 'rec-vm-low-bob',
+    label: 'Reduced weapon bob',
+    description:
+      'Cuts weapon sway and run dip for a steadier viewmodel — common pro tweak.',
+    category: 'viewmodel',
+    mmSafe: true,
+    source: 'csdb.gg viewmodel reference',
+    commands: ['cl_bobamt_lat 0.1', 'cl_bobamt_vert 0.1', 'cl_bob_lower_amt 5'],
+    patch: {
+      viewmodel: {
+        bobLat: 0.1,
+        bobVert: 0.1,
+        bobLowerAmt: 5,
+      },
+    },
+  },
+  {
+    id: 'rec-mouse-raw',
+    label: 'Raw input + 1.0 zoom ratio',
+    description:
+      'Bypass OS mouse acceleration and keep scoped sensitivity 1:1 with hip-fire.',
+    category: 'mouse',
+    mmSafe: true,
+    source: 'csdb.gg mouse reference',
+    commands: ['m_rawinput 1', 'zoom_sensitivity_ratio 1'],
+    patch: {
+      mouse: {
+        rawInput: true,
+        zoomSensitivityRatio: 1,
+      },
+    },
+  },
+  {
+    id: 'rec-audio-clean',
+    label: 'Mute music, lower voice',
+    description:
+      'Silences round/menu/MVP music, keeps the bomb timer beep, and tames teammate voice volume.',
+    category: 'audio',
+    mmSafe: true,
+    source: 'csdb.gg audio optimization',
+    commands: [
+      'snd_roundstart_volume 0',
+      'snd_roundend_volume 0',
+      'snd_mvp_volume 0',
+      'snd_menumusic_volume 0',
+      'snd_deathcamera_volume 0',
+      'snd_tensecondwarning_volume 0.1',
+      'voice_scale 0.7',
+      'snd_mute_losefocus 1',
+    ],
+    patch: {
+      audio: {
+        musicVolume: 0,
+        tenSecondWarning: 0.1,
+        voiceScale: 0.7,
+        muteOnFocusLoss: true,
+      },
+    },
+  },
+  {
+    id: 'rec-perf-fps-boost',
+    label: 'FPS boost (visual cuts)',
+    description:
+      'Disables dynamic lighting and bloom, preloads assets, and enables multicore rendering for higher FPS.',
+    category: 'performance',
+    mmSafe: true,
+    source: 'csdb.gg FPS optimization',
+    commands: [
+      'r_dynamic 0',
+      'mat_disable_bloom 1',
+      'mat_queue_mode 2',
+      'cl_forcepreload 1',
+      'cl_animate_player_models 0',
+    ],
+    patch: {
+      performance: {
+        dynamicLight: false,
+        disableBloom: true,
+        multicore: true,
+        forcePreload: true,
+        animatePlayerModels: false,
+      },
+    },
+  },
+  {
+    id: 'rec-hud-readable',
+    label: 'Readable competitive HUD',
+    description:
+      'Green accent, slightly smaller HUD, teammate colors with letters, and bomb under the radar.',
+    category: 'hud',
+    mmSafe: true,
+    source: 'lineups.gg HUD guide',
+    commands: [
+      'cl_hud_color 4',
+      'hud_scaling 0.85',
+      'cl_teammate_colors_show 2',
+      'cl_hud_bomb_under_radar 1',
+    ],
+    patch: {
+      hud: {
+        hudColor: 4,
+        hudScaling: 0.85,
+        teammateColors: 2,
+        bombUnderRadar: true,
+      },
+    },
+  },
 ];
 
 export const CONFIG_CATEGORY_ORDER: ConfigCategory[] = [
   'viewmodel',
+  'mouse',
   'radar',
   'network',
+  'audio',
   'performance',
   'hud',
 ];
 
 export const CONFIG_CATEGORY_LABELS: Record<ConfigCategory, string> = {
   viewmodel: 'Viewmodel',
+  mouse: 'Mouse & sensitivity',
   radar: 'Radar & minimap',
   network: 'Network',
+  audio: 'Audio',
   performance: 'Performance & misc',
   hud: 'HUD & UI',
 };
