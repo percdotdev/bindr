@@ -4,7 +4,8 @@ const FOOTER_LINKS = [
   { href: '/crosshair', label: 'crosshair' },
   { href: '/binds', label: 'binds' },
   { href: '/config', label: 'config' },
-  { href: '/binds/recommended', label: 'recommended' },
+  { href: '/binds/recommended', label: 'binds catalog' },
+  { href: '/config/recommended', label: 'config catalog' },
 ] as const;
 
 export function SiteFooter() {

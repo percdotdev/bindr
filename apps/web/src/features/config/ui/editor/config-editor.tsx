@@ -6,19 +6,27 @@ import {
   CardHeader,
   CardTitle,
 } from '@workspace/ui/components/card';
+import Link from 'next/link';
 
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { ViewmodelControls } from '@/features/config/ui/controls/viewmodel-controls';
+import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { ConfigResetAlert } from '@/features/config/ui/editor/config-reset-alert';
 import { ConfigExportPanel } from '@/features/config/ui/export/config-export-panel';
 
 export function ConfigEditor() {
-  const { applyViewmodelPreset, resetConfig, updateViewmodelField, viewmodel } =
-    useConfigEditor();
+  const {
+    applyViewmodelPreset,
+    config,
+    resetConfig,
+    updateViewmodelField,
+    viewmodel,
+  } = useConfigEditor();
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
       <div className='flex flex-col gap-3'>
+        <ConfigNav />
         <div className='flex flex-col gap-1'>
           <h1 className='font-medium text-sm'>Game config</h1>
           <p className='text-muted-foreground text-xs'>
@@ -26,8 +34,14 @@ export function ConfigEditor() {
             download a cfg snippet for CS2.
           </p>
         </div>
+        <Link
+          className='w-fit text-muted-foreground text-xs underline-offset-4 hover:underline'
+          href='/config/recommended'
+        >
+          Browse recommended config →
+        </Link>
         <div className='flex items-center gap-2'>
-          <ConfigExportPanel viewmodel={viewmodel} />
+          <ConfigExportPanel config={config} />
           <ConfigResetAlert onReset={resetConfig} />
         </div>
       </div>

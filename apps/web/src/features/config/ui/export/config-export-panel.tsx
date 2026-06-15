@@ -4,10 +4,10 @@ import { Button } from '@workspace/ui/components/button';
 import { toast } from 'sonner';
 
 import { formatConfigCfg } from '@/features/config/lib/export/format-config-cfg';
-import type { ViewmodelSettings } from '@/features/config/lib/model/types';
+import type { ConfigSettings } from '@/features/config/lib/model/types';
 
 interface ConfigExportPanelProps {
-  viewmodel: ViewmodelSettings;
+  config: ConfigSettings;
 }
 
 async function copyText(text: string, label: string) {
@@ -29,8 +29,8 @@ function downloadCfg(text: string) {
   URL.revokeObjectURL(url);
 }
 
-export function ConfigExportPanel({ viewmodel }: ConfigExportPanelProps) {
-  const cfg = formatConfigCfg(viewmodel);
+export function ConfigExportPanel({ config }: ConfigExportPanelProps) {
+  const cfg = formatConfigCfg(config);
 
   return (
     <div className='flex flex-wrap gap-2'>

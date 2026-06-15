@@ -1,34 +1,27 @@
 import { DEFAULT_VIEWMODEL } from '@/features/config/lib/model/default-config';
 import type { ViewmodelPreset } from '@/features/config/lib/model/types';
 
+/** Editor presets — sourced, not invented. */
 export const VIEWMODEL_PRESETS: ViewmodelPreset[] = [
   {
-    id: 'classic',
-    label: 'Classic',
-    description: 'Default CS2 viewmodel — lower FOV, centered weapon.',
-    viewmodel: {
-      fov: 60,
-      offsetX: 1,
-      offsetY: 1,
-      offsetZ: -1,
-    },
-  },
-  {
-    id: 'competitive',
-    label: 'Competitive',
-    description: 'Wide FOV with minimal weapon clutter — common pro baseline.',
+    id: 'valve-default',
+    label: 'Valve default',
+    description: 'Stock CS2 viewmodel from csdb.gg defaults.',
+    source: 'csdb.gg',
     viewmodel: DEFAULT_VIEWMODEL,
   },
   {
-    id: 'desktop',
-    label: 'Desktop',
+    id: 'wide-competitive',
+    label: 'Wide competitive',
     description:
-      'Pushed left and down — more screen space for crosshair tracking.',
+      'Max FOV with custom offsets — common in 2026 autoexec guides.',
+    source: 'lineups.gg autoexec (Mar 2026)',
     viewmodel: {
       fov: 68,
       offsetX: 2.5,
-      offsetY: 2,
-      offsetZ: -2,
+      offsetY: 0,
+      offsetZ: -1.5,
+      presetPos: 0,
     },
   },
 ];

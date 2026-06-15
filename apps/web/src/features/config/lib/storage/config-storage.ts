@@ -3,6 +3,16 @@ import type { ConfigSettings } from '@/features/config/lib/model/types';
 
 const STORAGE_KEY = 'bindr:config:v1';
 
+function isBoolean(value: unknown): value is boolean {
+  return typeof value === 'boolean';
+}
+
+function isStringArray(value: unknown): value is string[] {
+  return (
+    Array.isArray(value) && value.every((item) => typeof item === 'string')
+  );
+}
+
 function isViewmodelSettings(
   value: unknown
 ): value is ConfigSettings['viewmodel'] {
@@ -16,7 +26,64 @@ function isViewmodelSettings(
     typeof candidate.fov === 'number' &&
     typeof candidate.offsetX === 'number' &&
     typeof candidate.offsetY === 'number' &&
-    typeof candidate.offsetZ === 'number'
+    typeof candidate.offsetZ === 'number' &&
+    (candidate.presetPos === undefined ||
+      typeof candidate.presetPos === 'number')
+  );
+}
+
+function isRadarSettings(value: unknown): value is ConfigSettings['radar'] {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  return (
+    typeof candidate.scale === 'number' &&
+    typeof candidate.hudScale === 'number' &&
+    isBoolean(candidate.alwaysCentered) &&
+    isBoolean(candidate.rotate) &&
+    typeof candidate.iconScaleMin === 'number' &&
+    isBoolean(candidate.squareWithScoreboard)
+  );
+}
+
+function isNetworkSettings(value: unknown): value is ConfigSettings['network'] {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  return (
+    typeof candidate.rate === 'number' &&
+    typeof candidate.interpRatio === 'number' &&
+    typeof candidate.interp === 'number' &&
+    typeof candidate.updaterate === 'number' &&
+    typeof candidate.cmdrate === 'number' &&
+    typeof candidate.maxPing === 'number'
+  );
+}
+
+function isPerformanceSettings(
+  value: unknown
+): value is ConfigSettings['performance'] {
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const candidate = value as Record<string, unknown>;
+
+  return (
+    typeof candidate.fpsMax === 'number' &&
+    typeof candidate.fpsMaxUi === 'number' &&
+    isBoolean(candidate.drawTracersFirstPerson) &&
+    isBoolean(candidate.autohelp) &&
+    isBoolean(candidate.gameInstructor) &&
+    isBoolean(candidate.showHelp) &&
+    isBoolean(candidate.disableFreezeCam) &&
+    isBoolean(candidate.lowLatencySleep)
   );
 }
 
@@ -27,7 +94,19 @@ function isConfigSettings(value: unknown): value is Partial<ConfigSettings> {
 
   const candidate = value as Record<string, unknown>;
 
-  return isViewmodelSettings(candidate.viewmodel);
+  const hasValidRecommendations =
+    candidate.enabledRecommendations === undefined ||
+    isStringArray(candidate.enabledRecommendations);
+
+  return (
+    (candidate.viewmodel === undefined ||
+      isViewmodelSettings(candidate.viewmodel)) &&
+    (candidate.radar === undefined || isRadarSettings(candidate.radar)) &&
+    (candidate.network === undefined || isNetworkSettings(candidate.network)) &&
+    (candidate.performance === undefined ||
+      isPerformanceSettings(candidate.performance)) &&
+    hasValidRecommendations
+  );
 }
 
 function normalizeConfigSettings(
@@ -38,6 +117,19 @@ function normalizeConfigSettings(
       ...DEFAULT_CONFIG.viewmodel,
       ...value.viewmodel,
     },
+    radar: {
+      ...DEFAULT_CONFIG.radar,
+      ...value.radar,
+    },
+    network: {
+      ...DEFAULT_CONFIG.network,
+      ...value.network,
+    },
+    performance: {
+      ...DEFAULT_CONFIG.performance,
+      ...value.performance,
+    },
+    enabledRecommendations: value.enabledRecommendations ?? [],
   };
 }
 

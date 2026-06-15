@@ -12,13 +12,26 @@ export function useConfigEditor() {
   const applyViewmodelPreset = useConfigStore(
     (state) => state.applyViewmodelPreset
   );
+  const addRecommendedConfig = useConfigStore(
+    (state) => state.addRecommendedConfig
+  );
+  const removeRecommendedConfig = useConfigStore(
+    (state) => state.removeRecommendedConfig
+  );
+  const loadAllRecommendedConfigs = useConfigStore(
+    (state) => state.loadAllRecommendedConfigs
+  );
   const resetConfig = useConfigStore((state) => state.resetConfig);
 
   useMountEffect(hydrate);
 
   return {
+    addRecommendedConfig,
     applyViewmodelPreset,
     config,
+    enabledRecommendations: config.enabledRecommendations,
+    loadAllRecommendedConfigs,
+    removeRecommendedConfig,
     resetConfig,
     updateViewmodelField,
     viewmodel: config.viewmodel,

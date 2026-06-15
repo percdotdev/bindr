@@ -1,0 +1,67 @@
+import { DEFAULT_CONFIG } from '@/features/config/lib/model/default-config';
+import type {
+  ConfigPatch,
+  ConfigSettings,
+} from '@/features/config/lib/model/types';
+
+export function applyConfigPatch(
+  config: ConfigSettings,
+  patch: ConfigPatch
+): ConfigSettings {
+  return {
+    ...config,
+    viewmodel: patch.viewmodel
+      ? { ...config.viewmodel, ...patch.viewmodel }
+      : config.viewmodel,
+    radar: patch.radar ? { ...config.radar, ...patch.radar } : config.radar,
+    network: patch.network
+      ? { ...config.network, ...patch.network }
+      : config.network,
+    performance: patch.performance
+      ? { ...config.performance, ...patch.performance }
+      : config.performance,
+  };
+}
+
+function revertSection<T extends object>(
+  current: T,
+  patch: Partial<T>,
+  defaults: T
+): T {
+  const next = { ...current };
+
+  for (const key of Object.keys(patch) as (keyof T)[]) {
+    next[key] = defaults[key];
+  }
+
+  return next;
+}
+
+export function revertConfigPatch(
+  config: ConfigSettings,
+  patch: ConfigPatch
+): ConfigSettings {
+  return {
+    ...config,
+    viewmodel: patch.viewmodel
+      ? revertSection(
+          config.viewmodel,
+          patch.viewmodel,
+          DEFAULT_CONFIG.viewmodel
+        )
+      : config.viewmodel,
+    radar: patch.radar
+      ? revertSection(config.radar, patch.radar, DEFAULT_CONFIG.radar)
+      : config.radar,
+    network: patch.network
+      ? revertSection(config.network, patch.network, DEFAULT_CONFIG.network)
+      : config.network,
+    performance: patch.performance
+      ? revertSection(
+          config.performance,
+          patch.performance,
+          DEFAULT_CONFIG.performance
+        )
+      : config.performance,
+  };
+}

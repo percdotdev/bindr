@@ -64,7 +64,8 @@ function findMatchingPresetId(viewmodel: ViewmodelSettings) {
       preset.viewmodel.fov === viewmodel.fov &&
       preset.viewmodel.offsetX === viewmodel.offsetX &&
       preset.viewmodel.offsetY === viewmodel.offsetY &&
-      preset.viewmodel.offsetZ === viewmodel.offsetZ
+      preset.viewmodel.offsetZ === viewmodel.offsetZ &&
+      preset.viewmodel.presetPos === viewmodel.presetPos
   )?.id;
 }
 
