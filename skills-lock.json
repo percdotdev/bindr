@@ -25,6 +25,12 @@
       "skillPath": "skills/next-upgrade/SKILL.md",
       "computedHash": "e3aeb1f9e8a68d24df0c1c2e3c8ab97ede09a7251a2c76988318d02254346979"
     },
+    "no-use-effect": {
+      "source": "alejandrobailo/no-use-effect",
+      "sourceType": "github",
+      "skillPath": "SKILL.md",
+      "computedHash": "958a58f113dc70862f12c800e24fc34a6adf5742c05e613417afc8c8127ff57e"
+    },
     "shadcn": {
       "source": "shadcn/ui",
       "sourceType": "github",
