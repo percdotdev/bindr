@@ -266,6 +266,8 @@ Merges slices from all three features into one file via `composeAutoexec`:
 2. Config cvars (`formatConfigBody`)
 3. Bind block (`formatBindBody`)
 
+Optional ASCII `bindr.lol` banner echoed on load (`autoexec-banner.ts`, figlet
+"Slant", kept free of `"`/`//`/`;` so the Source 2 console parser accepts it).
 Per-section include toggles; output ends with `host_writeconfig`. Reads the
 crosshair, config, and binds Zustand stores read-only — no re-implemented export
 logic. Downloadable / copy-paste `autoexec.cfg`; per-feature export remains.
