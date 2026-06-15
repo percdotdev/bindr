@@ -14,7 +14,7 @@ const BANNER_ART = [
 
 export function HomeConsole() {
   return (
-    <Terminal className='max-w-none rounded-none border-foreground/10 font-mono text-foreground'>
+    <Terminal className='h-100 max-h-none max-w-none rounded-none border-foreground/10 font-mono text-foreground'>
       <TypingAnimation className='text-foreground'>
         ] exec autoexec
       </TypingAnimation>
