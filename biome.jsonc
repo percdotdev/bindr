@@ -3,18 +3,9 @@
   "extends": [
     "ultracite/biome/core",
     "ultracite/biome/react",
-    "ultracite/biome/next"
+    "ultracite/biome/next",
+    "@workspace/biome-config/base"
   ],
-  "formatter": {
-    "indentStyle": "space",
-    "indentWidth": 2
-  },
-  "javascript": {
-    "formatter": {
-      "quoteStyle": "single",
-      "jsxQuoteStyle": "single"
-    }
-  },
   "overrides": [
     {
       // Vendored shadcn breadcrumb — keep upstream markup; its current-page span
