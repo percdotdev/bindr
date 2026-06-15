@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { applyCrosshairColor } from '@/features/crosshair/lib/crosshair-color';
 import {
   clearStoredCrosshair,
-  getInitialCrosshair,
+  loadStoredCrosshair,
   saveStoredCrosshair,
 } from '@/features/crosshair/lib/crosshair-storage';
 import { decodeShareCode } from '@/features/crosshair/lib/decode-share-code';
@@ -18,16 +18,27 @@ import type {
 export function useCrosshairEditor(
   initialCrosshair: CrosshairSettings = DEFAULT_CROSSHAIR
 ) {
-  const [crosshair, setCrosshair] = useState(() =>
-    getInitialCrosshair(initialCrosshair)
-  );
+  const [crosshair, setCrosshair] = useState(initialCrosshair);
+  const [hasLoadedStorage, setHasLoadedStorage] = useState(false);
   const [importError, setImportError] = useState<string | null>(null);
 
   const shareCode = useMemo(() => encodeShareCode(crosshair), [crosshair]);
 
   useEffect(() => {
+    const stored = loadStoredCrosshair();
+    if (stored) {
+      setCrosshair(stored);
+    }
+    setHasLoadedStorage(true);
+  }, []);
+
+  useEffect(() => {
+    if (!hasLoadedStorage) {
+      return;
+    }
+
     saveStoredCrosshair(crosshair);
-  }, [crosshair]);
+  }, [crosshair, hasLoadedStorage]);
 
   const updateField = useCallback(
     <K extends CrosshairField>(field: K, value: CrosshairSettings[K]) => {
@@ -68,6 +79,18 @@ export function useCrosshairEditor(
     setImportError(null);
   }, []);
 
+  const updateCustomRgb = useCallback(
+    (rgb: { blue: number; green: number; red: number }) => {
+      setCrosshair((current) => ({
+        ...current,
+        ...rgb,
+        color: 5,
+      }));
+      setImportError(null);
+    },
+    []
+  );
+
   const importShareCode = useCallback((code: string): boolean => {
     try {
       setCrosshair(decodeShareCode(code));
@@ -93,6 +116,7 @@ export function useCrosshairEditor(
     importError,
     updateField,
     updateColor,
+    updateCustomRgb,
     importShareCode,
     resetCrosshair,
   };

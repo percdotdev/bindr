@@ -1,4 +1,3 @@
-import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/default-crosshair';
 import type { CrosshairSettings } from '@/features/crosshair/lib/types';
 
 const STORAGE_KEY = 'bindr:crosshair:v1';
@@ -63,10 +62,4 @@ export function clearStoredCrosshair(): void {
   } catch {
     // Ignore storage errors.
   }
-}
-
-export function getInitialCrosshair(
-  fallback: CrosshairSettings = DEFAULT_CROSSHAIR
-): CrosshairSettings {
-  return loadStoredCrosshair() ?? fallback;
 }

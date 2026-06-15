@@ -2,7 +2,6 @@
 
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
-import { isCustomCrosshairColor } from '@/features/crosshair/lib/crosshair-color';
 import type { CrosshairSettings } from '@/features/crosshair/lib/types';
 import { CrosshairColorPicker } from '@/features/crosshair/ui/crosshair-color-picker';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/crosshair-control-slider';
@@ -11,6 +10,11 @@ import { CrosshairToggle } from '@/features/crosshair/ui/crosshair-toggle';
 interface CrosshairAppearanceControlsProps {
   crosshair: CrosshairSettings;
   onColorChange: (color: number) => void;
+  onCustomRgbChange: (rgb: {
+    blue: number;
+    green: number;
+    red: number;
+  }) => void;
   onUpdate: <K extends keyof CrosshairSettings>(
     field: K,
     value: CrosshairSettings[K]
@@ -20,10 +24,9 @@ interface CrosshairAppearanceControlsProps {
 export function CrosshairAppearanceControls({
   crosshair,
   onColorChange,
+  onCustomRgbChange,
   onUpdate,
 }: CrosshairAppearanceControlsProps) {
-  const isCustomColor = isCustomCrosshairColor(crosshair.color);
-
   return (
     <div className='flex flex-col gap-4'>
       <CrosshairControlSlider
@@ -55,39 +58,12 @@ export function CrosshairAppearanceControls({
       />
 
       <CrosshairColorPicker
+        blue={crosshair.blue}
         color={crosshair.color}
+        green={crosshair.green}
         onColorChange={onColorChange}
-      />
-
-      <CrosshairControlSlider
-        disabled={!isCustomColor}
-        id='crosshair-red'
-        label='Red'
-        max={255}
-        min={0}
-        onValueChange={(value) => onUpdate('red', value)}
-        step={1}
-        value={crosshair.red}
-      />
-      <CrosshairControlSlider
-        disabled={!isCustomColor}
-        id='crosshair-green'
-        label='Green'
-        max={255}
-        min={0}
-        onValueChange={(value) => onUpdate('green', value)}
-        step={1}
-        value={crosshair.green}
-      />
-      <CrosshairControlSlider
-        disabled={!isCustomColor}
-        id='crosshair-blue'
-        label='Blue'
-        max={255}
-        min={0}
-        onValueChange={(value) => onUpdate('blue', value)}
-        step={1}
-        value={crosshair.blue}
+        onCustomRgbChange={onCustomRgbChange}
+        red={crosshair.red}
       />
 
       <div className='flex items-center justify-between gap-2'>

@@ -21,6 +21,7 @@ export function CrosshairEditor() {
     importError,
     updateField,
     updateColor,
+    updateCustomRgb,
     importShareCode,
     resetCrosshair,
   } = useCrosshairEditor();
@@ -55,6 +56,7 @@ export function CrosshairEditor() {
           <CrosshairAppearanceControls
             crosshair={crosshair}
             onColorChange={updateColor}
+            onCustomRgbChange={updateCustomRgb}
             onUpdate={updateField}
           />
         </CardContent>
