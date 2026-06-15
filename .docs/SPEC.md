@@ -20,23 +20,18 @@ To maintain zero or minimal hosting costs, all heavy processing is offloaded to 
 ## 4. Developer Instructions for AI Agent
 When assisting with code generation, database schemas, or routing, strictly adhere to the following implementation details:
 
-### A. Crosshair Code Handling (Node.js/Next.js)
-Use the `csgo-sharecode` library inside Next.js API routes or Client Components to parse and encode Valve share codes.
+### A. Crosshair Code Handling (Client-Side)
+Use the in-repo share-code codec (ported from [girlglock/cs2-crosshair](https://github.com/girlglock/cs2-crosshair)) in Client Components. Do **not** use `csgo-sharecode` — it mishandles extended size bytes and is case-sensitive on the wrong normalization path.
 
-```javascript
-import { decode, encode } from 'csgo-sharecode';
+```typescript
+import { decodeShareCode } from '@/features/crosshair/lib/decode-share-code';
+import { encodeShareCode } from '@/features/crosshair/lib/encode-share-code';
 
-// Decoding a Valve code to JSON for UI state
-const crosshairProps = decode("CSGO-OCskf-qjunY-..."); 
-
-// Encoding UI state back to a Valve official share code
-const valveCode = encode({
-  cl_crosshairsize: 2,
-  cl_crosshairthickness: 1,
-  cl_crosshairgap: -2,
-  cl_crosshair_drawoutline: 1,
-});
+const crosshair = decodeShareCode('CSGO-AJswe-2jNcK-nMpEQ-rHV5J-5JWAB');
+const shareCode = encodeShareCode(crosshair);
 ```
+
+Share codes are case-sensitive. Never uppercase them before decode.
 
 ### B. Database Schema (PostgreSQL/Supabase)
 Keep tables lightweight. Store configurations as stringified text or JSONB.
@@ -58,3 +53,37 @@ Ensure all user sessions leverage Better-Auth's Steam provider plugins. Protect 
 * DO NOT write or suggest game memory injection (C++ internal/external cheats) or VAC-bypassing tools.
 * DO NOT write game demo parsing logic (`demoinfocs-golang`) to avoid Vercel Serverless timeout limits.
 * Focus purely on Web APIs, frontend state management, local storage, and database operations.
+
+## 5. Code Organization (Screaming Architecture)
+
+Structure reveals **what the app does**, not technical layers. Follow these rules for every feature.
+
+### Layout rules
+* A directory contains **either** files **or** subdirectories — never both.
+* Keep files small and single-purpose. Split hooks, lib, and UI within features.
+* Route files in `app/` are thin adapters — logic lives in `features/`.
+* Add shadcn components via CLI **when a feature needs them**, not in bulk upfront.
+* Prefer client-side logic for heavy work (crosshair parse/encode, preview, bind generation).
+
+### `apps/web/src/`
+
+```
+app/           → Next.js routes only (one page.tsx per segment)
+features/      → domain features (crosshair, binds, auth, …)
+  {feature}/
+    hooks/     → client hooks
+    lib/       → pure utilities, types, defaults
+    ui/        → components
+shared/        → cross-cutting app shell
+  fonts/
+  providers/
+  ui/
+```
+
+### `packages/ui/src/`
+Design system (shadcn). Import: `@workspace/ui/components/{name}`
+
+### Build order
+1. **Core value loop first** (e.g. crosshair import → preview → export) without auth.
+2. **Auth + DB** once users need to save configs.
+3. **Premium / marketplace / payments** last.

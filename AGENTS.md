@@ -13,6 +13,10 @@ Folder structure should reveal **what the app does**, not technical layers.
 - A directory contains **either** files **or** subdirectories — never both.
 - Keep files small and single-purpose. Split hooks, lib, and UI within features.
 - Route files in `app/` are thin adapters — logic lives in `features/`.
+- No large or convoluted files — extract when a module grows beyond one concern.
+- Add shadcn components via CLI when a feature needs them; avoid bulk installs.
+- Client-heavy work stays in the browser; server routes stay thin (auth, CRUD, webhooks).
+- Match existing patterns: explicit types, early returns, semantic HTML, `cn()` for classes.
 
 ## `apps/web/src/`
 
