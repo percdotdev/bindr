@@ -44,6 +44,7 @@ export function RecommendedBindsPage() {
   const addedCount = RECOMMENDED_BIND_TEMPLATES.filter((template) =>
     activeKeys.has(template.key)
   ).length;
+  const allRecommendedAdded = addedCount === RECOMMENDED_BIND_TEMPLATES.length;
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
@@ -60,6 +61,7 @@ export function RecommendedBindsPage() {
           <ConfirmAlertDialog
             confirmLabel='Add all'
             description='This replaces your entire bind config with the full recommended set. Any custom binds are removed.'
+            disabled={allRecommendedAdded}
             onConfirm={loadRecommendedBinds}
             title='Add all recommended binds?'
             trigger={<Button type='button' variant='outline' />}

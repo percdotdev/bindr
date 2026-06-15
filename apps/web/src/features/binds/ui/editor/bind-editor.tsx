@@ -97,11 +97,12 @@ export function BindEditor() {
             <ConfirmAlertDialog
               confirmLabel='Clear all'
               description='This removes every bind from your config. Saved binds in local storage are cleared too.'
+              disabled={binds.length === 0}
               onConfirm={clearBinds}
               title='Clear all binds?'
               trigger={
                 <button
-                  className='text-muted-foreground text-xs underline-offset-4 hover:underline'
+                  className='text-muted-foreground text-xs underline-offset-4 hover:underline disabled:pointer-events-none disabled:no-underline disabled:opacity-50'
                   type='button'
                 />
               }

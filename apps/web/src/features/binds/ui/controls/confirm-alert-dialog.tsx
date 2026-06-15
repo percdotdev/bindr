@@ -11,13 +11,19 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@workspace/ui/components/alert-dialog';
-import type { ReactElement, ReactNode } from 'react';
+import {
+  cloneElement,
+  isValidElement,
+  type ReactElement,
+  type ReactNode,
+} from 'react';
 
 interface ConfirmAlertDialogProps {
   children: ReactNode;
   confirmLabel: string;
   description: string;
   destructive?: boolean;
+  disabled?: boolean;
   onConfirm: () => void;
   title: string;
   trigger: ReactElement;
@@ -28,10 +34,19 @@ export function ConfirmAlertDialog({
   confirmLabel,
   description,
   destructive = true,
+  disabled = false,
   onConfirm,
   title,
   trigger,
 }: ConfirmAlertDialogProps) {
+  if (disabled) {
+    if (!isValidElement(trigger)) {
+      return null;
+    }
+
+    return cloneElement(trigger, { disabled: true }, children);
+  }
+
   return (
     <AlertDialog>
       <AlertDialogTrigger render={trigger}>{children}</AlertDialogTrigger>
