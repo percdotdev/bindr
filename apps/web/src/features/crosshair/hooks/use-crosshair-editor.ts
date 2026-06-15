@@ -1,7 +1,12 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
-import { normalizeEditorCrosshair } from '@/features/crosshair/lib/crosshair-color';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { applyCrosshairColor } from '@/features/crosshair/lib/crosshair-color';
+import {
+  clearStoredCrosshair,
+  getInitialCrosshair,
+  saveStoredCrosshair,
+} from '@/features/crosshair/lib/crosshair-storage';
 import { decodeShareCode } from '@/features/crosshair/lib/decode-share-code';
 import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/default-crosshair';
 import { encodeShareCode } from '@/features/crosshair/lib/encode-share-code';
@@ -13,10 +18,16 @@ import type {
 export function useCrosshairEditor(
   initialCrosshair: CrosshairSettings = DEFAULT_CROSSHAIR
 ) {
-  const [crosshair, setCrosshair] = useState(initialCrosshair);
+  const [crosshair, setCrosshair] = useState(() =>
+    getInitialCrosshair(initialCrosshair)
+  );
   const [importError, setImportError] = useState<string | null>(null);
 
   const shareCode = useMemo(() => encodeShareCode(crosshair), [crosshair]);
+
+  useEffect(() => {
+    saveStoredCrosshair(crosshair);
+  }, [crosshair]);
 
   const updateField = useCallback(
     <K extends CrosshairField>(field: K, value: CrosshairSettings[K]) => {
@@ -36,6 +47,15 @@ export function useCrosshairEditor(
           next.outlineEnabled = true;
         }
 
+        if (
+          field === 'alpha' &&
+          typeof value === 'number' &&
+          value < 255 &&
+          !next.alphaEnabled
+        ) {
+          next.alphaEnabled = true;
+        }
+
         return next;
       });
       setImportError(null);
@@ -43,19 +63,27 @@ export function useCrosshairEditor(
     []
   );
 
-  const importShareCode = useCallback((code: string) => {
+  const updateColor = useCallback((color: number) => {
+    setCrosshair((current) => applyCrosshairColor(current, color));
+    setImportError(null);
+  }, []);
+
+  const importShareCode = useCallback((code: string): boolean => {
     try {
-      setCrosshair(normalizeEditorCrosshair(decodeShareCode(code)));
+      setCrosshair(decodeShareCode(code));
       setImportError(null);
+      return true;
     } catch (error) {
       setImportError(
         error instanceof Error ? error.message : 'Failed to import share code'
       );
+      return false;
     }
   }, []);
 
   const resetCrosshair = useCallback(() => {
     setCrosshair(DEFAULT_CROSSHAIR);
+    clearStoredCrosshair();
     setImportError(null);
   }, []);
 
@@ -64,6 +92,7 @@ export function useCrosshairEditor(
     shareCode,
     importError,
     updateField,
+    updateColor,
     importShareCode,
     resetCrosshair,
   };

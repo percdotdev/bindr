@@ -8,6 +8,20 @@ const PRESET_COLORS: Record<number, readonly [number, number, number]> = {
   4: [0, 255, 255],
 };
 
+export const CROSSHAIR_PRESET_COLORS = PRESET_COLORS;
+
+export const CROSSHAIR_PRESET_LABELS: Record<number, string> = {
+  0: 'Red',
+  1: 'Green',
+  2: 'Yellow',
+  3: 'Blue',
+  4: 'Cyan',
+};
+
+export function isCustomCrosshairColor(color: number): boolean {
+  return color === 5;
+}
+
 export function resolveCrosshairRgb(
   crosshair: CrosshairSettings
 ): readonly [number, number, number] {
@@ -22,16 +36,25 @@ export function resolveCrosshairAlpha(crosshair: CrosshairSettings): number {
   return crosshair.alphaEnabled ? crosshair.alpha / 255 : 1;
 }
 
-/** Editor always uses custom RGB; resolve presets on import. */
-export function normalizeEditorCrosshair(
-  crosshair: CrosshairSettings
+export function applyCrosshairColor(
+  crosshair: CrosshairSettings,
+  color: number
 ): CrosshairSettings {
-  const [red, green, blue] = resolveCrosshairRgb(crosshair);
+  if (color === 5) {
+    return { ...crosshair, color: 5 };
+  }
+
+  const preset = PRESET_COLORS[color];
+  if (!preset) {
+    return crosshair;
+  }
+
+  const [red, green, blue] = preset;
 
   return {
     ...crosshair,
     blue,
-    color: 5,
+    color,
     green,
     red,
   };
