@@ -1,14 +1,12 @@
 'use client';
 
 import {
-  Carousel,
-  type CarouselApi,
-  CarouselContent,
-  CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
-} from '@workspace/ui/components/carousel';
-import { cn } from '@workspace/ui/lib/utils';
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@workspace/ui/components/select';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
 
@@ -30,8 +28,13 @@ interface CrosshairPreviewProps {
 
 export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [carouselApi, setCarouselApi] = useState<CarouselApi>();
-  const [activeMapIndex, setActiveMapIndex] = useState(0);
+  const [activeMapId, setActiveMapId] = useState(
+    PREVIEW_MAP_BACKGROUNDS[0]?.id ?? 'inferno'
+  );
+
+  const activeMap =
+    PREVIEW_MAP_BACKGROUNDS.find((map) => map.id === activeMapId) ??
+    PREVIEW_MAP_BACKGROUNDS[0];
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -47,63 +50,25 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
     renderCrosshair(context, crosshair, PREVIEW_CANVAS_SIZE);
   }, [crosshair]);
 
-  useEffect(() => {
-    if (!carouselApi) {
-      return;
-    }
-
-    const onSelect = () => {
-      setActiveMapIndex(carouselApi.selectedScrollSnap());
-    };
-
-    onSelect();
-    carouselApi.on('select', onSelect);
-
-    return () => {
-      carouselApi.off('select', onSelect);
-    };
-  }, [carouselApi]);
-
-  const activeMap = PREVIEW_MAP_BACKGROUNDS[activeMapIndex];
+  if (!activeMap) {
+    return null;
+  }
 
   return (
-    <div className='mx-auto w-full max-w-[909px] ring-1 ring-foreground/10'>
+    <div className='relative w-full overflow-hidden ring-1 ring-foreground/10'>
       <div
-        className='relative w-full overflow-hidden bg-black'
+        className='relative w-full bg-black'
         style={{ aspectRatio: `${PREVIEW_MAP_WIDTH} / ${PREVIEW_MAP_HEIGHT}` }}
       >
-        <Carousel
-          className='absolute inset-0 size-full'
-          setApi={setCarouselApi}
-        >
-          <CarouselContent className='ml-0 h-full'>
-            {PREVIEW_MAP_BACKGROUNDS.map((map) => (
-              <CarouselItem className='h-full pl-0' key={map.id}>
-                <Image
-                  alt={`${map.label} crosshair preview background`}
-                  className='size-full object-cover'
-                  height={PREVIEW_MAP_HEIGHT}
-                  priority={map.id === 'inferno'}
-                  src={map.src}
-                  unoptimized
-                  width={PREVIEW_MAP_WIDTH}
-                />
-              </CarouselItem>
-            ))}
-          </CarouselContent>
-          <CarouselPrevious
-            className={cn(
-              'top-1/2 left-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
-            )}
-            variant='outline'
-          />
-          <CarouselNext
-            className={cn(
-              'top-1/2 right-2 -translate-y-1/2 border-white/20 bg-black/50 text-white hover:bg-black/70 hover:text-white'
-            )}
-            variant='outline'
-          />
-        </Carousel>
+        <Image
+          alt={`${activeMap.label} crosshair preview background`}
+          className='size-full object-cover'
+          height={PREVIEW_MAP_HEIGHT}
+          priority={activeMap.id === 'inferno'}
+          src={activeMap.src}
+          unoptimized
+          width={PREVIEW_MAP_WIDTH}
+        />
 
         <div
           aria-hidden
@@ -125,9 +90,32 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
           />
         </div>
 
-        <p className='pointer-events-none absolute right-2 bottom-2 font-mono text-[10px] text-white/70'>
-          {activeMap?.label ?? 'Map preview'}
-        </p>
+        <div className='absolute right-2 bottom-2 z-10'>
+          <Select
+            onValueChange={(value) => {
+              if (value) {
+                setActiveMapId(value);
+              }
+            }}
+            value={activeMap.id}
+          >
+            <SelectTrigger
+              aria-label='Preview map'
+              className='h-7 min-w-[7rem] border-white/20 bg-black/60 text-white backdrop-blur-sm hover:bg-black/75 data-placeholder:text-white/70 [&_svg]:text-white/70'
+              id='preview-map'
+              size='sm'
+            >
+              <SelectValue>{activeMap.label}</SelectValue>
+            </SelectTrigger>
+            <SelectContent>
+              {PREVIEW_MAP_BACKGROUNDS.map((map) => (
+                <SelectItem key={map.id} value={map.id}>
+                  {map.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
       </div>
     </div>
   );
