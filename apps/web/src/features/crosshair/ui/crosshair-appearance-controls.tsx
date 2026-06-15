@@ -46,15 +46,6 @@ export function CrosshairAppearanceControls({
         value={crosshair.thickness}
       />
       <CrosshairControlSlider
-        id='crosshair-outline'
-        label='Outline thickness'
-        max={3}
-        min={0}
-        onValueChange={(value) => onUpdate('outline', value)}
-        step={0.5}
-        value={crosshair.outline}
-      />
-      <CrosshairControlSlider
         id='crosshair-red'
         label='Red'
         max={255}
@@ -81,6 +72,7 @@ export function CrosshairAppearanceControls({
         step={1}
         value={crosshair.blue}
       />
+
       <div className='flex flex-wrap gap-2'>
         <CrosshairToggle
           enabled={crosshair.outlineEnabled}
@@ -98,6 +90,17 @@ export function CrosshairAppearanceControls({
           onToggle={(value) => onUpdate('tStyleEnabled', value)}
         />
       </div>
+
+      <CrosshairControlSlider
+        disabled={!crosshair.outlineEnabled}
+        id='crosshair-outline'
+        label='Outline thickness'
+        max={3}
+        min={0}
+        onValueChange={(value) => onUpdate('outline', value)}
+        step={0.5}
+        value={crosshair.outline}
+      />
     </div>
   );
 }

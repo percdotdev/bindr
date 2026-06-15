@@ -3,9 +3,11 @@
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Slider } from '@workspace/ui/components/slider';
+import { cn } from '@workspace/ui/lib/utils';
 import { useEffect, useState } from 'react';
 
 interface CrosshairControlSliderProps {
+  disabled?: boolean;
   id: string;
   label: string;
   max: number;
@@ -39,6 +41,7 @@ function snapToStep(
 }
 
 export function CrosshairControlSlider({
+  disabled = false,
   id,
   label,
   max,
@@ -57,6 +60,10 @@ export function CrosshairControlSlider({
   }, [isEditing, step, value]);
 
   const commitDraft = () => {
+    if (disabled) {
+      return;
+    }
+
     const parsed = Number.parseFloat(draft);
 
     if (Number.isNaN(parsed)) {
@@ -72,12 +79,13 @@ export function CrosshairControlSlider({
   };
 
   return (
-    <div className='flex flex-col gap-2'>
+    <div className={cn('flex flex-col gap-2', disabled && 'opacity-50')}>
       <div className='flex items-center justify-between gap-2'>
         <Label htmlFor={id}>{label}</Label>
         <Input
           aria-label={`${label} value`}
           className='h-7 w-20 px-2 text-right font-mono tabular-nums'
+          disabled={disabled}
           id={`${id}-value`}
           inputMode='decimal'
           onBlur={commitDraft}
@@ -104,6 +112,7 @@ export function CrosshairControlSlider({
       </div>
       <Slider
         aria-labelledby={id}
+        disabled={disabled}
         id={id}
         max={max}
         min={min}

@@ -21,3 +21,18 @@ export function resolveCrosshairRgb(
 export function resolveCrosshairAlpha(crosshair: CrosshairSettings): number {
   return crosshair.alphaEnabled ? crosshair.alpha / 255 : 1;
 }
+
+/** Editor always uses custom RGB; resolve presets on import. */
+export function normalizeEditorCrosshair(
+  crosshair: CrosshairSettings
+): CrosshairSettings {
+  const [red, green, blue] = resolveCrosshairRgb(crosshair);
+
+  return {
+    ...crosshair,
+    blue,
+    color: 5,
+    green,
+    red,
+  };
+}

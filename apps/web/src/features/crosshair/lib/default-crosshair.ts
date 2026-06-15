@@ -10,7 +10,7 @@ export const DEFAULT_CROSSHAIR: CrosshairSettings = {
   splitDistance: 7,
   followRecoil: false,
   fixedCrosshairGap: 3,
-  color: 1,
+  color: 5,
   outlineEnabled: true,
   innerSplitAlpha: 1,
   outerSplitAlpha: 0.5,
