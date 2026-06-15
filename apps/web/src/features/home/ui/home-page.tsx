@@ -1,9 +1,14 @@
 import { buttonVariants } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
-import { Crosshair, Keyboard, Sparkles } from 'lucide-react';
+import { Crosshair, Keyboard, SlidersHorizontal, Sparkles } from 'lucide-react';
 import Link from 'next/link';
 
 import { HomeFeatureCard } from '@/features/home/ui/home-feature-card';
+
+const CATALOG_LINKS = [
+  { href: '/binds/recommended', label: 'Recommended binds' },
+  { href: '/config/recommended', label: 'Recommended config' },
+] as const;
 
 const VALUE_PROPS = [
   {
@@ -12,7 +17,8 @@ const VALUE_PROPS = [
   },
   {
     label: 'MM-safe defaults',
-    detail: 'Recommended binds follow current Valve rules — no banned aliases.',
+    detail:
+      'Binds and cvars follow current Valve rules — no banned aliases or scripts.',
   },
   {
     label: 'Your config, local-first',
@@ -25,16 +31,16 @@ export function HomePage() {
     <main className='mx-auto flex w-full max-w-4xl flex-col gap-14 px-6 py-10 md:py-16'>
       <section className='flex flex-col gap-6'>
         <p className='font-mono text-[10px] text-muted-foreground uppercase tracking-[0.2em]'>
-          Counter-Strike 2
+          Counter-Strike 2 config studio
         </p>
         <div className='flex flex-col gap-4'>
           <h1 className='font-medium font-mono text-3xl tracking-tight md:text-4xl'>
             bindr.lol
           </h1>
           <p className='max-w-xl text-muted-foreground text-sm leading-relaxed md:text-base'>
-            Import share codes, tune your crosshair on map previews, and build
-            bind configs from a visual keyboard — then copy console commands or
-            drop a cfg into your game folder.
+            Tune your crosshair on map previews, build binds from a visual
+            keyboard, and dial in game cvars — then copy console commands or
+            drop a cfg into your game folder. No downloads, no cheats.
           </p>
         </div>
         <div className='flex flex-wrap gap-2'>
@@ -52,6 +58,15 @@ export function HomePage() {
             href='/binds'
           >
             Bind generator
+          </Link>
+          <Link
+            className={cn(
+              buttonVariants({ variant: 'outline' }),
+              'inline-flex'
+            )}
+            href='/config'
+          >
+            Game config
           </Link>
         </div>
       </section>
@@ -73,18 +88,42 @@ export function HomePage() {
           />
           <HomeFeatureCard
             cta='Build binds'
-            description='Click keys on a keyboard layout, assign console commands, and export grouped bind lines or a ready-to-paste cfg.'
+            description='Click keys on a keyboard layout, assign commands, and export grouped bind lines or a ready-to-paste cfg.'
             href='/binds'
             icon={Keyboard}
             title='Bind generator'
           />
           <HomeFeatureCard
-            cta='Browse catalog'
-            description='Curated 2026 meta binds — grenade slots, knife, drop, lineup release, radar toggles. Add what you need.'
-            href='/binds/recommended'
-            icon={Sparkles}
-            title='Recommended binds'
+            cta='Tune cvars'
+            description='Adjust viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders, then export a cfg.'
+            href='/config'
+            icon={SlidersHorizontal}
+            title='Game config'
           />
+        </div>
+      </section>
+
+      <section className='flex flex-col gap-4'>
+        <div className='flex items-center gap-2'>
+          <Sparkles aria-hidden className='size-4 text-muted-foreground' />
+          <h2 className='font-medium text-sm'>Curated catalogs</h2>
+        </div>
+        <p className='text-muted-foreground text-xs'>
+          Start from MM-safe 2026 meta presets and keep only what you want.
+        </p>
+        <div className='flex flex-wrap gap-2'>
+          {CATALOG_LINKS.map((item) => (
+            <Link
+              className={cn(
+                buttonVariants({ size: 'sm', variant: 'outline' }),
+                'inline-flex'
+              )}
+              href={item.href}
+              key={item.href}
+            >
+              {item.label}
+            </Link>
+          ))}
         </div>
       </section>
 
