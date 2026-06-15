@@ -49,7 +49,7 @@ A web SaaS where players **import → customize → preview → export** everyth
 
 ## 2. Current product (shipped)
 
-**Phases 1.0–1.6 — complete.** No auth required.
+**Phases 1.0–1.7 — complete.** No auth required.
 
 ```mermaid
 flowchart LR
@@ -61,15 +61,18 @@ flowchart LR
     Cfg[Game config]
     CfgRec[Recommended config]
     AE[Autoexec composer]
+    Guides[Guides]
   end
   Home --> XH
   Home --> Binds
   Home --> Cfg
+  Home --> Guides
   Binds --> Rec
   Cfg --> CfgRec
   XH --> AE
   Cfg --> AE
   Binds --> AE
+  Guides --> AE
   XH --> LS1[(localStorage)]
   Binds --> LS2[(localStorage)]
   Cfg --> LS3[(localStorage)]
@@ -80,10 +83,11 @@ flowchart LR
 
 | Item | Status | Location |
 |------|--------|----------|
-| Landing page (hero, tool cards, value props) | Shipped | `/` |
-| Minimal nav + footer | Shipped | `shared/ui/site-nav.tsx`, `site-footer.tsx` |
+| Landing page (console hero, tool cards, value props) | Shipped | `/` |
+| Nav (grouped dropdowns) + breadcrumb + footer | Shipped | `shared/ui/site-nav.tsx`, `site-breadcrumb.tsx`, `site-footer.tsx` |
 | Theme toggle (`t` hotkey) | Shipped | `features/theme/` |
 | Metadata / branding `bindr.lol` | Shipped | `app/layout.tsx` |
+| Guides (MDX articles) | Shipped | `/guides`, `features/guides/` |
 
 ### Crosshair editor — `/crosshair`
 
@@ -182,7 +186,10 @@ app/
     ├── config/
     │   ├── page.tsx           # /config
     │   └── recommended/page.tsx  # /config/recommended
-    └── autoexec/page.tsx      # /autoexec
+    ├── autoexec/page.tsx      # /autoexec
+    └── guides/
+        ├── page.tsx           # /guides
+        └── [slug]/page.tsx    # /guides/:slug (SSG)
 ```
 
 | URL | Page | Nav label |
@@ -194,8 +201,10 @@ app/
 | `/config` | Game config | config |
 | `/config/recommended` | Recommended config catalog | config (sub-nav) |
 | `/autoexec` | Autoexec composer | autoexec |
+| `/guides` | Guides index | guides |
+| `/guides/:slug` | Guide article (MDX, SSG) | — (breadcrumb) |
 
-**Nav pattern:** Home shows tool links top-right; inner pages show `← bindr.lol` + crosshair/binds/config/autoexec. Footer lists all tools + theme hint.
+**Nav pattern:** `NavigationMenu` with grouped dropdowns — **editors** (crosshair, binds, config, autoexec) and **catalogs** (recommended binds/config) — plus a top-level **guides** link. Inner pages show a dynamic breadcrumb (`shared/ui/site-breadcrumb.tsx`); footer lists all tools + theme hint.
 
 ---
 
@@ -271,6 +280,33 @@ Optional ASCII `bindr.lol` banner echoed on load (`autoexec-banner.ts`, figlet
 Per-section include toggles; output ends with `host_writeconfig`. Reads the
 crosshair, config, and binds Zustand stores read-only — no re-implemented export
 logic. Downloadable / copy-paste `autoexec.cfg`; per-feature export remains.
+
+### 5.5 Guides (`features/guides/`) — 1.7 shipped
+
+MDX-backed articles (setup tricks, walkthroughs) rendered with the site theme —
+**not** fumadocs. Native `@next/mdx` keeps the docs in the existing shell with
+zero CSS conflicts.
+
+```
+features/guides/
+├── content/            # *.mdx article bodies
+├── lib/                # registry (slug → meta + lazy import), get-guides, format-date
+└── ui/                 # guides-index, guide-article, mdx-components (themed), guide-image
+```
+
+- **Pipeline:** `createMDX` + `pageExtensions` in `next.config.ts`; root
+  `mdx-components.tsx` adapter; `*.mdx` module declaration in `src/types/`.
+- **Registry:** metadata is typed in `lib/registry.ts` (no frontmatter parsing);
+  each entry lazy-loads its MDX via a statically analyzable `import()`.
+- **Routing:** `/guides` index + `/guides/[slug]` with `generateStaticParams`
+  (SSG) and per-article `generateMetadata`.
+- **Components:** markdown maps to themed elements (mono headings, inline/block
+  code, lists, blockquote); links → `next/link`, external get `rel="noopener"`;
+  images → `next/image` via `guide-image.tsx`. Assets in `public/guides/` (webp).
+- **Add a guide:** drop an `.mdx` in `content/` + one entry in `registry.ts`.
+
+Shipped article: *Share one config across every CS2 account* (the `USRLOCALCSGO`
+env-var trick), which links back to `/autoexec`.
 
 ---
 
@@ -388,7 +424,7 @@ configs
 bindr/
 ├── apps/web/src/
 │   ├── app/              # routes (route groups)
-│   ├── features/         # crosshair, binds, config, autoexec, home, theme, auth [planned]
+│   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme, auth [planned]
 │   └── shared/           # fonts, providers, ui shell, hooks
 ├── packages/
 │   ├── ui/               # design system (shadcn)
@@ -429,13 +465,14 @@ gantt
   dateFormat YYYY-MM
   section Shipped
   Crosshair + Binds + Shell     :done, p10, 2026-01, 2026-03
+  Config feature                :done, p15, 2026-03, 2026-04
+  Autoexec composer             :done, p16, 2026-04, 2026-05
+  Guides (MDX)                  :done, p17, 2026-05, 2026-06
   section Next
-  Config feature                :active, p15, 2026-03, 2026-04
-  Autoexec composer             :p16, 2026-04, 2026-05
+  Auth + Neon                   :active, p20, 2026-06, 2026-07
   section Later
-  Auth + Neon                   :p20, 2026-05, 2026-06
-  Premium + Polar               :p30, 2026-06, 2026-08
-  Marketplace                   :p31, 2026-08, 2026-10
+  Premium + Polar               :p30, 2026-07, 2026-09
+  Marketplace                   :p31, 2026-09, 2026-11
 ```
 
 ### Phase 1.0 — Core value loop ✅
@@ -459,6 +496,13 @@ gantt
 - [x] Compose crosshair + config + binds into single `.cfg`
 - [x] `/autoexec` route with per-section include toggles
 - [x] Download / copy
+
+### Phase 1.7 — Guides ✅
+
+- [x] `@next/mdx` pipeline (config, root `mdx-components`, type decl)
+- [x] `features/guides/` — typed registry, themed MDX components, image wrapper
+- [x] `/guides` index + `/guides/[slug]` (SSG) + nav/footer/breadcrumb wiring
+- [x] First guide: share one config across CS2 accounts (`USRLOCALCSGO`)
 
 ### Phase 2.0 — Auth + cloud save
 
@@ -517,4 +561,4 @@ gantt
 
 ---
 
-*Last updated: phases 1.0–1.6 shipped (crosshair, binds, config, autoexec) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
+*Last updated: phases 1.0–1.7 shipped (crosshair, binds, config, autoexec, guides) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
