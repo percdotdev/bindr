@@ -3,7 +3,7 @@
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface BindCommandFormProps {
   command: string;
@@ -19,10 +19,6 @@ export function BindCommandForm({
   selectedKey,
 }: BindCommandFormProps) {
   const [draft, setDraft] = useState(command);
-
-  useEffect(() => {
-    setDraft(command);
-  }, [command]);
 
   if (!selectedKey) {
     return (

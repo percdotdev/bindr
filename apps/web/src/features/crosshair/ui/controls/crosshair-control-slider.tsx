@@ -4,7 +4,7 @@ import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { Slider } from '@workspace/ui/components/slider';
 import { cn } from '@workspace/ui/lib/utils';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 import {
   formatControlValue,
@@ -34,12 +34,7 @@ export function CrosshairControlSlider({
 }: CrosshairControlSliderProps) {
   const [draft, setDraft] = useState(() => formatControlValue(value, step));
   const [isEditing, setIsEditing] = useState(false);
-
-  useEffect(() => {
-    if (!isEditing) {
-      setDraft(formatControlValue(value, step));
-    }
-  }, [isEditing, step, value]);
+  const shownDraft = isEditing ? draft : formatControlValue(value, step);
 
   const commitDraft = () => {
     if (disabled) {
@@ -75,6 +70,7 @@ export function CrosshairControlSlider({
             setDraft(event.target.value);
           }}
           onFocus={() => {
+            setDraft(formatControlValue(value, step));
             setIsEditing(true);
           }}
           onKeyDown={(event) => {
@@ -89,7 +85,7 @@ export function CrosshairControlSlider({
             }
           }}
           type='text'
-          value={draft}
+          value={shownDraft}
         />
       </div>
       <Slider

@@ -8,7 +8,7 @@ import {
   SelectValue,
 } from '@workspace/ui/components/select';
 import Image from 'next/image';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useState } from 'react';
 import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 import {
   PREVIEW_MAP_BACKGROUNDS,
@@ -26,28 +26,29 @@ interface CrosshairPreviewProps {
 }
 
 export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
   const [activeMapId, setActiveMapId] = useState(
     PREVIEW_MAP_BACKGROUNDS[0]?.id ?? 'inferno'
+  );
+
+  const canvasRef = useCallback(
+    (node: HTMLCanvasElement | null) => {
+      if (!node) {
+        return;
+      }
+
+      const context = node.getContext('2d');
+      if (!context) {
+        return;
+      }
+
+      renderCrosshair(context, crosshair, PREVIEW_CANVAS_SIZE);
+    },
+    [crosshair]
   );
 
   const activeMap =
     PREVIEW_MAP_BACKGROUNDS.find((map) => map.id === activeMapId) ??
     PREVIEW_MAP_BACKGROUNDS[0];
-
-  useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) {
-      return;
-    }
-
-    const context = canvas.getContext('2d');
-    if (!context) {
-      return;
-    }
-
-    renderCrosshair(context, crosshair, PREVIEW_CANVAS_SIZE);
-  }, [crosshair]);
 
   if (!activeMap) {
     return null;
