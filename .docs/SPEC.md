@@ -323,7 +323,7 @@ flowchart TB
 
 | Layer | Choice | Role |
 |-------|--------|------|
-| **Monorepo** | Turborepo + Bun | `apps/web`, `packages/ui`, `packages/ts-config` |
+| **Monorepo** | Turborepo + Bun | `apps/web`, `packages/cs2`, `packages/ui`, `packages/ts-config`, `packages/biome-config` |
 | **Frontend** | Next.js 16 App Router, React 19, Tailwind 4, TypeScript | RSC + client features |
 | **UI** | shadcn / `@workspace/ui` | Install components on demand via CLI |
 | **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL), localStorage | Persist in store mutators |
@@ -412,11 +412,12 @@ configs
 
 ### Screaming architecture rules
 
-1. A directory contains **either files or subdirectories** — never both.
+1. A directory contains **either files or subdirectories** — never both (`app/` route segments are the only exception: a `page.tsx` must sit beside nested segments).
 2. `app/` = thin route adapters only.
-3. Logic lives in `features/{domain}/`.
-4. shadcn: install to `packages/ui/src/components/` when needed.
-5. Heavy work (codec, preview, export) = client-side.
+3. **Pure CS2 domain logic** (model, share-code codec, cfg formatters, autoexec compose) lives in `@workspace/cs2` — zero React / Next / Zustand. The app depends on it one-way.
+4. App-layer state/UI (stores, hooks, ui, browser-coupled utils) lives in `features/{domain}/`.
+5. shadcn: install to `packages/ui/src/components/` when needed.
+6. Heavy work (codec, preview, export) = client-side.
 
 ### Repository layout
 
@@ -425,18 +426,31 @@ bindr/
 ├── apps/web/src/
 │   ├── app/              # routes (route groups)
 │   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme, auth [planned]
+│   │   └── {domain}/     # app layer only: hooks/, ui/, storage/ (Zustand + localStorage), rendering/
 │   └── shared/           # fonts, providers, ui shell, hooks
 ├── packages/
+│   ├── cs2/              # pure CS2 domain core (model, share-code, export, recommended, autoexec compose)
 │   ├── ui/               # design system (shadcn)
-│   └── ts-config/        # shared TS configs
+│   ├── ts-config/        # shared TS configs
+│   └── biome-config/     # shared Biome/Ultracite preset (root extends it; repo-specific overrides stay at root)
 └── .docs/SPEC.md         # this file
+```
+
+`@workspace/cs2` exports per-file via `"./*": "./src/*.ts"` (no barrels):
+
+```
+packages/cs2/src/
+├── crosshair/   model/  share-code/  export/
+├── binds/       model/  export/  recommended/   # templates · categories · helpers
+├── config/      model/  export/  recommended/   # per-section data · templates · categories · apply
+└── autoexec/    compose/
 ```
 
 ### Crosshair codec (mandatory)
 
 ```typescript
-import { decodeShareCode } from '@/features/crosshair/lib/share-code/decode-share-code';
-import { encodeShareCode } from '@/features/crosshair/lib/share-code/encode-share-code';
+import { decodeShareCode } from '@workspace/cs2/crosshair/share-code/decode-share-code';
+import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 
 const crosshair = decodeShareCode('CSGO-AJswe-2jNcK-nMpEQ-rHV5J-5JWAB');
 const shareCode = encodeShareCode(crosshair);
@@ -504,6 +518,14 @@ gantt
 - [x] `/guides` index + `/guides/[slug]` (SSG) + nav/footer/breadcrumb wiring
 - [x] First guide: share one config across CS2 accounts (`USRLOCALCSGO`)
 
+### Phase 1.8 — Domain extraction ✅
+
+- [x] `@workspace/cs2` — pure CS2 domain core (model, share-code, export, recommended, autoexec compose), zero React/Next/Zustand
+- [x] Split `recommended-config` per-section + `recommended-binds` data/logic (no big files)
+- [x] `@workspace/biome-config` shared preset; root extends it, keeps repo-specific overrides
+- [x] Split `home-page` into `home/lib` data + per-section `home/ui` components
+- [x] App wired via `transpilePackages` + tsconfig paths; `tsc` + `next build` green
+
 ### Phase 2.0 — Auth + cloud save
 
 - [ ] Neon ↔ Vercel integration, migrations
@@ -550,7 +572,7 @@ gantt
 
 ### Implementation checklist (new features)
 
-1. Create `features/{name}/` with `hooks/`, `lib/`, `ui/` subdirs only.
+1. Pure CS2 logic (model/codec/formatters) → `@workspace/cs2`; app state/UI → `features/{name}/` with `hooks/`, `ui/`, `storage/` subdirs only.
 2. Add thin route in `app/(feat)/`.
 3. Link from nav/footer if user-facing.
 4. localStorage key: `bindr:{feature}:v1`.
@@ -561,4 +583,4 @@ gantt
 
 ---
 
-*Last updated: phases 1.0–1.7 shipped (crosshair, binds, config, autoexec, guides) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
+*Last updated: phases 1.0–1.8 shipped (crosshair, binds, config, autoexec, guides, domain extraction to `@workspace/cs2`) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
