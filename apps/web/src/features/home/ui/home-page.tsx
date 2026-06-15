@@ -17,7 +17,7 @@ export function HomePage() {
           </Link>
         </div>
         <div className='font-mono text-muted-foreground text-xs'>
-          (Press <kbd>t</kbd> to toggle dark mode)
+          (Press <kbd>t</kbd> to toggle theme)
         </div>
       </div>
     </div>
