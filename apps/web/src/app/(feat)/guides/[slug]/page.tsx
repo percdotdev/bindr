@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { getGuideEntry, getGuideSlugs } from '@/features/guides/lib/get-guides';
 import { GuideArticle } from '@/features/guides/ui/guide-article';
+import { createPageMetadata } from '@/shared/lib/page-metadata';
 
 interface GuidePageProps {
   params: Promise<{ slug: string }>;
@@ -22,10 +23,12 @@ export async function generateMetadata({
     return {};
   }
 
-  return {
+  return createPageMetadata({
     title: entry.meta.title,
     description: entry.meta.description,
-  };
+    path: `/guides/${slug}`,
+    type: 'article',
+  });
 }
 
 export default async function GuidePage({ params }: GuidePageProps) {

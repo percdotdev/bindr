@@ -1,13 +1,14 @@
-import type { Metadata } from 'next';
 import { Suspense } from 'react';
 
 import { CrosshairEditor } from '@/features/crosshair/ui/editor/crosshair-editor';
+import { createPageMetadata } from '@/shared/lib/page-metadata';
 
-export const metadata: Metadata = {
+export const metadata = createPageMetadata({
   title: 'Crosshair editor',
   description:
-    'Import CS2 share codes, preview crosshairs on map backgrounds, and export console commands.',
-};
+    'Import CS2 crosshair share codes, tweak gap, color and style, preview on real map backgrounds, and export console commands.',
+  path: '/crosshair',
+});
 
 export default function CrosshairPage() {
   return (
