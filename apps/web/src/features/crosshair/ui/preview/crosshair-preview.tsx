@@ -9,18 +9,17 @@ import {
 } from '@workspace/ui/components/select';
 import Image from 'next/image';
 import { useEffect, useRef, useState } from 'react';
-
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 import {
   PREVIEW_MAP_BACKGROUNDS,
   PREVIEW_MAP_HEIGHT,
   PREVIEW_MAP_WIDTH,
-} from '@/features/crosshair/lib/preview-map-backgrounds';
+} from '@/features/crosshair/lib/rendering/preview-map-backgrounds';
 import {
   PREVIEW_CANVAS_SIZE,
   PREVIEW_DISPLAY_SIZE,
   renderCrosshair,
-} from '@/features/crosshair/lib/render-crosshair';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+} from '@/features/crosshair/lib/rendering/render-crosshair';
 
 interface CrosshairPreviewProps {
   crosshair: CrosshairSettings;

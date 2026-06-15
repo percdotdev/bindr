@@ -2,10 +2,10 @@
 
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
-import { CrosshairColorPicker } from '@/features/crosshair/ui/crosshair-color-picker';
-import { CrosshairControlSlider } from '@/features/crosshair/ui/crosshair-control-slider';
-import { CrosshairToggle } from '@/features/crosshair/ui/crosshair-toggle';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
+import { CrosshairColorPicker } from '@/features/crosshair/ui/controls/crosshair-color-picker';
+import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
+import { CrosshairToggle } from '@/features/crosshair/ui/controls/crosshair-toggle';
 
 interface CrosshairAppearanceControlsProps {
   crosshair: CrosshairSettings;

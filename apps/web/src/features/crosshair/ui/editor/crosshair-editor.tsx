@@ -11,15 +11,15 @@ import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-edi
 import {
   showsDynamicCrosshairControls,
   showsSplitCrosshairControls,
-} from '@/features/crosshair/lib/crosshair-style';
-import { CrosshairAppearanceControls } from '@/features/crosshair/ui/crosshair-appearance-controls';
-import { CrosshairCopyMenu } from '@/features/crosshair/ui/crosshair-copy-menu';
-import { CrosshairDynamicControls } from '@/features/crosshair/ui/crosshair-dynamic-controls';
-import { CrosshairPreview } from '@/features/crosshair/ui/crosshair-preview';
-import { CrosshairResetAlert } from '@/features/crosshair/ui/crosshair-reset-alert';
-import { CrosshairSplitControls } from '@/features/crosshair/ui/crosshair-split-controls';
-import { CrosshairStyleSelect } from '@/features/crosshair/ui/crosshair-style-select';
-import { ShareCodeImportDialog } from '@/features/crosshair/ui/share-code-import-dialog';
+} from '@/features/crosshair/lib/model/crosshair-style';
+import { CrosshairAppearanceControls } from '@/features/crosshair/ui/controls/crosshair-appearance-controls';
+import { CrosshairDynamicControls } from '@/features/crosshair/ui/controls/crosshair-dynamic-controls';
+import { CrosshairSplitControls } from '@/features/crosshair/ui/controls/crosshair-split-controls';
+import { CrosshairStyleSelect } from '@/features/crosshair/ui/controls/crosshair-style-select';
+import { CrosshairResetAlert } from '@/features/crosshair/ui/editor/crosshair-reset-alert';
+import { ShareCodeImportDialog } from '@/features/crosshair/ui/editor/share-code-import-dialog';
+import { CrosshairCopyMenu } from '@/features/crosshair/ui/preview/crosshair-copy-menu';
+import { CrosshairPreview } from '@/features/crosshair/ui/preview/crosshair-preview';
 
 export function CrosshairEditor() {
   const {

@@ -6,6 +6,11 @@ import { Slider } from '@workspace/ui/components/slider';
 import { cn } from '@workspace/ui/lib/utils';
 import { useEffect, useState } from 'react';
 
+import {
+  formatControlValue,
+  snapToStep,
+} from '@/features/crosshair/ui/controls/control-slider-math';
+
 interface CrosshairControlSliderProps {
   disabled?: boolean;
   id: string;
@@ -15,29 +20,6 @@ interface CrosshairControlSliderProps {
   onValueChange: (value: number) => void;
   step: number;
   value: number;
-}
-
-function getDecimalPlaces(step: number) {
-  const stepText = step.toString();
-  const decimalIndex = stepText.indexOf('.');
-
-  return decimalIndex === -1 ? 0 : stepText.length - decimalIndex - 1;
-}
-
-function formatControlValue(value: number, step: number) {
-  return value.toFixed(getDecimalPlaces(step));
-}
-
-function snapToStep(
-  value: number,
-  min: number,
-  max: number,
-  step: number
-): number {
-  const clamped = Math.min(max, Math.max(min, value));
-  const stepped = Math.round(clamped / step) * step;
-
-  return Number(stepped.toFixed(getDecimalPlaces(step)));
 }
 
 export function CrosshairControlSlider({

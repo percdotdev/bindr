@@ -12,7 +12,7 @@ import {
   CROSSHAIR_STYLE_OPTIONS,
   getCrosshairStyleDescription,
   getCrosshairStyleLabel,
-} from '@/features/crosshair/lib/crosshair-style';
+} from '@/features/crosshair/lib/model/crosshair-style';
 
 interface CrosshairStyleSelectProps {
   onStyleChange: (style: number) => void;

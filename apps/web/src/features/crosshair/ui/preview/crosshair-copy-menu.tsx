@@ -10,9 +10,9 @@ import { ChevronDownIcon, CopyIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
 
-import { crosshairSettingsToConsoleCommands } from '@/features/crosshair/lib/crosshair-console-commands';
-import { buildCrosshairShareUrl } from '@/features/crosshair/lib/crosshair-share-url';
-import type { CrosshairSettings } from '@/features/crosshair/lib/types';
+import { crosshairSettingsToConsoleCommands } from '@/features/crosshair/lib/export/crosshair-console-commands';
+import { buildCrosshairShareUrl } from '@/features/crosshair/lib/export/crosshair-share-url';
+import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 
 interface CrosshairCopyMenuProps {
   crosshair: CrosshairSettings;

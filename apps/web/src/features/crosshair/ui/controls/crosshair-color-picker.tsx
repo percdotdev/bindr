@@ -20,7 +20,7 @@ import {
   crosshairHexToRgb,
   crosshairRgbToHex,
   isCustomCrosshairColor,
-} from '@/features/crosshair/lib/crosshair-color';
+} from '@/features/crosshair/lib/model/crosshair-color';
 
 interface CrosshairColorPickerProps {
   blue: number;
