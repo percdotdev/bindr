@@ -14,5 +14,20 @@
       "quoteStyle": "single",
       "jsxQuoteStyle": "single"
     }
-  }
+  },
+  "overrides": [
+    {
+      // Vendored shadcn breadcrumb — keep upstream markup; its current-page span
+      // uses role="link" which trips these a11y rules.
+      "includes": ["packages/ui/src/components/breadcrumb.tsx"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "useFocusableInteractive": "off",
+            "useSemanticElements": "off"
+          }
+        }
+      }
+    }
+  ]
 }
