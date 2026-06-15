@@ -19,7 +19,7 @@
     "release": "pnpm dlx bumpp -r",
     "dependencies:update": "pnpm dlx taze -r -w -f"
   },
-  "version": "0.1.0",
+  "version": "0.1.1",
   "workspaces": [
     "apps/*",
     "packages/*"
