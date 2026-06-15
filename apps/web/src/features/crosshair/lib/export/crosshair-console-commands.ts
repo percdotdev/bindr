@@ -21,12 +21,12 @@ function getConsoleColorPreset(crosshair: CrosshairSettings): number {
   return crosshair.color;
 }
 
-export function crosshairSettingsToConsoleCommands(
+export function crosshairSettingsToConsoleLines(
   crosshair: CrosshairSettings
-): string {
+): string[] {
   const [red, green, blue] = resolveCrosshairRgb(crosshair);
 
-  const commands = [
+  return [
     `cl_crosshairstyle ${crosshair.style}`,
     `cl_crosshairsize ${formatConsoleNumber(crosshair.length)}`,
     `cl_crosshairgap ${formatConsoleNumber(crosshair.gap)}`,
@@ -49,6 +49,10 @@ export function crosshairSettingsToConsoleCommands(
     `cl_crosshair_dynamic_splitalpha_outermod ${formatConsoleNumber(crosshair.outerSplitAlpha)}`,
     `cl_crosshair_dynamic_maxdist_splitratio ${formatConsoleNumber(crosshair.splitSizeRatio)}`,
   ];
+}
 
-  return commands.join('; ');
+export function crosshairSettingsToConsoleCommands(
+  crosshair: CrosshairSettings
+): string {
+  return crosshairSettingsToConsoleLines(crosshair).join('; ');
 }
