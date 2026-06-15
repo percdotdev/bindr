@@ -6,7 +6,7 @@ export const SITE = {
   tagline: 'CS2 crosshair, binds & config tools',
   locale: 'en_US',
   description:
-    'Free browser tools for Counter-Strike 2: import crosshair share codes, generate binds on a visual keyboard, tune cvars, and merge everything into one autoexec.cfg. MM-safe, no download, with curated catalogs and guides.',
+    'Free browser tools for Counter-Strike 2: edit crosshairs, generate binds, tune cvars and build one autoexec.cfg. MM-safe, no download.',
   keywords: [
     'CS2 crosshair',
     'CS2 crosshair code',
