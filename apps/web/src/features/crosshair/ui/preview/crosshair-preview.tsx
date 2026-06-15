@@ -101,7 +101,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
           >
             <SelectTrigger
               aria-label='Preview map'
-              className='h-7 min-w-[7rem] border-white/20 bg-black/60 text-white backdrop-blur-sm hover:bg-black/75 data-placeholder:text-white/70 [&_svg]:text-white/70'
+              className='h-7 min-w-28 border-white/20 bg-black/60 text-white backdrop-blur-sm hover:bg-black/75 data-placeholder:text-white/70 [&_svg]:text-white/70'
               id='preview-map'
               size='sm'
             >

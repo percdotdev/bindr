@@ -1,14 +1,18 @@
 'use client';
 
 import { useTheme } from 'next-themes';
-import { useEffect } from 'react';
+import { useRef } from 'react';
 
 import { isTypingTarget } from '@/features/theme/lib/is-typing-target';
+import { useMountEffect } from '@/shared/hooks/use-mount-effect';
 
 export function useThemeHotkey() {
   const { resolvedTheme, setTheme } = useTheme();
+  const resolvedThemeRef = useRef(resolvedTheme);
 
-  useEffect(() => {
+  resolvedThemeRef.current = resolvedTheme;
+
+  useMountEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
       if (event.defaultPrevented || event.repeat) {
         return;
@@ -26,7 +30,7 @@ export function useThemeHotkey() {
         return;
       }
 
-      setTheme(resolvedTheme === 'dark' ? 'light' : 'dark');
+      setTheme(resolvedThemeRef.current === 'dark' ? 'light' : 'dark');
     }
 
     window.addEventListener('keydown', onKeyDown);
@@ -34,5 +38,5 @@ export function useThemeHotkey() {
     return () => {
       window.removeEventListener('keydown', onKeyDown);
     };
-  }, [resolvedTheme, setTheme]);
+  });
 }
