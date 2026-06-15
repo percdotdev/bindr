@@ -1,6 +1,6 @@
 'use client';
 
-import type { NetworkSettings } from '@/features/config/lib/model/types';
+import type { NetworkSettings } from '@workspace/cs2/config/model/types';
 import {
   type ConfigSelectOption,
   ConfigSelectRow,

@@ -1,4 +1,4 @@
-import type { BindEntry } from '@/features/binds/lib/model/types';
+import type { BindEntry } from '@workspace/cs2/binds/model/types';
 
 const STORAGE_KEY = 'bindr:binds:v1';
 

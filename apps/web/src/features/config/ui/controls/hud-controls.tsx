@@ -1,6 +1,6 @@
 'use client';
 
-import type { HudSettings } from '@/features/config/lib/model/types';
+import type { HudSettings } from '@workspace/cs2/config/model/types';
 import {
   type ConfigSelectOption,
   ConfigSelectRow,

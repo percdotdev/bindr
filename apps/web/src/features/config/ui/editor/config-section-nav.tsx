@@ -1,11 +1,10 @@
 'use client';
 
-import { cn } from '@workspace/ui/lib/utils';
-
 import {
   CONFIG_CATEGORY_LABELS,
   CONFIG_CATEGORY_ORDER,
-} from '@/features/config/lib/model/recommended-config';
+} from '@workspace/cs2/config/recommended/categories';
+import { cn } from '@workspace/ui/lib/utils';
 
 export function ConfigSectionNav() {
   return (

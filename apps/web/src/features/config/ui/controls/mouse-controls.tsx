@@ -1,6 +1,6 @@
 'use client';
 
-import type { MouseSettings } from '@/features/config/lib/model/types';
+import type { MouseSettings } from '@workspace/cs2/config/model/types';
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 

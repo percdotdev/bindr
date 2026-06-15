@@ -1,5 +1,6 @@
 'use client';
 
+import type { AutoexecSectionId } from '@workspace/cs2/autoexec/compose/compose-autoexec';
 import {
   Card,
   CardContent,
@@ -9,9 +10,7 @@ import {
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
 import Link from 'next/link';
-
 import { useAutoexec } from '@/features/autoexec/hooks/use-autoexec';
-import type { AutoexecSectionId } from '@/features/autoexec/lib/compose/compose-autoexec';
 import { AutoexecExportPanel } from '@/features/autoexec/ui/export/autoexec-export-panel';
 
 interface SectionMeta {

@@ -1,20 +1,19 @@
 'use client';
 
-import { create } from 'zustand';
-
-import { DEFAULT_CONFIG } from '@/features/config/lib/model/default-config';
-import {
-  applyAllRecommendedTemplates,
-  applyRecommendedTemplate,
-  removeRecommendedTemplate,
-} from '@/features/config/lib/model/recommended-config';
+import { DEFAULT_CONFIG } from '@workspace/cs2/config/model/default-config';
 import type {
   ConfigSectionKey,
   ConfigSettings,
   ViewmodelField,
   ViewmodelSettings,
-} from '@/features/config/lib/model/types';
-import { getViewmodelPresetById } from '@/features/config/lib/model/viewmodel-presets';
+} from '@workspace/cs2/config/model/types';
+import { getViewmodelPresetById } from '@workspace/cs2/config/model/viewmodel-presets';
+import {
+  applyAllRecommendedTemplates,
+  applyRecommendedTemplate,
+  removeRecommendedTemplate,
+} from '@workspace/cs2/config/recommended/apply';
+import { create } from 'zustand';
 import {
   clearStoredConfig,
   loadStoredConfig,

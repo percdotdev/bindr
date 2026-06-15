@@ -1,9 +1,8 @@
 'use client';
 
+import { formatBindLine } from '@workspace/cs2/binds/export/format-bind';
+import type { RecommendedBindTemplate } from '@workspace/cs2/binds/model/types';
 import { Button } from '@workspace/ui/components/button';
-
-import { formatBindLine } from '@/features/binds/lib/export/format-bind';
-import type { RecommendedBindTemplate } from '@/features/binds/lib/model/types';
 
 interface RecommendedBindCardProps {
   isActive: boolean;

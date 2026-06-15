@@ -1,5 +1,11 @@
 'use client';
 
+import type { BindCategory } from '@workspace/cs2/binds/model/types';
+import {
+  BIND_CATEGORY_LABELS,
+  BIND_CATEGORY_ORDER,
+} from '@workspace/cs2/binds/recommended/categories';
+import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import {
   Card,
@@ -8,14 +14,7 @@ import {
   CardTitle,
 } from '@workspace/ui/components/card';
 import Link from 'next/link';
-
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
-import {
-  BIND_CATEGORY_LABELS,
-  BIND_CATEGORY_ORDER,
-  RECOMMENDED_BIND_TEMPLATES,
-} from '@/features/binds/lib/model/recommended-binds';
-import type { BindCategory } from '@/features/binds/lib/model/types';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { RecommendedBindCard } from '@/features/binds/ui/recommended/recommended-bind-card';

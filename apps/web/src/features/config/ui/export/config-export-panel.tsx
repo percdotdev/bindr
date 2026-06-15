@@ -1,11 +1,10 @@
 'use client';
 
+import { formatConfigCfg } from '@workspace/cs2/config/export/format-config-cfg';
+import type { ConfigSettings } from '@workspace/cs2/config/model/types';
 import { Button } from '@workspace/ui/components/button';
 import { CopyIcon, DownloadIcon } from 'lucide-react';
 import { toast } from 'sonner';
-
-import { formatConfigCfg } from '@/features/config/lib/export/format-config-cfg';
-import type { ConfigSettings } from '@/features/config/lib/model/types';
 
 interface ConfigExportPanelProps {
   config: ConfigSettings;

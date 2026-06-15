@@ -1,6 +1,6 @@
 'use client';
 
-import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
+import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface CrosshairSplitControlsProps {

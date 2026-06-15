@@ -1,5 +1,10 @@
 'use client';
 
+import {
+  CROSSHAIR_STYLE_OPTIONS,
+  getCrosshairStyleDescription,
+  getCrosshairStyleLabel,
+} from '@workspace/cs2/crosshair/model/crosshair-style';
 import { Label } from '@workspace/ui/components/label';
 import {
   Select,
@@ -8,11 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
-import {
-  CROSSHAIR_STYLE_OPTIONS,
-  getCrosshairStyleDescription,
-  getCrosshairStyleLabel,
-} from '@/features/crosshair/lib/model/crosshair-style';
 
 interface CrosshairStyleSelectProps {
   onStyleChange: (style: number) => void;

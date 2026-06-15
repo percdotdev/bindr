@@ -1,5 +1,5 @@
-import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/model/default-crosshair';
-import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
+import { DEFAULT_CROSSHAIR } from '@workspace/cs2/crosshair/model/default-crosshair';
+import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 
 const STORAGE_KEY = 'bindr:crosshair:v1';
 

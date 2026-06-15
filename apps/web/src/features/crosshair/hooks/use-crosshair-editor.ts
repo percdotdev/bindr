@@ -1,12 +1,11 @@
 'use client';
 
-import { parseAsString, useQueryState } from 'nuqs';
-import { useCallback, useMemo } from 'react';
-
 import type {
   CrosshairField,
   CrosshairSettings,
-} from '@/features/crosshair/lib/model/types';
+} from '@workspace/cs2/crosshair/model/types';
+import { parseAsString, useQueryState } from 'nuqs';
+import { useCallback, useMemo } from 'react';
 import {
   getCrosshairShareCode,
   useCrosshairStore,

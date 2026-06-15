@@ -1,14 +1,13 @@
 'use client';
 
-import { Button } from '@workspace/ui/components/button';
-import { cn } from '@workspace/ui/lib/utils';
-
 import {
   KEYBOARD_COLUMN_COUNT,
   KEYBOARD_LAYOUT,
   KEYBOARD_ROW_COUNT,
-} from '@/features/binds/lib/model/keyboard-layout';
-import type { BindEntry } from '@/features/binds/lib/model/types';
+} from '@workspace/cs2/binds/model/keyboard-layout';
+import type { BindEntry } from '@workspace/cs2/binds/model/types';
+import { Button } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
 
 interface KeyboardLayoutProps {
   binds: BindEntry[];

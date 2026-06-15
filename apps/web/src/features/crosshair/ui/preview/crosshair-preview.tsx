@@ -1,5 +1,6 @@
 'use client';
 
+import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import {
   Select,
   SelectContent,
@@ -9,7 +10,6 @@ import {
 } from '@workspace/ui/components/select';
 import Image from 'next/image';
 import { useCallback, useState } from 'react';
-import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 import {
   PREVIEW_MAP_BACKGROUNDS,
   PREVIEW_MAP_HEIGHT,

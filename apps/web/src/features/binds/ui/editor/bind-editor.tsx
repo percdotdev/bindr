@@ -1,5 +1,6 @@
 'use client';
 
+import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import {
   Card,
@@ -9,9 +10,7 @@ import {
 } from '@workspace/ui/components/card';
 import { SparklesIcon } from 'lucide-react';
 import Link from 'next/link';
-
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
-import { RECOMMENDED_BIND_TEMPLATES } from '@/features/binds/lib/model/recommended-binds';
 import { BindCommandForm } from '@/features/binds/ui/controls/bind-command-form';
 import { BindList } from '@/features/binds/ui/controls/bind-list';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';

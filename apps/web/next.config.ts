@@ -2,7 +2,7 @@ import createMDX from '@next/mdx';
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  transpilePackages: ['@workspace/ui'],
+  transpilePackages: ['@workspace/ui', '@workspace/cs2'],
   devIndicators: false,
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
 };

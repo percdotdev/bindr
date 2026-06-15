@@ -1,5 +1,5 @@
-import { DEFAULT_CONFIG } from '@/features/config/lib/model/default-config';
-import type { ConfigSettings } from '@/features/config/lib/model/types';
+import { DEFAULT_CONFIG } from '@workspace/cs2/config/model/default-config';
+import type { ConfigSettings } from '@workspace/cs2/config/model/types';
 
 const STORAGE_KEY = 'bindr:config:v1';
 

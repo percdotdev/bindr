@@ -1,12 +1,11 @@
 'use client';
 
-import { useState } from 'react';
-
 import {
   type AutoexecInclude,
   type AutoexecToggleId,
   composeAutoexec,
-} from '@/features/autoexec/lib/compose/compose-autoexec';
+} from '@workspace/cs2/autoexec/compose/compose-autoexec';
+import { useState } from 'react';
 import { useBindStore } from '@/features/binds/lib/storage/bind-store';
 import { useConfigStore } from '@/features/config/lib/storage/config-store';
 import { useCrosshairStore } from '@/features/crosshair/lib/storage/crosshair-store';

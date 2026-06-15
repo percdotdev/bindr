@@ -1,8 +1,7 @@
 'use client';
 
+import type { RecommendedConfigTemplate } from '@workspace/cs2/config/model/types';
 import { Button } from '@workspace/ui/components/button';
-
-import type { RecommendedConfigTemplate } from '@/features/config/lib/model/types';
 
 interface RecommendedConfigCardProps {
   isActive: boolean;

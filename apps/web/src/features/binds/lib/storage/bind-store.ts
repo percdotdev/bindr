@@ -1,13 +1,12 @@
 'use client';
 
-import { create } from 'zustand';
-
+import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import {
   createRecommendedBinds,
-  getRecommendedTemplateById,
   templateToBindEntry,
-} from '@/features/binds/lib/model/recommended-binds';
-import type { BindEntry } from '@/features/binds/lib/model/types';
+} from '@workspace/cs2/binds/recommended/helpers';
+import { getRecommendedTemplateById } from '@workspace/cs2/binds/recommended/templates';
+import { create } from 'zustand';
 import {
   clearStoredBinds,
   loadStoredBinds,

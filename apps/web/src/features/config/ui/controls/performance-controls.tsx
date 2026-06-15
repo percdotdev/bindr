@@ -1,6 +1,6 @@
 'use client';
 
-import type { PerformanceSettings } from '@/features/config/lib/model/types';
+import type { PerformanceSettings } from '@workspace/cs2/config/model/types';
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 

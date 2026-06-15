@@ -1,5 +1,11 @@
 'use client';
 
+import type { ConfigCategory } from '@workspace/cs2/config/model/types';
+import {
+  CONFIG_CATEGORY_LABELS,
+  CONFIG_CATEGORY_ORDER,
+} from '@workspace/cs2/config/recommended/categories';
+import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import {
   Card,
@@ -10,12 +16,6 @@ import {
 import Link from 'next/link';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
-import {
-  CONFIG_CATEGORY_LABELS,
-  CONFIG_CATEGORY_ORDER,
-  RECOMMENDED_CONFIG_TEMPLATES,
-} from '@/features/config/lib/model/recommended-config';
-import type { ConfigCategory } from '@/features/config/lib/model/types';
 import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { RecommendedConfigCard } from '@/features/config/ui/recommended/recommended-config-card';
 

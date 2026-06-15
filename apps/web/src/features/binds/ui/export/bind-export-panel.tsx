@@ -1,10 +1,10 @@
 'use client';
 
+import { formatBindLines } from '@workspace/cs2/binds/export/format-bind';
+import { formatBindCfg } from '@workspace/cs2/binds/export/format-cfg';
+import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import { Button } from '@workspace/ui/components/button';
 import { toast } from 'sonner';
-import { formatBindLines } from '@/features/binds/lib/export/format-bind';
-import { formatBindCfg } from '@/features/binds/lib/export/format-cfg';
-import type { BindEntry } from '@/features/binds/lib/model/types';
 
 interface BindExportPanelProps {
   binds: BindEntry[];

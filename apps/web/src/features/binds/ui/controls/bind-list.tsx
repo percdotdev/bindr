@@ -1,14 +1,13 @@
 'use client';
 
-import { Button } from '@workspace/ui/components/button';
-import Link from 'next/link';
-
-import { formatBindLine } from '@/features/binds/lib/export/format-bind';
+import { formatBindLine } from '@workspace/cs2/binds/export/format-bind';
+import type { BindCategory, BindEntry } from '@workspace/cs2/binds/model/types';
 import {
   BIND_CATEGORY_LABELS,
   BIND_CATEGORY_ORDER,
-} from '@/features/binds/lib/model/recommended-binds';
-import type { BindCategory, BindEntry } from '@/features/binds/lib/model/types';
+} from '@workspace/cs2/binds/recommended/categories';
+import { Button } from '@workspace/ui/components/button';
+import Link from 'next/link';
 
 interface BindListProps {
   binds: BindEntry[];

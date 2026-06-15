@@ -1,17 +1,16 @@
 'use client';
 
 import {
+  showsDynamicCrosshairControls,
+  showsSplitCrosshairControls,
+} from '@workspace/cs2/crosshair/model/crosshair-style';
+import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
 } from '@workspace/ui/components/card';
-
 import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-editor';
-import {
-  showsDynamicCrosshairControls,
-  showsSplitCrosshairControls,
-} from '@/features/crosshair/lib/model/crosshair-style';
 import { CrosshairAppearanceControls } from '@/features/crosshair/ui/controls/crosshair-appearance-controls';
 import { CrosshairDynamicControls } from '@/features/crosshair/ui/controls/crosshair-dynamic-controls';
 import { CrosshairSplitControls } from '@/features/crosshair/ui/controls/crosshair-split-controls';

@@ -1,8 +1,8 @@
 'use client';
 
+import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
-import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
 import { CrosshairColorPicker } from '@/features/crosshair/ui/controls/crosshair-color-picker';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 import { CrosshairToggle } from '@/features/crosshair/ui/controls/crosshair-toggle';

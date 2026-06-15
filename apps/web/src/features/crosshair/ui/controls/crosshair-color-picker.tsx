@@ -1,5 +1,13 @@
 'use client';
 
+import {
+  CROSSHAIR_PRESET_COLORS,
+  CROSSHAIR_PRESET_HEXES,
+  CROSSHAIR_PRESET_LABELS,
+  crosshairHexToRgb,
+  crosshairRgbToHex,
+  isCustomCrosshairColor,
+} from '@workspace/cs2/crosshair/model/crosshair-color';
 import { Button } from '@workspace/ui/components/button';
 import { ColorPicker } from '@workspace/ui/components/color-picker';
 import { Label } from '@workspace/ui/components/label';
@@ -13,14 +21,6 @@ import {
   ToggleGroupItem,
 } from '@workspace/ui/components/toggle-group';
 import { useState } from 'react';
-import {
-  CROSSHAIR_PRESET_COLORS,
-  CROSSHAIR_PRESET_HEXES,
-  CROSSHAIR_PRESET_LABELS,
-  crosshairHexToRgb,
-  crosshairRgbToHex,
-  isCustomCrosshairColor,
-} from '@/features/crosshair/lib/model/crosshair-color';
 
 interface CrosshairColorPickerProps {
   blue: number;

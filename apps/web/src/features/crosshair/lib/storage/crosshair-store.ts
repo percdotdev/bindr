@@ -1,15 +1,14 @@
 'use client';
 
-import { create } from 'zustand';
-
-import { applyCrosshairColor } from '@/features/crosshair/lib/model/crosshair-color';
-import { DEFAULT_CROSSHAIR } from '@/features/crosshair/lib/model/default-crosshair';
+import { applyCrosshairColor } from '@workspace/cs2/crosshair/model/crosshair-color';
+import { DEFAULT_CROSSHAIR } from '@workspace/cs2/crosshair/model/default-crosshair';
 import type {
   CrosshairField,
   CrosshairSettings,
-} from '@/features/crosshair/lib/model/types';
-import { decodeShareCode } from '@/features/crosshair/lib/share-code/decode-share-code';
-import { encodeShareCode } from '@/features/crosshair/lib/share-code/encode-share-code';
+} from '@workspace/cs2/crosshair/model/types';
+import { decodeShareCode } from '@workspace/cs2/crosshair/share-code/decode-share-code';
+import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
+import { create } from 'zustand';
 import {
   clearStoredCrosshair,
   loadStoredCrosshair,

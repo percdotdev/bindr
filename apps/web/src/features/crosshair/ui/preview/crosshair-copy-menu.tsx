@@ -1,5 +1,7 @@
 'use client';
 
+import { crosshairSettingsToConsoleCommands } from '@workspace/cs2/crosshair/export/crosshair-console-commands';
+import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Button } from '@workspace/ui/components/button';
 import {
   Popover,
@@ -9,10 +11,7 @@ import {
 import { ChevronDownIcon, CopyIcon } from 'lucide-react';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
-
-import { crosshairSettingsToConsoleCommands } from '@/features/crosshair/lib/export/crosshair-console-commands';
-import { buildCrosshairShareUrl } from '@/features/crosshair/lib/export/crosshair-share-url';
-import type { CrosshairSettings } from '@/features/crosshair/lib/model/types';
+import { buildCrosshairShareUrl } from '@/features/crosshair/lib/share-url/crosshair-share-url';
 
 interface CrosshairCopyMenuProps {
   crosshair: CrosshairSettings;

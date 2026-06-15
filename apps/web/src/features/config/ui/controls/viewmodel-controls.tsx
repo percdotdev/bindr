@@ -1,5 +1,10 @@
 'use client';
 
+import type {
+  ViewmodelField,
+  ViewmodelSettings,
+} from '@workspace/cs2/config/model/types';
+import { VIEWMODEL_PRESETS } from '@workspace/cs2/config/model/viewmodel-presets';
 import { Label } from '@workspace/ui/components/label';
 import {
   Select,
@@ -8,12 +13,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
-
-import type {
-  ViewmodelField,
-  ViewmodelSettings,
-} from '@/features/config/lib/model/types';
-import { VIEWMODEL_PRESETS } from '@/features/config/lib/model/viewmodel-presets';
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
