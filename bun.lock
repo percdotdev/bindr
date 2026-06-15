@@ -6,7 +6,7 @@
       "name": "next-monorepo",
       "devDependencies": {
         "@biomejs/biome": "2.4.16",
-        "@workspace/typescript-config": "workspace:*",
+        "@workspace/ts-config": "workspace:*",
         "bumpp": "^11.1.0",
         "husky": "^9.1.7",
         "turbo": "^2.9.15",
@@ -30,17 +30,17 @@
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
-        "@workspace/typescript-config": "workspace:*",
+        "@workspace/ts-config": "workspace:*",
         "typescript": "^5",
       },
     },
-    "packages/typescript-config": {
-      "name": "@workspace/typescript-config",
-      "version": "0.0.0",
+    "packages/ts-config": {
+      "name": "@workspace/ts-config",
+      "version": "0.0.1",
     },
     "packages/ui": {
       "name": "@workspace/ui",
-      "version": "0.0.0",
+      "version": "0.0.1",
       "dependencies": {
         "@base-ui/react": "^1.5.0",
         "class-variance-authority": "^0.7.1",
@@ -60,7 +60,7 @@
         "@types/node": "^20",
         "@types/react": "^19",
         "@types/react-dom": "^19",
-        "@workspace/typescript-config": "workspace:*",
+        "@workspace/ts-config": "workspace:*",
         "tailwindcss": "^4",
         "typescript": "^5",
       },
@@ -407,7 +407,7 @@
 
     "@types/validate-npm-package-name": ["@types/validate-npm-package-name@4.0.2", "", {}, "sha512-lrpDziQipxCEeK5kWxvljWYhUvOiB2A9izZd9B2AFarYAkqZshb4lPbRs7zKEic6eGtH8V/2qJW+dPp9OtF6bw=="],
 
-    "@workspace/typescript-config": ["@workspace/typescript-config@workspace:packages/typescript-config"],
+    "@workspace/ts-config": ["@workspace/ts-config@workspace:packages/ts-config"],
 
     "@workspace/ui": ["@workspace/ui@workspace:packages/ui"],
 

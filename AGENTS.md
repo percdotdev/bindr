@@ -4,6 +4,43 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
+# Screaming Architecture
+
+Folder structure should reveal **what the app does**, not technical layers.
+
+## Layout rules
+
+- A directory contains **either** files **or** subdirectories — never both.
+- Keep files small and single-purpose. Split hooks, lib, and UI within features.
+- Route files in `app/` are thin adapters — logic lives in `features/`.
+
+## `apps/web/src/`
+
+```
+app/           → Next.js routes only (subfolders per segment / route group)
+features/      → domain features (home, theme, …)
+  {feature}/
+    hooks/     → client hooks
+    lib/       → pure utilities
+    ui/        → components
+shared/        → cross-cutting app shell (fonts, providers, layout primitives)
+  fonts/
+  providers/
+  ui/
+```
+
+## `packages/ui/src/`
+
+Design system (shadcn). Install components flat — CLI target is `components/`:
+
+```
+components/
+  button.tsx
+  …
+```
+
+Import: `@workspace/ui/components/button`
+
 
 # Ultracite Code Standards
 

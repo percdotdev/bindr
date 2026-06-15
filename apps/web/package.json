@@ -22,7 +22,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/ts-config": "workspace:*",
     "typescript": "^5"
   }
 }

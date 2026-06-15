@@ -25,7 +25,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@workspace/typescript-config": "workspace:*",
+    "@workspace/ts-config": "workspace:*",
     "tailwindcss": "^4",
     "typescript": "^5"
   },
