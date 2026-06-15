@@ -1,0 +1,29 @@
+Counter-Strike 2 stores your settings per Steam account, tucked away inside Steam's `userdata` folder. That's fine until you add a second account or move to a new PC and suddenly none of your binds, crosshair, or sensitivity are there.
+
+There's a built-in override most people never mention: a single environment variable that tells CS2 to read and write its config from a folder *you* choose. Set it once and every account on that machine shares the same `cfg` — including your `autoexec.cfg`.
+
+## The short version
+
+Create a **system** environment variable named `USRLOCALCSGO` and point it at your CS2 `cfg` directory. Reboot. That's the whole trick.
+
+## Set it up on Windows
+
+1. Open the Start menu and search for **"Edit the system environment variables"**, then open the result.
+2. In the System Properties window, click **Environment Variables…**
+3. Under **System variables** — the lower box, not "User variables" — click **New**.
+4. Set the **Variable name** to `USRLOCALCSGO`.
+5. Set the **Variable value** to your CS2 `cfg` folder, e.g. `C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`.
+6. Click **OK** on every dialog to save.
+7. **Restart your PC** so the variable is applied everywhere.
+
+![The New System Variable dialog with USRLOCALCSGO set to the CS2 cfg path](/guides/usrlocalcsgo-env-var.png)
+
+## What happens next
+
+The first launch after the change, CS2 will look "fresh" — set your video options and keybinds once. From then on, **every account** that logs in on this PC loads that same config automatically.
+
+## Make your autoexec stick
+
+Since the game now reads from a folder you control, an `autoexec.cfg` placed there loads on every launch, on every account — no more re-applying it after updates. If you don't have one yet, [build it with the autoexec composer](/autoexec) and save the file into that exact folder.
+
+> Point the variable at the `cfg` directory itself, not its parent. If CS2 seems to ignore it, double-check the path and confirm you created it under **System variables**, then reboot once more.

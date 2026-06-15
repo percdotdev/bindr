@@ -7,6 +7,7 @@ const FOOTER_LINKS = [
   { href: '/autoexec', label: 'autoexec' },
   { href: '/binds/recommended', label: 'binds catalog' },
   { href: '/config/recommended', label: 'config catalog' },
+  { href: '/guides', label: 'guides' },
 ] as const;
 
 export function SiteFooter() {

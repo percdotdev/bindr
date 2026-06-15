@@ -18,10 +18,18 @@ const SEGMENT_LABELS: Record<string, string> = {
   config: 'Game config',
   autoexec: 'Autoexec',
   recommended: 'Recommended',
+  guides: 'Guides',
 };
 
+const DASH_RE = /-/g;
+
+function humanize(segment: string) {
+  const spaced = segment.replace(DASH_RE, ' ');
+  return spaced.charAt(0).toUpperCase() + spaced.slice(1);
+}
+
 function toLabel(segment: string) {
-  return SEGMENT_LABELS[segment] ?? segment;
+  return SEGMENT_LABELS[segment] ?? humanize(segment);
 }
 
 export function SiteBreadcrumb() {

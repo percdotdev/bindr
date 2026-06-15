@@ -7,6 +7,7 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
   NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
 } from '@workspace/ui/components/navigation-menu';
 import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
@@ -128,6 +129,15 @@ export function SiteNav() {
                 ))}
               </ul>
             </NavigationMenuContent>
+          </NavigationMenuItem>
+          <NavigationMenuItem>
+            <NavigationMenuLink
+              active={pathname.startsWith('/guides')}
+              className={navigationMenuTriggerStyle()}
+              render={<Link href='/guides' />}
+            >
+              guides
+            </NavigationMenuLink>
           </NavigationMenuItem>
         </NavigationMenuList>
       </NavigationMenu>
