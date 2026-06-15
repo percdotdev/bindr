@@ -33,7 +33,7 @@ function sortBinds(a: BindEntry, b: BindEntry) {
 }
 
 function groupBinds(binds: BindEntry[]) {
-  const sorted = binds.toSorted(sortBinds);
+  const sorted = [...binds].sort(sortBinds);
   const groups: { category: BindCategory | 'other'; items: BindEntry[] }[] = [];
 
   for (const bind of sorted) {

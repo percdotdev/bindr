@@ -26,7 +26,7 @@ interface ConfirmAlertDialogProps {
   disabled?: boolean;
   onConfirm: () => void;
   title: string;
-  trigger: ReactElement;
+  trigger: ReactElement<{ disabled?: boolean }>;
 }
 
 export function ConfirmAlertDialog({
