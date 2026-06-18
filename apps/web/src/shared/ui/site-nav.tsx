@@ -12,6 +12,7 @@ import {
 import { cn } from '@workspace/ui/lib/utils';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useState } from 'react';
 
 interface NavLink {
   description: string;
@@ -60,12 +61,14 @@ function NavMenuLink({
   description,
   href,
   label,
-}: NavLink & { active: boolean }) {
+  onSelect,
+}: NavLink & { active: boolean; onSelect: () => void }) {
   return (
     <li>
       <NavigationMenuLink
         active={active}
         className='flex-col items-start gap-0.5'
+        onClick={onSelect}
         render={<Link href={href} />}
       >
         <span className='font-medium text-foreground'>{label}</span>
@@ -80,6 +83,8 @@ function NavMenuLink({
 export function SiteNav() {
   const pathname = usePathname();
   const onHome = pathname === '/';
+  const [menuValue, setMenuValue] = useState<string | null>(null);
+  const closeMenu = () => setMenuValue(null);
 
   return (
     <header
@@ -96,7 +101,12 @@ export function SiteNav() {
           bindr.lol
         </Link>
       )}
-      <NavigationMenu align='end' className='font-mono'>
+      <NavigationMenu
+        align='end'
+        className='font-mono'
+        onValueChange={setMenuValue}
+        value={menuValue}
+      >
         <NavigationMenuList>
           <NavigationMenuItem>
             <NavigationMenuTrigger>editors</NavigationMenuTrigger>
@@ -109,6 +119,7 @@ export function SiteNav() {
                     href={item.href}
                     key={item.href}
                     label={item.label}
+                    onSelect={closeMenu}
                   />
                 ))}
               </ul>
@@ -125,6 +136,7 @@ export function SiteNav() {
                     href={item.href}
                     key={item.href}
                     label={item.label}
+                    onSelect={closeMenu}
                   />
                 ))}
               </ul>
@@ -134,6 +146,7 @@ export function SiteNav() {
             <NavigationMenuLink
               active={pathname.startsWith('/guides')}
               className={navigationMenuTriggerStyle()}
+              onClick={closeMenu}
               render={<Link href='/guides' />}
             >
               guides
