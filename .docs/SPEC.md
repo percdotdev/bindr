@@ -93,13 +93,15 @@ flowchart LR
 
 | Capability | Details |
 |------------|---------|
-| Share-code codec | In-repo port of [girlglock/cs2-crosshair](https://github.com/girlglock/cs2-crosshair). **Do not use `csgo-sharecode` npm.** |
-| Live preview | Canvas crosshair over map backgrounds (Inferno, etc.) |
-| Controls | Style, gap, color, dynamic/split toggles, sliders |
-| Import | Paste share code dialog |
-| Export | Console commands, share code, copy menu |
-| Persistence | `bindr:crosshair:v1` in localStorage |
-| URL sync | `?code=CSGO-…` (debounced, case-sensitive) |
+| Share-code codec | In-repo. Encodes the current `CS` + 44-char format (32 bytes, CS2 build 2000922+). Decodes `CS…`, pixel-era `CSGO-…` (v3/v4) and CS:GO-era `CSGO-…` (v1, converted to pixels). **Do not use `csgo-sharecode` npm.** |
+| Units | Pixels at `screenHeight` (`cl_crosshair_screen_height`). Convars: `cl_crosshair_length/thickness/gap`, `cl_crosshaircolor_{r,g,b,a}`, `cl_crosshairoutline_{r,g,b,a}`, `cl_crosshair_drawoutline 0/1/2`, `cl_crosshair_dynamic_spread_limit`, `cl_ironsight_*`. |
+| Styles | 0–9 (`crosshair-style.ts` holds the menu order + per-style control visibility). Negative gap only for style 2. |
+| Live preview | 1:1 pixel canvas (120px) over map backgrounds; cross/circle/square/quadrant/dot, full & half outline with outline color |
+| Controls | Style, length/thickness/gap, RGBA color, outline mode + color, dynamic (recoil, spread limit), split (style 2), quadrant size (style 9), scope dot, screen height |
+| Import | Paste share code dialog; toast explains lossy conversions |
+| Export | Console commands (screen height emitted last), share code, copy menu |
+| Persistence | `bindr:crosshair:v2` in localStorage (`v1` is migrated on first load, then removed) |
+| URL sync | `?code=CS…` (debounced, case-sensitive) |
 
 **State:** Zustand store (`crosshair-store.ts`) for cross-route reads (autoexec composer). URL sync stays in `use-crosshair-editor.ts` via nuqs.
 
@@ -146,7 +148,7 @@ flowchart TB
 
 | Feature | What it is | Examples | Export |
 |---------|------------|----------|--------|
-| **crosshair** | Valve share-code settings | gap, thickness, color, style | `cl_crosshair*` commands + `CSGO-…` code |
+| **crosshair** | Valve share-code settings (pixel units) | gap, thickness, color, style | `cl_crosshair*` commands + `CS…` code |
 | **binds** | Key → command mappings | `bind c slot8`, radar toggles | `bind "key" "command"` |
 | **config** | Always-on cvars (no key) | viewmodel FOV/offsets, radar scale | `viewmodel_fov 68` |
 
@@ -418,7 +420,7 @@ configs
 
 | Key | Content |
 |-----|---------|
-| `bindr:crosshair:v1` | `CrosshairSettings` JSON |
+| `bindr:crosshair:v2` | `CrosshairSettings` JSON (pixel units; `v1` auto-migrated) |
 | `bindr:binds:v1` | `BindEntry[]` JSON |
 | `bindr:config:v1` | `ConfigSettings` JSON |
 
@@ -465,12 +467,20 @@ packages/cs2/src/
 ### Crosshair codec (mandatory)
 
 ```typescript
-import { decodeShareCode } from '@workspace/cs2/crosshair/share-code/decode-share-code';
+import { decodeShareCodeDetailed } from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 
-const crosshair = decodeShareCode('CSGO-AJswe-2jNcK-nMpEQ-rHV5J-5JWAB');
-const shareCode = encodeShareCode(crosshair);
+// Game defaults at 1080p — byte-exact reference vector.
+const { crosshair, source } = decodeShareCodeDetailed(
+  'CSpb9t3x5NtrX5fWaENsr8vusEtwpiURjzqauLkOiYHMqF'
+);
+// source: 'current' | 'pixel-legacy' (CSGO- v3/v4) | 'converted' (CSGO- v1)
+const shareCode = encodeShareCode(crosshair); // always the current `CS…` format
 ```
+
+Layout lives in `share-code/share-code-bytes.ts` (current) and `legacy/` (old
+`CSGO-` payloads + the CS:GO → pixel migration). Verify codec changes against the
+reference vectors in the `share-code-bytes.ts` header before shipping.
 
 ---
 
