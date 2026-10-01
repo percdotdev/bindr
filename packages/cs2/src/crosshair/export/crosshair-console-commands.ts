@@ -1,53 +1,52 @@
-import {
-  isCustomCrosshairColor,
-  resolveCrosshairRgb,
-} from '@workspace/cs2/crosshair/model/crosshair-color';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 
+const HUNDREDTHS = 100;
+
 function formatConsoleNumber(value: number): string {
-  const rounded = Math.round(value * 10) / 10;
-  return Number.isInteger(rounded) ? String(rounded) : rounded.toFixed(1);
+  return String(Math.round(value * HUNDREDTHS) / HUNDREDTHS);
 }
 
 function formatConsoleFlag(enabled: boolean): 0 | 1 {
   return enabled ? 1 : 0;
 }
 
-function getConsoleColorPreset(crosshair: CrosshairSettings): number {
-  if (isCustomCrosshairColor(crosshair.color) || crosshair.color === 0) {
-    return 5;
-  }
-
-  return crosshair.color;
+function formatChannel(value: number): number {
+  return Math.min(255, Math.max(0, Math.round(value)));
 }
 
+/**
+ * Convars for CS2 build 2000922+. `cl_crosshair_screen_height` goes last:
+ * the game rewrites it whenever the window size changes, and the pixel
+ * sizes above only make sense relative to the height they were made for.
+ */
 export function crosshairSettingsToConsoleLines(
   crosshair: CrosshairSettings
 ): string[] {
-  const [red, green, blue] = resolveCrosshairRgb(crosshair);
-
   return [
-    `cl_crosshairstyle ${crosshair.style}`,
-    `cl_crosshairsize ${formatConsoleNumber(crosshair.length)}`,
-    `cl_crosshairgap ${formatConsoleNumber(crosshair.gap)}`,
-    `cl_crosshairthickness ${formatConsoleNumber(crosshair.thickness)}`,
-    `cl_crosshaircolor ${getConsoleColorPreset(crosshair)}`,
-    `cl_crosshaircolor_r ${Math.round(red)}`,
-    `cl_crosshaircolor_g ${Math.round(green)}`,
-    `cl_crosshaircolor_b ${Math.round(blue)}`,
-    `cl_crosshairalpha ${Math.round(crosshair.alpha)}`,
-    `cl_crosshairusealpha ${formatConsoleFlag(crosshair.alphaEnabled)}`,
-    `cl_crosshair_drawoutline ${formatConsoleFlag(crosshair.outlineEnabled)}`,
-    `cl_crosshair_outlinethickness ${formatConsoleNumber(crosshair.outline)}`,
+    `cl_crosshairstyle ${Math.round(crosshair.style)}`,
+    `cl_crosshair_length ${Math.round(crosshair.length)}`,
+    `cl_crosshair_thickness ${Math.round(crosshair.thickness)}`,
+    `cl_crosshair_gap ${Math.round(crosshair.gap)}`,
+    `cl_crosshaircolor_r ${formatChannel(crosshair.red)}`,
+    `cl_crosshaircolor_g ${formatChannel(crosshair.green)}`,
+    `cl_crosshaircolor_b ${formatChannel(crosshair.blue)}`,
+    `cl_crosshaircolor_a ${formatChannel(crosshair.alpha)}`,
+    `cl_crosshair_drawoutline ${Math.round(crosshair.outlineMode)}`,
+    `cl_crosshairoutline_r ${formatChannel(crosshair.outlineRed)}`,
+    `cl_crosshairoutline_g ${formatChannel(crosshair.outlineGreen)}`,
+    `cl_crosshairoutline_b ${formatChannel(crosshair.outlineBlue)}`,
+    `cl_crosshairoutline_a ${formatChannel(crosshair.outlineAlpha)}`,
     `cl_crosshairdot ${formatConsoleFlag(crosshair.centerDotEnabled)}`,
     `cl_crosshair_t ${formatConsoleFlag(crosshair.tStyleEnabled)}`,
     `cl_crosshair_recoil ${formatConsoleFlag(crosshair.followRecoil)}`,
-    `cl_crosshairgap_useweaponvalue ${formatConsoleFlag(crosshair.deployedWeaponGapEnabled)}`,
-    `cl_fixedcrosshairgap ${formatConsoleNumber(crosshair.fixedCrosshairGap)}`,
+    `cl_crosshair_dynamic_spread_limit ${Math.round(crosshair.dynamicSpreadLimit)}`,
     `cl_crosshair_dynamic_splitdist ${Math.round(crosshair.splitDistance)}`,
     `cl_crosshair_dynamic_splitalpha_innermod ${formatConsoleNumber(crosshair.innerSplitAlpha)}`,
     `cl_crosshair_dynamic_splitalpha_outermod ${formatConsoleNumber(crosshair.outerSplitAlpha)}`,
     `cl_crosshair_dynamic_maxdist_splitratio ${formatConsoleNumber(crosshair.splitSizeRatio)}`,
+    `cl_ironsight_usecrosshaircolor ${formatConsoleFlag(crosshair.scopeDotUsesCrosshairColor)}`,
+    `cl_ironsight_dot_scale ${formatConsoleNumber(crosshair.scopeDotScale)}`,
+    `cl_crosshair_screen_height ${Math.round(crosshair.screenHeight)}`,
   ];
 }
 

@@ -1,33 +1,27 @@
-import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import type {
+  CrosshairRgb,
+  CrosshairSettings,
+} from '@workspace/cs2/crosshair/model/types';
 
-const PRESET_COLORS: Record<number, readonly [number, number, number]> = {
-  0: [255, 0, 0],
-  1: [0, 255, 0],
-  2: [255, 255, 0],
-  3: [0, 0, 255],
-  4: [0, 255, 255],
-};
-
-export const CROSSHAIR_PRESET_COLORS = PRESET_COLORS;
-
-export const CROSSHAIR_PRESET_HEXES = [
-  '#ff0000',
+/** Handy swatches for the picker — the game no longer has color presets. */
+export const CROSSHAIR_COLOR_SWATCHES = [
   '#00ff00',
+  '#ff0000',
   '#ffff00',
-  '#0000ff',
   '#00ffff',
+  '#ff00ff',
+  '#ffffff',
+  '#000000',
 ] as const;
 
-export const CROSSHAIR_PRESET_LABELS: Record<number, string> = {
-  0: 'Red',
-  1: 'Green',
-  2: 'Yellow',
-  3: 'Blue',
-  4: 'Cyan',
-};
+const HEX_PATTERN = /^[0-9A-Fa-f]{6}$/;
+const HEX_ALPHA_PATTERN = /^[0-9A-Fa-f]{8}$/;
+const MAX_CHANNEL = 255;
 
-export function isCustomCrosshairColor(color: number): boolean {
-  return color === 5;
+function channelToHex(channel: number): string {
+  return Math.min(MAX_CHANNEL, Math.max(0, Math.round(channel)))
+    .toString(16)
+    .padStart(2, '0');
 }
 
 export function crosshairRgbToHex(
@@ -35,25 +29,22 @@ export function crosshairRgbToHex(
   green: number,
   blue: number
 ): string {
-  return `#${[red, green, blue]
-    .map((channel) =>
-      Math.min(255, Math.max(0, Math.round(channel)))
-        .toString(16)
-        .padStart(2, '0')
-    )
-    .join('')}`;
+  return `#${channelToHex(red)}${channelToHex(green)}${channelToHex(blue)}`;
 }
 
-const CROSSHAIR_HEX_PATTERN = /^[0-9A-Fa-f]{6}$/;
+export function crosshairRgbaToHex(
+  red: number,
+  green: number,
+  blue: number,
+  alpha: number
+): string {
+  return `${crosshairRgbToHex(red, green, blue)}${channelToHex(alpha)}`;
+}
 
-export function crosshairHexToRgb(hex: string): {
-  blue: number;
-  green: number;
-  red: number;
-} | null {
+export function crosshairHexToRgb(hex: string): CrosshairRgb | null {
   const raw = hex.trim().replace('#', '');
 
-  if (!CROSSHAIR_HEX_PATTERN.test(raw)) {
+  if (!(HEX_PATTERN.test(raw) || HEX_ALPHA_PATTERN.test(raw))) {
     return null;
   }
 
@@ -64,40 +55,40 @@ export function crosshairHexToRgb(hex: string): {
   };
 }
 
+export function crosshairHexToRgba(
+  hex: string
+): (CrosshairRgb & { alpha: number }) | null {
+  const rgb = crosshairHexToRgb(hex);
+  if (!rgb) {
+    return null;
+  }
+
+  const raw = hex.trim().replace('#', '');
+  const alpha = HEX_ALPHA_PATTERN.test(raw)
+    ? Number.parseInt(raw.slice(6, 8), 16)
+    : MAX_CHANNEL;
+
+  return { ...rgb, alpha };
+}
+
 export function resolveCrosshairRgb(
   crosshair: CrosshairSettings
 ): readonly [number, number, number] {
-  if (crosshair.color === 5) {
-    return [crosshair.red, crosshair.green, crosshair.blue];
-  }
-
-  return PRESET_COLORS[crosshair.color] ?? [0, 255, 0];
+  return [crosshair.red, crosshair.green, crosshair.blue];
 }
 
 export function resolveCrosshairAlpha(crosshair: CrosshairSettings): number {
-  return crosshair.alphaEnabled ? crosshair.alpha / 255 : 1;
+  return crosshair.alpha / MAX_CHANNEL;
 }
 
-export function applyCrosshairColor(
-  crosshair: CrosshairSettings,
-  color: number
-): CrosshairSettings {
-  if (color === 5) {
-    return { ...crosshair, color: 5 };
-  }
+export function resolveCrosshairOutlineRgb(
+  crosshair: CrosshairSettings
+): readonly [number, number, number] {
+  return [crosshair.outlineRed, crosshair.outlineGreen, crosshair.outlineBlue];
+}
 
-  const preset = PRESET_COLORS[color];
-  if (!preset) {
-    return crosshair;
-  }
-
-  const [red, green, blue] = preset;
-
-  return {
-    ...crosshair,
-    blue,
-    color,
-    green,
-    red,
-  };
+export function resolveCrosshairOutlineAlpha(
+  crosshair: CrosshairSettings
+): number {
+  return crosshair.outlineAlpha / MAX_CHANNEL;
 }
