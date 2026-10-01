@@ -1,32 +1,81 @@
+import {
+  bytesToLegacyCrosshairSettings,
+  bytesToPixelLegacyCrosshairSettings,
+  LEGACY_PAYLOAD_VERSION_CSGO,
+  LEGACY_PAYLOAD_VERSION_PIXEL,
+  LEGACY_PAYLOAD_VERSION_PIXEL_OUTLINE_MODE,
+  readLegacyPayloadVersion,
+} from '@workspace/cs2/crosshair/legacy/legacy-share-code-bytes';
+import { migrateLegacyCrosshair } from '@workspace/cs2/crosshair/legacy/migrate-legacy-crosshair';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
-import { normalizeShareCode } from '@workspace/cs2/crosshair/share-code/normalize-share-code';
+import {
+  getShareCodeFormat,
+  normalizeShareCode,
+} from '@workspace/cs2/crosshair/share-code/normalize-share-code';
+import { base57ToBytes } from '@workspace/cs2/crosshair/share-code/share-code-base57';
 import { bytesToCrosshairSettings } from '@workspace/cs2/crosshair/share-code/share-code-bytes';
-import { SHARE_CODE_DICTIONARY } from '@workspace/cs2/crosshair/share-code/share-code-dictionary';
+import {
+  LEGACY_SHARE_CODE_BYTES,
+  LEGACY_SHARE_CODE_PREFIX,
+  SHARE_CODE_BYTES,
+  SHARE_CODE_PREFIX,
+} from '@workspace/cs2/crosshair/share-code/share-code-dictionary';
 
-function shareCodeToBytes(shareCode: string): number[] {
-  const cleanCode = normalizeShareCode(shareCode);
-  const chars = cleanCode.slice(5).replace(/-/g, '');
-  const dictionaryLength = BigInt(SHARE_CODE_DICTIONARY.length);
+/**
+ * - `current`: native `CS…` code, lossless.
+ * - `pixel-legacy`: `CSGO-` code from the first CS2 pixel builds; lossless
+ *   except outline color (black) and scope-dot settings (defaults).
+ * - `converted`: CS:GO-era `CSGO-` code; units approximated to pixels.
+ */
+export type ShareCodeSource = 'current' | 'pixel-legacy' | 'converted';
 
-  let num = BigInt(0);
-  for (const char of chars.split('').reverse()) {
-    const index = SHARE_CODE_DICTIONARY.indexOf(char);
-    if (index === -1) {
-      throw new Error('Invalid crosshair share code');
-    }
-    num = num * dictionaryLength + BigInt(index);
+export interface DecodedShareCode {
+  crosshair: CrosshairSettings;
+  source: ShareCodeSource;
+}
+
+function decodeLegacyShareCode(normalizedCode: string): DecodedShareCode {
+  const digits = normalizedCode
+    .slice(LEGACY_SHARE_CODE_PREFIX.length)
+    .replace(/-/g, '');
+  const bytes = base57ToBytes(digits, LEGACY_SHARE_CODE_BYTES);
+  const version = readLegacyPayloadVersion(bytes);
+
+  if (version === LEGACY_PAYLOAD_VERSION_CSGO) {
+    return {
+      crosshair: migrateLegacyCrosshair(bytesToLegacyCrosshairSettings(bytes)),
+      source: 'converted',
+    };
   }
 
-  const hexnum = num.toString(16).padStart(36, '0');
-  const bytes: number[] = [];
-
-  for (let index = 0; index < hexnum.length; index += 2) {
-    bytes.push(Number.parseInt(hexnum.slice(index, index + 2), 16));
+  if (
+    version === LEGACY_PAYLOAD_VERSION_PIXEL ||
+    version === LEGACY_PAYLOAD_VERSION_PIXEL_OUTLINE_MODE
+  ) {
+    return {
+      crosshair: bytesToPixelLegacyCrosshairSettings(bytes),
+      source: 'pixel-legacy',
+    };
   }
 
-  return bytes;
+  throw new Error('Unsupported crosshair share code version');
+}
+
+export function decodeShareCodeDetailed(shareCode: string): DecodedShareCode {
+  const normalizedCode = normalizeShareCode(shareCode);
+
+  if (getShareCodeFormat(normalizedCode) === 'csgo') {
+    return decodeLegacyShareCode(normalizedCode);
+  }
+
+  const bytes = base57ToBytes(
+    normalizedCode.slice(SHARE_CODE_PREFIX.length),
+    SHARE_CODE_BYTES
+  );
+
+  return { crosshair: bytesToCrosshairSettings(bytes), source: 'current' };
 }
 
 export function decodeShareCode(shareCode: string): CrosshairSettings {
-  return bytesToCrosshairSettings(shareCodeToBytes(shareCode));
+  return decodeShareCodeDetailed(shareCode).crosshair;
 }

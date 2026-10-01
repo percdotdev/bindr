@@ -4,9 +4,11 @@ import type {
   CrosshairField,
   CrosshairSettings,
 } from '@workspace/cs2/crosshair/model/types';
+import type { ShareCodeSource } from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { parseAsString, useQueryState } from 'nuqs';
 import { useCallback, useMemo } from 'react';
 import {
+  type CrosshairRgba,
   getCrosshairShareCode,
   useCrosshairStore,
 } from '@/features/crosshair/lib/storage/crosshair-store';
@@ -34,6 +36,10 @@ function scheduleShareCodeUrlUpdate(
   }, 300);
 }
 
+function currentShareCode(): string {
+  return getCrosshairShareCode(useCrosshairStore.getState().crosshair);
+}
+
 export function useCrosshairEditor() {
   const [codeParam, setCodeParam] = useQueryState(
     'code',
@@ -47,8 +53,10 @@ export function useCrosshairEditor() {
   const importError = useCrosshairStore((state) => state.importError);
   const hydrate = useCrosshairStore((state) => state.hydrate);
   const updateField = useCrosshairStore((state) => state.updateField);
-  const updateColor = useCrosshairStore((state) => state.updateColor);
-  const updateCustomRgb = useCrosshairStore((state) => state.updateCustomRgb);
+  const updateRgba = useCrosshairStore((state) => state.updateRgba);
+  const updateOutlineRgba = useCrosshairStore(
+    (state) => state.updateOutlineRgba
+  );
   const resetCrosshair = useCrosshairStore((state) => state.resetCrosshair);
 
   useMountEffect(() => {
@@ -60,58 +68,41 @@ export function useCrosshairEditor() {
     [crosshair]
   );
 
-  const syncShareCodeUrl = useCallback(
-    (nextShareCode: string | null) => {
-      if (nextShareCode === null) {
-        updateShareCodeParam(setCodeParam, null);
-        return;
-      }
-
-      scheduleShareCodeUrlUpdate(setCodeParam, nextShareCode);
-    },
-    [setCodeParam]
-  );
+  const syncShareCodeUrl = useCallback(() => {
+    scheduleShareCodeUrlUpdate(setCodeParam, currentShareCode());
+  }, [setCodeParam]);
 
   const updateFieldWithUrl = useCallback(
     <K extends CrosshairField>(field: K, value: CrosshairSettings[K]) => {
       updateField(field, value);
-      syncShareCodeUrl(
-        getCrosshairShareCode(useCrosshairStore.getState().crosshair)
-      );
+      syncShareCodeUrl();
     },
     [syncShareCodeUrl, updateField]
   );
 
-  const updateColorWithUrl = useCallback(
-    (color: number) => {
-      updateColor(color);
-      syncShareCodeUrl(
-        getCrosshairShareCode(useCrosshairStore.getState().crosshair)
-      );
+  const updateRgbaWithUrl = useCallback(
+    (rgba: CrosshairRgba) => {
+      updateRgba(rgba);
+      syncShareCodeUrl();
     },
-    [syncShareCodeUrl, updateColor]
+    [syncShareCodeUrl, updateRgba]
   );
 
-  const updateCustomRgbWithUrl = useCallback(
-    (rgb: { blue: number; green: number; red: number }) => {
-      updateCustomRgb(rgb);
-      syncShareCodeUrl(
-        getCrosshairShareCode(useCrosshairStore.getState().crosshair)
-      );
+  const updateOutlineRgbaWithUrl = useCallback(
+    (rgba: CrosshairRgba) => {
+      updateOutlineRgba(rgba);
+      syncShareCodeUrl();
     },
-    [syncShareCodeUrl, updateCustomRgb]
+    [syncShareCodeUrl, updateOutlineRgba]
   );
 
   const importShareCode = useCallback(
-    (code: string): boolean => {
-      const ok = useCrosshairStore.getState().importShareCode(code);
-      if (ok) {
-        updateShareCodeParam(
-          setCodeParam,
-          getCrosshairShareCode(useCrosshairStore.getState().crosshair)
-        );
+    (code: string): ShareCodeSource | null => {
+      const source = useCrosshairStore.getState().importShareCode(code);
+      if (source) {
+        updateShareCodeParam(setCodeParam, currentShareCode());
       }
-      return ok;
+      return source;
     },
     [setCodeParam]
   );
@@ -126,8 +117,8 @@ export function useCrosshairEditor() {
     shareCode,
     importError,
     updateField: updateFieldWithUrl,
-    updateColor: updateColorWithUrl,
-    updateCustomRgb: updateCustomRgbWithUrl,
+    updateRgba: updateRgbaWithUrl,
+    updateOutlineRgba: updateOutlineRgbaWithUrl,
     importShareCode,
     resetCrosshair: resetCrosshairWithUrl,
   };

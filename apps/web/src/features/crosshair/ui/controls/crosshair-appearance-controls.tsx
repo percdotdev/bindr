@@ -1,20 +1,25 @@
 'use client';
 
+import {
+  CROSSHAIR_LIMITS,
+  CROSSHAIR_MENU_LIMITS,
+} from '@workspace/cs2/crosshair/model/crosshair-limits';
+import {
+  allowsNegativeCrosshairGap,
+  showsCrosshairCenterDotControl,
+  showsCrosshairGapControl,
+  showsCrosshairLengthControl,
+  showsCrosshairTStyleControl,
+} from '@workspace/cs2/crosshair/model/crosshair-style';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
-import { Label } from '@workspace/ui/components/label';
-import { Switch } from '@workspace/ui/components/switch';
+import type { CrosshairRgba } from '@/features/crosshair/lib/storage/crosshair-store';
 import { CrosshairColorPicker } from '@/features/crosshair/ui/controls/crosshair-color-picker';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 import { CrosshairToggle } from '@/features/crosshair/ui/controls/crosshair-toggle';
 
 interface CrosshairAppearanceControlsProps {
   crosshair: CrosshairSettings;
-  onColorChange: (color: number) => void;
-  onCustomRgbChange: (rgb: {
-    blue: number;
-    green: number;
-    red: number;
-  }) => void;
+  onRgbaChange: (rgba: CrosshairRgba) => void;
   onUpdate: <K extends keyof CrosshairSettings>(
     field: K,
     value: CrosshairSettings[K]
@@ -23,96 +28,88 @@ interface CrosshairAppearanceControlsProps {
 
 export function CrosshairAppearanceControls({
   crosshair,
-  onColorChange,
-  onCustomRgbChange,
+  onRgbaChange,
   onUpdate,
 }: CrosshairAppearanceControlsProps) {
+  const gapLimits = allowsNegativeCrosshairGap(crosshair.style)
+    ? CROSSHAIR_MENU_LIMITS.classicGap
+    : CROSSHAIR_MENU_LIMITS.gap;
+  const showsDot = showsCrosshairCenterDotControl(crosshair.style);
+  const showsTStyle = showsCrosshairTStyleControl(crosshair.style);
+
   return (
     <div className='flex flex-col gap-4'>
-      <CrosshairControlSlider
-        id='crosshair-length'
-        label='Length'
-        max={10}
-        min={0}
-        onValueChange={(value) => onUpdate('length', value)}
-        step={0.1}
-        value={crosshair.length}
-      />
-      <CrosshairControlSlider
-        id='crosshair-gap'
-        label='Gap'
-        max={5}
-        min={-5}
-        onValueChange={(value) => onUpdate('gap', value)}
-        step={0.1}
-        value={crosshair.gap}
-      />
+      {showsCrosshairLengthControl(crosshair.style) ? (
+        <CrosshairControlSlider
+          id='crosshair-length'
+          label='Length (px)'
+          max={CROSSHAIR_LIMITS.length.max}
+          min={CROSSHAIR_LIMITS.length.min}
+          onValueChange={(value) => onUpdate('length', value)}
+          step={CROSSHAIR_LIMITS.length.step}
+          value={crosshair.length}
+        />
+      ) : null}
       <CrosshairControlSlider
         id='crosshair-thickness'
-        label='Thickness'
-        max={6}
-        min={0.1}
+        label='Thickness (px)'
+        max={CROSSHAIR_LIMITS.thickness.max}
+        min={CROSSHAIR_LIMITS.thickness.min}
         onValueChange={(value) => onUpdate('thickness', value)}
-        step={0.1}
+        step={CROSSHAIR_LIMITS.thickness.step}
         value={crosshair.thickness}
       />
+      {showsCrosshairGapControl(crosshair.style) ? (
+        <CrosshairControlSlider
+          id='crosshair-gap'
+          label='Gap (px)'
+          max={gapLimits.max}
+          min={gapLimits.min}
+          onValueChange={(value) => onUpdate('gap', value)}
+          step={gapLimits.step}
+          value={crosshair.gap}
+        />
+      ) : null}
 
       <CrosshairColorPicker
-        blue={crosshair.blue}
-        color={crosshair.color}
-        green={crosshair.green}
-        onColorChange={onColorChange}
-        onCustomRgbChange={onCustomRgbChange}
-        red={crosshair.red}
+        id='crosshair-color'
+        label='Color'
+        onChange={onRgbaChange}
+        value={{
+          red: crosshair.red,
+          green: crosshair.green,
+          blue: crosshair.blue,
+          alpha: crosshair.alpha,
+        }}
       />
-
-      <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='crosshair-alpha-enabled'>Use alpha</Label>
-        <Switch
-          checked={crosshair.alphaEnabled}
-          id='crosshair-alpha-enabled'
-          onCheckedChange={(checked) => onUpdate('alphaEnabled', checked)}
-        />
-      </div>
       <CrosshairControlSlider
-        disabled={!crosshair.alphaEnabled}
         id='crosshair-alpha'
         label='Alpha'
-        max={255}
-        min={0}
+        max={CROSSHAIR_LIMITS.alpha.max}
+        min={CROSSHAIR_LIMITS.alpha.min}
         onValueChange={(value) => onUpdate('alpha', value)}
-        step={1}
+        step={CROSSHAIR_LIMITS.alpha.step}
         value={crosshair.alpha}
       />
 
-      <div className='flex flex-wrap gap-2'>
-        <CrosshairToggle
-          enabled={crosshair.outlineEnabled}
-          label='Outline'
-          onToggle={(value) => onUpdate('outlineEnabled', value)}
-        />
-        <CrosshairToggle
-          enabled={crosshair.centerDotEnabled}
-          label='Center dot'
-          onToggle={(value) => onUpdate('centerDotEnabled', value)}
-        />
-        <CrosshairToggle
-          enabled={crosshair.tStyleEnabled}
-          label='T-style'
-          onToggle={(value) => onUpdate('tStyleEnabled', value)}
-        />
-      </div>
-
-      <CrosshairControlSlider
-        disabled={!crosshair.outlineEnabled}
-        id='crosshair-outline'
-        label='Outline thickness'
-        max={3}
-        min={0}
-        onValueChange={(value) => onUpdate('outline', value)}
-        step={0.5}
-        value={crosshair.outline}
-      />
+      {showsDot || showsTStyle ? (
+        <div className='flex flex-wrap gap-2'>
+          {showsDot ? (
+            <CrosshairToggle
+              enabled={crosshair.centerDotEnabled}
+              label='Center dot'
+              onToggle={(value) => onUpdate('centerDotEnabled', value)}
+            />
+          ) : null}
+          {showsTStyle ? (
+            <CrosshairToggle
+              enabled={crosshair.tStyleEnabled}
+              label='T-style'
+              onToggle={(value) => onUpdate('tStyleEnabled', value)}
+            />
+          ) : null}
+        </div>
+      ) : null}
     </div>
   );
 }

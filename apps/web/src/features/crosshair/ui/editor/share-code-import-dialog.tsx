@@ -1,5 +1,6 @@
 'use client';
 
+import type { ShareCodeSource } from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { Button } from '@workspace/ui/components/button';
 import {
   Dialog,
@@ -18,7 +19,27 @@ import { toast } from 'sonner';
 
 interface ShareCodeImportDialogProps {
   importError: string | null;
-  onImport: (code: string) => boolean;
+  onImport: (code: string) => ShareCodeSource | null;
+}
+
+function notifyImported(source: ShareCodeSource) {
+  if (source === 'converted') {
+    toast.success('CS:GO-era code converted to pixels', {
+      description:
+        'Old codes used resolution-relative units. Sizes were converted for 1080p and may be off by a pixel.',
+    });
+    return;
+  }
+
+  if (source === 'pixel-legacy') {
+    toast.success('Crosshair imported', {
+      description:
+        'This code predates outline colors and scope-dot settings; defaults were used for those.',
+    });
+    return;
+  }
+
+  toast.success('Crosshair imported');
 }
 
 export function ShareCodeImportDialog({
@@ -29,12 +50,12 @@ export function ShareCodeImportDialog({
   const [draft, setDraft] = useState('');
 
   function handleImport() {
-    const imported = onImport(draft);
-    if (!imported) {
+    const source = onImport(draft);
+    if (!source) {
       return;
     }
 
-    toast.success('Crosshair imported');
+    notifyImported(source);
     setDraft('');
     setOpen(false);
   }
@@ -51,13 +72,15 @@ export function ShareCodeImportDialog({
         <DialogHeader>
           <DialogTitle>Import share code</DialogTitle>
           <DialogDescription>
-            Paste a CSGO share code from CS2 settings or another site.
+            Paste a <code>CS…</code> code from CS2 settings. Older{' '}
+            <code>CSGO-…</code> codes are converted automatically.
           </DialogDescription>
         </DialogHeader>
         <div className='flex flex-col gap-2'>
           <Label htmlFor='share-code-import'>Share code</Label>
           <Input
             aria-invalid={importError !== null}
+            className='font-mono'
             id='share-code-import'
             onChange={(event) => setDraft(event.target.value)}
             onKeyDown={(event) => {
@@ -65,7 +88,7 @@ export function ShareCodeImportDialog({
                 handleImport();
               }
             }}
-            placeholder='CSGO-XXXXX-XXXXX-XXXXX-XXXXX-XXXXX'
+            placeholder='CSxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
             value={draft}
           />
           {importError ? (
