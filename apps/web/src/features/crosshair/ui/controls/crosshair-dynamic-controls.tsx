@@ -1,5 +1,7 @@
 'use client';
 
+import { CROSSHAIR_LIMITS } from '@workspace/cs2/crosshair/model/crosshair-limits';
+import { showsSpreadLimitControl } from '@workspace/cs2/crosshair/model/crosshair-style';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
@@ -28,28 +30,17 @@ export function CrosshairDynamicControls({
         />
       </div>
 
-      <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='crosshair-deployed-weapon-gap'>
-          Deployed weapon gap
-        </Label>
-        <Switch
-          checked={crosshair.deployedWeaponGapEnabled}
-          id='crosshair-deployed-weapon-gap'
-          onCheckedChange={(checked) =>
-            onUpdate('deployedWeaponGapEnabled', checked)
-          }
+      {showsSpreadLimitControl(crosshair.style) ? (
+        <CrosshairControlSlider
+          id='crosshair-spread-limit'
+          label='Max spread (px)'
+          max={CROSSHAIR_LIMITS.dynamicSpreadLimit.max}
+          min={CROSSHAIR_LIMITS.dynamicSpreadLimit.min}
+          onValueChange={(value) => onUpdate('dynamicSpreadLimit', value)}
+          step={CROSSHAIR_LIMITS.dynamicSpreadLimit.step}
+          value={crosshair.dynamicSpreadLimit}
         />
-      </div>
-
-      <CrosshairControlSlider
-        id='crosshair-fixed-gap'
-        label='Fixed gap'
-        max={5}
-        min={-5}
-        onValueChange={(value) => onUpdate('fixedCrosshairGap', value)}
-        step={0.1}
-        value={crosshair.fixedCrosshairGap}
-      />
+      ) : null}
     </div>
   );
 }

@@ -33,7 +33,7 @@ export function HomeConsole() {
         ===============================================
       </AnimatedSpan>
       <TypingAnimation className='text-muted-foreground'>
-        cl_crosshairsize 2.0
+        cl_crosshair_length 8
       </TypingAnimation>
       <TypingAnimation className='text-muted-foreground'>
         viewmodel_fov 68

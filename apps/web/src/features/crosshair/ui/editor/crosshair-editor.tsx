@@ -1,12 +1,17 @@
 'use client';
 
 import {
-  showsDynamicCrosshairControls,
-  showsSplitCrosshairControls,
+  isDynamicCrosshairStyle,
+  showsClassicSplitControls,
+  showsQuadrantSizeControl,
 } from '@workspace/cs2/crosshair/model/crosshair-style';
 import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-editor';
 import { CrosshairAppearanceControls } from '@/features/crosshair/ui/controls/crosshair-appearance-controls';
 import { CrosshairDynamicControls } from '@/features/crosshair/ui/controls/crosshair-dynamic-controls';
+import { CrosshairOutlineControls } from '@/features/crosshair/ui/controls/crosshair-outline-controls';
+import { CrosshairQuadrantControls } from '@/features/crosshair/ui/controls/crosshair-quadrant-controls';
+import { CrosshairScopeDotControls } from '@/features/crosshair/ui/controls/crosshair-scope-dot-controls';
+import { CrosshairScreenHeightSelect } from '@/features/crosshair/ui/controls/crosshair-screen-height-select';
 import { CrosshairSplitControls } from '@/features/crosshair/ui/controls/crosshair-split-controls';
 import { CrosshairStyleSelect } from '@/features/crosshair/ui/controls/crosshair-style-select';
 import { CrosshairResetAlert } from '@/features/crosshair/ui/editor/crosshair-reset-alert';
@@ -21,8 +26,8 @@ export function CrosshairEditor() {
     shareCode,
     importError,
     updateField,
-    updateColor,
-    updateCustomRgb,
+    updateRgba,
+    updateOutlineRgba,
     importShareCode,
     resetCrosshair,
   } = useCrosshairEditor();
@@ -33,8 +38,8 @@ export function CrosshairEditor() {
         <div className='flex flex-col gap-1'>
           <h1 className='font-medium text-sm'>Crosshair editor</h1>
           <p className='text-muted-foreground text-xs'>
-            Import a Valve share code, tweak settings, and copy the result back
-            into CS2.
+            Import a CS2 share code, tweak pixel-exact settings, and copy the
+            result back into the game.
           </p>
         </div>
         <div className='flex items-center gap-2'>
@@ -59,13 +64,20 @@ export function CrosshairEditor() {
         />
         <CrosshairAppearanceControls
           crosshair={crosshair}
-          onColorChange={updateColor}
-          onCustomRgbChange={updateCustomRgb}
+          onRgbaChange={updateRgba}
           onUpdate={updateField}
         />
       </CollapsibleSection>
 
-      {showsDynamicCrosshairControls(crosshair.style) ? (
+      <CollapsibleSection title='Outline'>
+        <CrosshairOutlineControls
+          crosshair={crosshair}
+          onOutlineRgbaChange={updateOutlineRgba}
+          onUpdate={updateField}
+        />
+      </CollapsibleSection>
+
+      {isDynamicCrosshairStyle(crosshair.style) ? (
         <CollapsibleSection title='Dynamic'>
           <CrosshairDynamicControls
             crosshair={crosshair}
@@ -74,7 +86,7 @@ export function CrosshairEditor() {
         </CollapsibleSection>
       ) : null}
 
-      {showsSplitCrosshairControls(crosshair.style) ? (
+      {showsClassicSplitControls(crosshair.style) ? (
         <CollapsibleSection title='Split'>
           <CrosshairSplitControls
             crosshair={crosshair}
@@ -82,6 +94,29 @@ export function CrosshairEditor() {
           />
         </CollapsibleSection>
       ) : null}
+
+      {showsQuadrantSizeControl(crosshair.style) ? (
+        <CollapsibleSection title='Quadrant'>
+          <CrosshairQuadrantControls
+            crosshair={crosshair}
+            onUpdate={updateField}
+          />
+        </CollapsibleSection>
+      ) : null}
+
+      <CollapsibleSection defaultOpen={false} title='Scope dot'>
+        <CrosshairScopeDotControls
+          crosshair={crosshair}
+          onUpdate={updateField}
+        />
+      </CollapsibleSection>
+
+      <CollapsibleSection defaultOpen={false} title='Resolution'>
+        <CrosshairScreenHeightSelect
+          onScreenHeightChange={(value) => updateField('screenHeight', value)}
+          screenHeight={crosshair.screenHeight}
+        />
+      </CollapsibleSection>
     </div>
   );
 }

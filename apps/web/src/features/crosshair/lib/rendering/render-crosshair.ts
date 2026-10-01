@@ -1,20 +1,119 @@
 import {
   resolveCrosshairAlpha,
+  resolveCrosshairOutlineAlpha,
+  resolveCrosshairOutlineRgb,
   resolveCrosshairRgb,
 } from '@workspace/cs2/crosshair/model/crosshair-color';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import {
+  buildCrosshairShapes,
+  type CrosshairShapes,
+  crosshairCenter,
+  type PixelArc,
+  type PixelRect,
+} from '@/features/crosshair/lib/rendering/crosshair-geometry';
 
-export const PREVIEW_CANVAS_SIZE = 50;
-export const PREVIEW_DISPLAY_SIZE = 50;
+/** 1 canvas px = 1 game px at the crosshair's screen height. */
+export const PREVIEW_CANVAS_SIZE = 120;
+export const PREVIEW_DISPLAY_SIZE = 120;
 
-function getCrosshairMetrics(crosshair: CrosshairSettings) {
-  const crosshairLength = Math.floor(crosshair.length * 2);
-  const crosshairWidth = Math.max(1, Math.floor(crosshair.thickness * 2));
-  const crosshairGap = Math.ceil(crosshair.gap + 4);
-  const adjustedLength =
-    Math.trunc(crosshair.length) > 2 ? crosshairLength + 1 : crosshairLength;
+const OUTLINE_PX = 1;
+const OUTLINE_OFF = 0;
+const OUTLINE_HALF = 2;
 
-  return { adjustedLength, crosshairGap, crosshairWidth };
+function fillRects(
+  context: CanvasRenderingContext2D,
+  rects: readonly PixelRect[],
+  pad: number
+) {
+  for (const rect of rects) {
+    context.fillRect(
+      rect.x - pad,
+      rect.y - pad,
+      rect.width + pad * 2,
+      rect.height + pad * 2
+    );
+  }
+}
+
+function strokeArcs(
+  context: CanvasRenderingContext2D,
+  arcs: readonly PixelArc[],
+  center: number,
+  lineWidth: number
+) {
+  context.lineWidth = lineWidth;
+  for (const arc of arcs) {
+    context.beginPath();
+    context.arc(center, center, arc.radius, arc.start, arc.end);
+    context.stroke();
+  }
+}
+
+function drawShapes(
+  context: CanvasRenderingContext2D,
+  shapes: CrosshairShapes,
+  center: number,
+  pad: number
+) {
+  fillRects(context, shapes.rects, pad);
+  strokeArcs(context, shapes.arcs, center, shapes.thickness + pad * 2);
+  if (shapes.dot) {
+    fillRects(context, [shapes.dot], pad);
+  }
+}
+
+/** Half outline only shades the top and left edges: clip to that half-plane. */
+function clipTopLeftHalf(context: CanvasRenderingContext2D, center: number) {
+  const diagonal = center * 2;
+  context.beginPath();
+  context.moveTo(0, 0);
+  context.lineTo(diagonal, 0);
+  context.lineTo(0, diagonal);
+  context.closePath();
+  context.clip();
+}
+
+function drawHalfOutlineRects(
+  context: CanvasRenderingContext2D,
+  rects: readonly PixelRect[]
+) {
+  for (const rect of rects) {
+    context.fillRect(
+      rect.x - OUTLINE_PX,
+      rect.y - OUTLINE_PX,
+      rect.width + OUTLINE_PX,
+      rect.height + OUTLINE_PX
+    );
+  }
+}
+
+function drawOutline(
+  context: CanvasRenderingContext2D,
+  crosshair: CrosshairSettings,
+  shapes: CrosshairShapes,
+  center: number
+) {
+  const [red, green, blue] = resolveCrosshairOutlineRgb(crosshair);
+  const alpha = resolveCrosshairOutlineAlpha(crosshair);
+  const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  context.fillStyle = color;
+  context.strokeStyle = color;
+
+  if (crosshair.outlineMode !== OUTLINE_HALF) {
+    drawShapes(context, shapes, center, OUTLINE_PX);
+    return;
+  }
+
+  const rects = shapes.dot ? [...shapes.rects, shapes.dot] : shapes.rects;
+  drawHalfOutlineRects(context, rects);
+
+  if (shapes.arcs.length > 0) {
+    context.save();
+    clipTopLeftHalf(context, center);
+    strokeArcs(context, shapes.arcs, center, shapes.thickness + OUTLINE_PX * 2);
+    context.restore();
+  }
 }
 
 export function renderCrosshair(
@@ -23,129 +122,20 @@ export function renderCrosshair(
   canvasSize = PREVIEW_CANVAS_SIZE
 ) {
   context.clearRect(0, 0, canvasSize, canvasSize);
+  context.imageSmoothingEnabled = false;
+  context.lineCap = 'butt';
 
-  const center = { x: canvasSize / 2, y: canvasSize / 2 };
+  const shapes = buildCrosshairShapes(crosshair, canvasSize);
+  const center = crosshairCenter(canvasSize, shapes.thickness);
+
+  if (crosshair.outlineMode !== OUTLINE_OFF) {
+    drawOutline(context, crosshair, shapes, center);
+  }
+
   const [red, green, blue] = resolveCrosshairRgb(crosshair);
   const alpha = resolveCrosshairAlpha(crosshair);
-  const { adjustedLength, crosshairGap, crosshairWidth } =
-    getCrosshairMetrics(crosshair);
-  const outlineThickness =
-    crosshair.outlineEnabled && crosshair.outline > 0 ? crosshair.outline : 0;
-  const crosshairColor = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
-
-  context.imageSmoothingEnabled = false;
-
-  const translate = (crosshairWidth % 2) / 2;
-  context.translate(translate, translate);
-
-  if (outlineThickness > 0) {
-    context.fillStyle = `rgba(0, 0, 0, ${alpha})`;
-
-    const strokeTranslate = crosshairWidth / 2 - Math.floor(crosshairWidth / 2);
-    context.translate(-translate, -translate);
-    context.translate(strokeTranslate, strokeTranslate);
-
-    drawArms(
-      context,
-      center,
-      adjustedLength,
-      crosshairGap,
-      crosshairWidth,
-      outlineThickness,
-      crosshair.tStyleEnabled,
-      true
-    );
-
-    context.translate(-strokeTranslate, -strokeTranslate);
-    context.translate(translate, translate);
-  }
-
-  context.fillStyle = crosshairColor;
-
-  drawArms(
-    context,
-    center,
-    adjustedLength,
-    crosshairGap,
-    crosshairWidth,
-    0,
-    crosshair.tStyleEnabled,
-    false
-  );
-
-  if (crosshair.centerDotEnabled) {
-    if (outlineThickness > 0) {
-      context.fillStyle = `rgba(0, 0, 0, ${alpha})`;
-
-      const strokeTranslate =
-        crosshairWidth / 2 - Math.floor(crosshairWidth / 2);
-      context.translate(-translate, -translate);
-      context.translate(strokeTranslate, strokeTranslate);
-
-      context.fillRect(
-        center.x - crosshairWidth / 2 - outlineThickness,
-        center.y - crosshairWidth / 2 - outlineThickness,
-        crosshairWidth + outlineThickness * 2,
-        crosshairWidth + outlineThickness * 2
-      );
-
-      context.translate(-strokeTranslate, -strokeTranslate);
-      context.translate(translate, translate);
-    }
-
-    context.fillStyle = crosshairColor;
-    context.fillRect(
-      center.x - crosshairWidth / 2,
-      center.y - crosshairWidth / 2,
-      crosshairWidth,
-      crosshairWidth
-    );
-  }
-
-  context.translate(-translate, -translate);
-}
-
-function drawArms(
-  context: CanvasRenderingContext2D,
-  center: { x: number; y: number },
-  adjustedLength: number,
-  crosshairGap: number,
-  crosshairWidth: number,
-  outlineThickness: number,
-  tStyleEnabled: boolean,
-  isOutline: boolean
-) {
-  const pad = isOutline ? outlineThickness : 0;
-  const widthPad = crosshairWidth + pad * 2;
-  const lengthPad = adjustedLength + pad * 2;
-
-  context.fillRect(
-    center.x + crosshairWidth / 2 + crosshairGap - pad,
-    center.y - crosshairWidth / 2 - pad,
-    lengthPad,
-    widthPad
-  );
-
-  context.fillRect(
-    center.x - (adjustedLength + crosshairWidth / 2 + crosshairGap) - pad,
-    center.y - crosshairWidth / 2 - pad,
-    lengthPad,
-    widthPad
-  );
-
-  context.fillRect(
-    center.x - crosshairWidth / 2 - pad,
-    center.y + crosshairWidth / 2 + crosshairGap - pad,
-    widthPad,
-    lengthPad
-  );
-
-  if (!tStyleEnabled) {
-    context.fillRect(
-      center.x - crosshairWidth / 2 - pad,
-      center.y - (adjustedLength + crosshairWidth / 2 + crosshairGap) - pad,
-      widthPad,
-      lengthPad
-    );
-  }
+  const color = `rgba(${red}, ${green}, ${blue}, ${alpha})`;
+  context.fillStyle = color;
+  context.strokeStyle = color;
+  drawShapes(context, shapes, center, 0);
 }

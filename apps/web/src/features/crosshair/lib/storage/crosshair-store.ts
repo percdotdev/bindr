@@ -1,12 +1,16 @@
 'use client';
 
-import { applyCrosshairColor } from '@workspace/cs2/crosshair/model/crosshair-color';
+import { allowsNegativeCrosshairGap } from '@workspace/cs2/crosshair/model/crosshair-style';
 import { DEFAULT_CROSSHAIR } from '@workspace/cs2/crosshair/model/default-crosshair';
 import type {
   CrosshairField,
+  CrosshairRgb,
   CrosshairSettings,
 } from '@workspace/cs2/crosshair/model/types';
-import { decodeShareCode } from '@workspace/cs2/crosshair/share-code/decode-share-code';
+import {
+  decodeShareCodeDetailed,
+  type ShareCodeSource,
+} from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 import { create } from 'zustand';
 import {
@@ -15,6 +19,8 @@ import {
   saveStoredCrosshair,
 } from '@/features/crosshair/lib/storage/crosshair-storage';
 
+export type CrosshairRgba = CrosshairRgb & { alpha: number };
+
 function applyFieldUpdate<K extends CrosshairField>(
   current: CrosshairSettings,
   field: K,
@@ -22,26 +28,8 @@ function applyFieldUpdate<K extends CrosshairField>(
 ): CrosshairSettings {
   const next = { ...current, [field]: value };
 
-  if (field === 'red' || field === 'green' || field === 'blue') {
-    next.color = 5;
-  }
-
-  if (
-    field === 'outline' &&
-    typeof value === 'number' &&
-    value > 0 &&
-    !next.outlineEnabled
-  ) {
-    next.outlineEnabled = true;
-  }
-
-  if (
-    field === 'alpha' &&
-    typeof value === 'number' &&
-    value < 255 &&
-    !next.alphaEnabled
-  ) {
-    next.alphaEnabled = true;
+  if (field === 'style' && !allowsNegativeCrosshairGap(next.style)) {
+    next.gap = Math.max(0, next.gap);
   }
 
   return next;
@@ -56,14 +44,14 @@ interface CrosshairStore {
   hydrate: (codeParam: string | null) => void;
   hydrated: boolean;
   importError: string | null;
-  importShareCode: (code: string) => boolean;
+  importShareCode: (code: string) => ShareCodeSource | null;
   resetCrosshair: () => void;
-  updateColor: (color: number) => void;
-  updateCustomRgb: (rgb: { blue: number; green: number; red: number }) => void;
   updateField: <K extends CrosshairField>(
     field: K,
     value: CrosshairSettings[K]
   ) => void;
+  updateOutlineRgba: (rgba: CrosshairRgba) => void;
+  updateRgba: (rgba: CrosshairRgba) => void;
 }
 
 export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
@@ -79,7 +67,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
     if (codeParam) {
       try {
         set({
-          crosshair: decodeShareCode(codeParam),
+          crosshair: decodeShareCodeDetailed(codeParam).crosshair,
           hydrated: true,
           importError: null,
         });
@@ -107,24 +95,30 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
     set({ crosshair: next, importError: null });
   },
 
-  updateColor: (color) => {
-    const next = applyCrosshairColor(get().crosshair, color);
+  updateRgba: (rgba) => {
+    const next = { ...get().crosshair, ...rgba };
     persistCrosshair(next);
     set({ crosshair: next, importError: null });
   },
 
-  updateCustomRgb: (rgb) => {
-    const next = { ...get().crosshair, ...rgb, color: 5 };
+  updateOutlineRgba: ({ red, green, blue, alpha }) => {
+    const next = {
+      ...get().crosshair,
+      outlineRed: red,
+      outlineGreen: green,
+      outlineBlue: blue,
+      outlineAlpha: alpha,
+    };
     persistCrosshair(next);
     set({ crosshair: next, importError: null });
   },
 
   importShareCode: (code) => {
     try {
-      const decoded = decodeShareCode(code);
-      persistCrosshair(decoded);
-      set({ crosshair: decoded, importError: null });
-      return true;
+      const { crosshair, source } = decodeShareCodeDetailed(code);
+      persistCrosshair(crosshair);
+      set({ crosshair, importError: null });
+      return source;
     } catch (error) {
       set({
         importError:
@@ -132,7 +126,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
             ? error.message
             : 'Failed to import share code',
       });
-      return false;
+      return null;
     }
   },
 

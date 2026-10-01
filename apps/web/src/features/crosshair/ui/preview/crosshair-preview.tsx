@@ -75,7 +75,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
           className='pointer-events-none absolute inset-0 bg-linear-to-b from-black/10 to-black/30'
         />
 
-        <div className='pointer-events-none absolute top-1/2 left-1/2 flex size-[50px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden'>
+        <div className='pointer-events-none absolute top-1/2 left-1/2 flex size-[120px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden'>
           <canvas
             aria-label='Crosshair preview'
             className='block'
