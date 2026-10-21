@@ -186,6 +186,16 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
     mmSafe: true,
   },
   {
+    id: 'rec-build-info-toggle',
+    key: 'f11',
+    command: 'toggle r_show_build_info 0 1',
+    label: 'Toggle build info text',
+    description:
+      'Hide or show the version/build watermark in the bottom-left corner. Default is on; Valve asks for it in bug clips, so keep a key to bring it back. Client cvar, no sv_cheats.',
+    category: 'misc',
+    mmSafe: true,
+  },
+  {
     id: 'rec-hand-toggle',
     key: 'h',
     command: 'toggle cl_righthand 0 1',
