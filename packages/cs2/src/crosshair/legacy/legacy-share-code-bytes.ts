@@ -9,8 +9,6 @@ export const LEGACY_PAYLOAD_VERSION_CSGO = 1;
 export const LEGACY_PAYLOAD_VERSION_PIXEL = 3;
 export const LEGACY_PAYLOAD_VERSION_PIXEL_OUTLINE_MODE = 4;
 
-/** Pixel-era `CSGO-` codes checksum bytes 1..15 only (byte 16/17 are padding). */
-const PIXEL_CHECKSUM_END = 16;
 const TENTHS = 10;
 const HALVES = 2;
 const TWENTIETHS = 20;
@@ -88,7 +86,7 @@ export function bytesToPixelLegacyCrosshairSettings(
 ): CrosshairSettings {
   assertLegacyLength(bytes);
 
-  if (bytes[0] !== shareCodeChecksum(bytes, PIXEL_CHECKSUM_END)) {
+  if (bytes[0] !== shareCodeChecksum(bytes)) {
     throw new Error('Invalid crosshair share code');
   }
 
