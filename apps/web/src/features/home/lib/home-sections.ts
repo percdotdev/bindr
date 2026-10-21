@@ -22,7 +22,7 @@ export const HOME_TOOLS: HomeTool[] = [
     icon: Crosshair,
     title: 'Crosshair editor',
     description:
-      'Decode CSGO share codes, tweak gap, color and style, preview on real maps, export console commands.',
+      'Decode CS2 share codes (old CSGO- codes convert), tweak gap, color and style, preview on real maps, export console commands.',
     cta: 'Open editor',
   },
   {

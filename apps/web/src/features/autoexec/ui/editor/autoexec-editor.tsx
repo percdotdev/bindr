@@ -19,7 +19,7 @@ const SECTIONS: SectionMeta[] = [
   {
     id: 'crosshair',
     label: 'Crosshair',
-    description: 'Console commands and the CSGO share code.',
+    description: 'Console commands and the CS2 share code.',
     href: '/crosshair',
   },
   {
