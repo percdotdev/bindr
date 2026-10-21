@@ -93,7 +93,7 @@ flowchart LR
 
 | Capability | Details |
 |------------|---------|
-| Share-code codec | In-repo. Encodes the current `CS` + 44-char format (32 bytes, CS2 build 2000922+). Decodes `CS…`, pixel-era `CSGO-…` (v3/v4) and CS:GO-era `CSGO-…` (v1, converted to pixels). **Do not use `csgo-sharecode` npm.** |
+| Share-code codec | In-repo, zero-dep. Encodes the current `CS` + 44-char format (32 bytes, CS2 1.41.8.8 / build 2000922+, 2026-09-30). Decodes `CS…`, pixel-era `CSGO-…` (v3/v4, Sep 22–24 builds) and CS:GO-era `CSGO-…` (v1, converted to pixels). Layout verified byte-for-byte against `csgo-sharecode` 7.0.1 (`cs2-v1`/`legacy-v1`/`legacy-v3`/`legacy-v4`) — keep the in-repo codec, don't add the dependency. |
 | Units | Pixels at `screenHeight` (`cl_crosshair_screen_height`). Convars: `cl_crosshair_length/thickness/gap`, `cl_crosshaircolor_{r,g,b,a}`, `cl_crosshairoutline_{r,g,b,a}`, `cl_crosshair_drawoutline 0/1/2`, `cl_crosshair_dynamic_spread_limit`, `cl_ironsight_*`. |
 | Styles | 0–9 (`crosshair-style.ts` holds the menu order + per-style control visibility). Negative gap only for style 2. |
 | Live preview | 1:1 pixel canvas (120px) over map backgrounds; cross/circle/square/quadrant/dot, full & half outline with outline color |
@@ -122,10 +122,11 @@ flowchart LR
 
 | Capability | Details |
 |------------|---------|
-| Catalog | 10 curated MM-safe templates (2026 meta keys) |
-| Categories | Utility (grenade slots), weapons, radar, lineups |
+| Catalog | Curated MM-safe templates (2026 meta keys), one key + one command each |
+| Categories | Utility (grenade slots), lineups, weapons, buy, movement, radar, comms, HUD & toggles |
 | UX | Add/remove individually; **Add all** replaces entire config (with confirm) |
-| Examples | Z/X/C grenades, Q knife, G drop, N `-attack` lineup release, F9/F10 radar |
+| Examples | Z/X/C grenades, Q knife, G drop, N `-attack` lineup release, F9/F10 radar, F11 `toggle r_show_build_info 0 1` |
+| Keyless cvars | Not binds. Always-on settings such as `r_show_build_info false` live in the recommended **config** catalog (HUD section). |
 
 ---
 
@@ -594,7 +595,7 @@ gantt
 | Game memory injection / internals | Cheats, VAC risk |
 | Demo parsing (`demoinfocs-golang`) | Vercel function timeouts |
 | VAC bypass / anti-cheat evasion | ToS + trust |
-| `csgo-sharecode` npm package | Incorrect bytes; use in-repo codec |
+| `csgo-sharecode` npm dependency | Versions < 7 emit the dead `CSGO-` format; 7.x matches our bytes but has no CS:GO → pixel conversion. Use it only as an offline reference when verifying the in-repo codec. |
 
 ### Implementation checklist (new features)
 
