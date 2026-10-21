@@ -26,9 +26,16 @@ import { SHARE_CODE_BYTES } from '@workspace/cs2/crosshair/share-code/share-code
  *   [22]     (scope dot scale − 0.1) ×100
  *   [23..31] zero
  *
- * Reference vector (game defaults @1080: style 7, recoil on, green,
- * full black outline): `CSpb9t3x5NtrX5fWaENsr8vusEtwpiURjzqauLkOiYHMqF`
- * = 28 01 38 04 27 00 ff 00 ff 00 00 00 ff 42 04 00 08 ff 03 80 91 0c 5a 00…
+ * Reference vectors:
+ * - game defaults @1080 (style 7, recoil on, green, full black outline):
+ *   `CSpb9t3x5NtrX5fWaENsr8vusEtwpiURjzqauLkOiYHMqF`
+ *   = 28 01 38 04 27 00 ff 00 ff 00 00 00 ff 42 04 00 08 ff 03 80 91 0c 5a 00…
+ * - csgo-sharecode 7.x README (style 2 @768, red, dot, gap 0, length 5,
+ *   thickness 1, spread 181, outer alpha 0.35):
+ *   `CSvbPubOq37zTGqtsPTP5QTrp5CB4xFXiKRLfzJsm49ZRe`
+ *
+ * Layout cross-checked byte-for-byte against csgo-sharecode 7.0.1
+ * (`cs2-v1`, `legacy-v3`, `legacy-v4`, `legacy-v1`).
  */
 const PAYLOAD_VERSION = 1;
 const HUNDREDTHS = 100;

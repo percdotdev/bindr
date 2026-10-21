@@ -48,13 +48,10 @@ export function base57ToBytes(digits: string, byteCount: number): number[] {
   return bytes;
 }
 
-/** Valve checksum: sum of bytes `1..end-1`, mod 256. */
-export function shareCodeChecksum(
-  bytes: readonly number[],
-  end = bytes.length
-): number {
+/** Valve checksum: sum of every byte after the first, mod 256. */
+export function shareCodeChecksum(bytes: readonly number[]): number {
   let sum = 0;
-  for (let index = 1; index < end; index++) {
+  for (let index = 1; index < bytes.length; index++) {
     sum = (sum + (bytes[index] ?? 0)) & 0xff;
   }
   return sum;
