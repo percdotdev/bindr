@@ -1,33 +1,33 @@
 {
-  "devDependencies": {
-    "@biomejs/biome": "2.4.16",
-    "@workspace/biome-config": "workspace:*",
-    "@workspace/ts-config": "workspace:*",
-    "bumpp": "^11.1.0",
-    "husky": "^9.1.7",
-    "turbo": "^2.9.15",
-    "typescript": "^5",
-    "ultracite": "7.8.3"
-  },
   "name": "bindr",
-  "scripts": {
-    "build": "turbo build",
-    "dev": "turbo dev",
-    "typecheck": "turbo typecheck",
-    "check": "ultracite check",
-    "fix": "ultracite fix",
-    "prepare": "husky",
-    "release": "pnpm dlx bumpp -r",
-    "dependencies:update": "pnpm dlx taze -r -w -f"
-  },
   "version": "0.4.0",
+  "private": true,
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "private": true,
-  "packageManager": "bun@1.3.14",
+  "scripts": {
+    "build": "turbo build",
+    "check": "ultracite check",
+    "dependencies:update": "pnpm dlx taze -r -w -f",
+    "dev": "turbo dev",
+    "fix": "ultracite fix",
+    "prepare": "husky",
+    "release": "pnpm dlx bumpp -r",
+    "typecheck": "turbo typecheck"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.6.3",
+    "@workspace/biome-config": "workspace:*",
+    "@workspace/ts-config": "workspace:*",
+    "bumpp": "^12.3.0",
+    "husky": "^9.1.7",
+    "turbo": "^2.11.10",
+    "typescript": "^7",
+    "ultracite": "8.1.0"
+  },
+  "packageManager": "bun@1.4.4",
   "engines": {
-    "node": ">=20"
+    "node": ">=22.22.2"
   }
 }

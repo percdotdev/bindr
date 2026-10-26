@@ -11,11 +11,11 @@ export const CONFIG_CATEGORY_ORDER: ConfigCategory[] = [
 ];
 
 export const CONFIG_CATEGORY_LABELS: Record<ConfigCategory, string> = {
-  viewmodel: 'Viewmodel',
-  mouse: 'Mouse & sensitivity',
-  radar: 'Radar & minimap',
-  network: 'Network',
   audio: 'Audio',
-  performance: 'Performance & misc',
   hud: 'HUD & UI',
+  mouse: 'Mouse & sensitivity',
+  network: 'Network',
+  performance: 'Performance & misc',
+  radar: 'Radar & minimap',
+  viewmodel: 'Viewmodel',
 };

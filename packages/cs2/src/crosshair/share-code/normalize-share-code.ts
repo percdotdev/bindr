@@ -6,8 +6,8 @@ import {
 
 export type ShareCodeFormat = 'cs' | 'csgo';
 
-const LEGACY_PREFIX_PATTERN = /^CSGO-?/;
-const DASH_PATTERN = /-/g;
+const LEGACY_PREFIX_PATTERN = /^CSGO-?/u;
+const DASH_PATTERN = /-/gu;
 
 function formatLegacyShareCode(raw: string): string {
   return `CSGO-${raw.slice(0, 5)}-${raw.slice(5, 10)}-${raw.slice(10, 15)}-${raw.slice(15, 20)}-${raw.slice(20)}`;

@@ -59,13 +59,13 @@ function crossRects(
   const start = center + half + gap;
   const far = center - half - gap - length;
   const rects: PixelRect[] = [
-    { x: start, y: center - half, width: length, height: thickness },
-    { x: far, y: center - half, width: length, height: thickness },
-    { x: center - half, y: start, width: thickness, height: length },
+    { height: thickness, width: length, x: start, y: center - half },
+    { height: thickness, width: length, x: far, y: center - half },
+    { height: length, width: thickness, x: center - half, y: start },
   ];
 
   if (!tStyle) {
-    rects.push({ x: center - half, y: far, width: thickness, height: length });
+    rects.push({ height: length, width: thickness, x: center - half, y: far });
   }
 
   return rects;
@@ -81,19 +81,19 @@ function squareRects(
   const side = outer * 2;
 
   return [
-    { x: center - outer, y: center - outer, width: side, height: thickness },
-    { x: center - outer, y: center + inner, width: side, height: thickness },
+    { height: thickness, width: side, x: center - outer, y: center - outer },
+    { height: thickness, width: side, x: center - outer, y: center + inner },
     {
+      height: inner * 2,
+      width: thickness,
       x: center - outer,
       y: center - inner,
-      width: thickness,
-      height: inner * 2,
     },
     {
+      height: inner * 2,
+      width: thickness,
       x: center + inner,
       y: center - inner,
-      width: thickness,
-      height: inner * 2,
     },
   ];
 }
@@ -117,9 +117,9 @@ function quadrantArcs(radius: number, ratio: number): PixelArc[] {
   const halfSpan = (QUARTER_TURN * Math.max(0, Math.min(1, ratio))) / 2;
   const arcs: PixelArc[] = [];
 
-  for (let quadrant = 0; quadrant < 4; quadrant++) {
+  for (let quadrant = 0; quadrant < 4; quadrant += 1) {
     const middle = DIAGONAL + quadrant * QUARTER_TURN;
-    arcs.push({ radius, start: middle - halfSpan, end: middle + halfSpan });
+    arcs.push({ end: middle + halfSpan, radius, start: middle - halfSpan });
   }
 
   return arcs;
@@ -149,7 +149,7 @@ export function buildCrosshairShapes(
     shapes.rects = squareRects(center, thickness, Math.max(0, gap));
   } else if (CIRCLE_STYLES.has(crosshair.style)) {
     shapes.arcs = [
-      { radius: ringRadius(crosshair, thickness), start: 0, end: Math.PI * 2 },
+      { end: Math.PI * 2, radius: ringRadius(crosshair, thickness), start: 0 },
     ];
   } else if (QUADRANT_STYLES.has(crosshair.style)) {
     const ratio = crosshair.style === 7 ? 1 : crosshair.splitSizeRatio;
@@ -159,10 +159,10 @@ export function buildCrosshairShapes(
   const dotOnly = crosshair.style === 6;
   if (dotOnly || crosshair.centerDotEnabled) {
     shapes.dot = {
+      height: thickness,
+      width: thickness,
       x: center - half,
       y: center - half,
-      width: thickness,
-      height: thickness,
     };
   }
 

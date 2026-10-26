@@ -76,10 +76,10 @@ export function CrosshairAppearanceControls({
         label='Color'
         onChange={onRgbaChange}
         value={{
-          red: crosshair.red,
-          green: crosshair.green,
-          blue: crosshair.blue,
           alpha: crosshair.alpha,
+          blue: crosshair.blue,
+          green: crosshair.green,
+          red: crosshair.red,
         }}
       />
       <CrosshairControlSlider

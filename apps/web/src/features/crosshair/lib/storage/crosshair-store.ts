@@ -56,8 +56,6 @@ interface CrosshairStore {
 
 export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
   crosshair: DEFAULT_CROSSHAIR,
-  hydrated: false,
-  importError: null,
 
   hydrate: (codeParam) => {
     if (get().hydrated) {
@@ -88,30 +86,8 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       importError: null,
     });
   },
-
-  updateField: (field, value) => {
-    const next = applyFieldUpdate(get().crosshair, field, value);
-    persistCrosshair(next);
-    set({ crosshair: next, importError: null });
-  },
-
-  updateRgba: (rgba) => {
-    const next = { ...get().crosshair, ...rgba };
-    persistCrosshair(next);
-    set({ crosshair: next, importError: null });
-  },
-
-  updateOutlineRgba: ({ red, green, blue, alpha }) => {
-    const next = {
-      ...get().crosshair,
-      outlineRed: red,
-      outlineGreen: green,
-      outlineBlue: blue,
-      outlineAlpha: alpha,
-    };
-    persistCrosshair(next);
-    set({ crosshair: next, importError: null });
-  },
+  hydrated: false,
+  importError: null,
 
   importShareCode: (code) => {
     try {
@@ -133,6 +109,30 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
   resetCrosshair: () => {
     clearStoredCrosshair();
     set({ crosshair: DEFAULT_CROSSHAIR, importError: null });
+  },
+
+  updateField: (field, value) => {
+    const next = applyFieldUpdate(get().crosshair, field, value);
+    persistCrosshair(next);
+    set({ crosshair: next, importError: null });
+  },
+
+  updateOutlineRgba: ({ red, green, blue, alpha }) => {
+    const next = {
+      ...get().crosshair,
+      outlineAlpha: alpha,
+      outlineBlue: blue,
+      outlineGreen: green,
+      outlineRed: red,
+    };
+    persistCrosshair(next);
+    set({ crosshair: next, importError: null });
+  },
+
+  updateRgba: (rgba) => {
+    const next = { ...get().crosshair, ...rgba };
+    persistCrosshair(next);
+    set({ crosshair: next, importError: null });
   },
 }));
 

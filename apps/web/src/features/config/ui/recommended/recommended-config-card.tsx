@@ -20,18 +20,18 @@ export function RecommendedConfigCard({
     <article className='flex flex-col gap-3 rounded-md border p-4 sm:flex-row sm:items-start sm:justify-between'>
       <div className='min-w-0 flex-1'>
         <div className='flex flex-wrap items-center gap-2'>
-          <h3 className='font-medium text-sm'>{template.label}</h3>
+          <h3 className='text-sm font-medium'>{template.label}</h3>
           {template.mmSafe ? (
-            <span className='text-[10px] text-muted-foreground'>Valve MM</span>
+            <span className='text-muted-foreground text-[10px]'>Valve MM</span>
           ) : null}
         </div>
-        <p className='mt-1 text-muted-foreground text-xs'>
+        <p className='text-muted-foreground mt-1 text-xs'>
           {template.description}
         </p>
-        <p className='mt-1 text-[10px] text-muted-foreground'>
+        <p className='text-muted-foreground mt-1 text-[10px]'>
           Source: {template.source}
         </p>
-        <pre className='mt-2 overflow-x-auto rounded-md bg-muted/50 p-2 font-mono text-[11px] text-muted-foreground leading-relaxed'>
+        <pre className='bg-muted/50 text-muted-foreground mt-2 overflow-x-auto rounded-md p-2 font-mono text-[11px] leading-relaxed'>
           {template.commands.join('\n')}
         </pre>
       </div>

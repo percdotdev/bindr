@@ -25,35 +25,35 @@ const VIEWMODEL_FIELDS: {
   step: number;
 }[] = [
   {
-    id: 'viewmodel-fov',
     field: 'fov',
+    id: 'viewmodel-fov',
     label: 'FOV',
-    min: 54,
     max: 68,
+    min: 54,
     step: 1,
   },
   {
-    id: 'viewmodel-offset-x',
     field: 'offsetX',
+    id: 'viewmodel-offset-x',
     label: 'Offset X',
-    min: -2.5,
     max: 2.5,
+    min: -2.5,
     step: 0.1,
   },
   {
-    id: 'viewmodel-offset-y',
     field: 'offsetY',
+    id: 'viewmodel-offset-y',
     label: 'Offset Y',
-    min: -2,
     max: 2,
+    min: -2,
     step: 0.1,
   },
   {
-    id: 'viewmodel-offset-z',
     field: 'offsetZ',
+    id: 'viewmodel-offset-z',
     label: 'Offset Z',
-    min: -2,
     max: 2,
+    min: -2,
     step: 0.1,
   },
 ];

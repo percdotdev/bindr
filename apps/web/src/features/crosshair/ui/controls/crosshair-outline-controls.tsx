@@ -22,9 +22,9 @@ interface CrosshairOutlineControlsProps {
 }
 
 const OUTLINE_MODE_OPTIONS = [
-  { value: 0, label: 'Off' },
-  { value: 1, label: 'Full (1px around)' },
-  { value: 2, label: 'Half (top & left only)' },
+  { label: 'Off', value: 0 },
+  { label: 'Full (1px around)', value: 1 },
+  { label: 'Half (top & left only)', value: 2 },
 ] as const;
 
 export function CrosshairOutlineControls({
@@ -68,10 +68,10 @@ export function CrosshairOutlineControls({
           label='Outline color'
           onChange={onOutlineRgbaChange}
           value={{
-            red: crosshair.outlineRed,
-            green: crosshair.outlineGreen,
-            blue: crosshair.outlineBlue,
             alpha: crosshair.outlineAlpha,
+            blue: crosshair.outlineBlue,
+            green: crosshair.outlineGreen,
+            red: crosshair.outlineRed,
           }}
         />
       )}

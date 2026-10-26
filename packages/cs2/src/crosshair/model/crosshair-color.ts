@@ -14,8 +14,8 @@ export const CROSSHAIR_COLOR_SWATCHES = [
   '#000000',
 ] as const;
 
-const HEX_PATTERN = /^[0-9A-Fa-f]{6}$/;
-const HEX_ALPHA_PATTERN = /^[0-9A-Fa-f]{8}$/;
+const HEX_PATTERN = /^[0-9A-Fa-f]{6}$/u;
+const HEX_ALPHA_PATTERN = /^[0-9A-Fa-f]{8}$/u;
 const MAX_CHANNEL = 255;
 
 function channelToHex(channel: number): string {
@@ -49,9 +49,9 @@ export function crosshairHexToRgb(hex: string): CrosshairRgb | null {
   }
 
   return {
-    red: Number.parseInt(raw.slice(0, 2), 16),
-    green: Number.parseInt(raw.slice(2, 4), 16),
     blue: Number.parseInt(raw.slice(4, 6), 16),
+    green: Number.parseInt(raw.slice(2, 4), 16),
+    red: Number.parseInt(raw.slice(0, 2), 16),
   };
 }
 

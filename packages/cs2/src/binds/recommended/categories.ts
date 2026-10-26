@@ -12,12 +12,12 @@ export const BIND_CATEGORY_ORDER: BindCategory[] = [
 ];
 
 export const BIND_CATEGORY_LABELS: Record<BindCategory, string> = {
-  utility: 'Grenades & utility',
-  lineups: 'Smoke lineups',
-  weapons: 'Weapons',
   buy: 'Buy binds',
+  comms: 'Communication',
+  lineups: 'Smoke lineups',
+  misc: 'HUD & toggles',
   movement: 'Movement',
   radar: 'Radar',
-  comms: 'Communication',
-  misc: 'HUD & toggles',
+  utility: 'Grenades & utility',
+  weapons: 'Weapons',
 };

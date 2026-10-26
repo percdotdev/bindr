@@ -13,15 +13,15 @@ import { usePathname } from 'next/navigation';
 import { Fragment } from 'react';
 
 const SEGMENT_LABELS: Record<string, string> = {
-  crosshair: 'Crosshair',
+  autoexec: 'Autoexec',
   binds: 'Binds',
   config: 'Game config',
-  autoexec: 'Autoexec',
-  recommended: 'Recommended',
+  crosshair: 'Crosshair',
   guides: 'Guides',
+  recommended: 'Recommended',
 };
 
-const DASH_RE = /-/g;
+const DASH_RE = /-/gu;
 
 function humanize(segment: string) {
   const spaced = segment.replace(DASH_RE, ' ');

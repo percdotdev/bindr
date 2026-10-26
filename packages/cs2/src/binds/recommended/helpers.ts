@@ -8,12 +8,12 @@ export function templateToBindEntry(
   template: RecommendedBindTemplate
 ): BindEntry {
   return {
+    category: template.category,
+    command: template.command,
+    description: template.description,
     id: template.id,
     key: template.key,
-    command: template.command,
     label: template.label,
-    description: template.description,
-    category: template.category,
     mmSafe: template.mmSafe,
   };
 }

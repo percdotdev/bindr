@@ -7,36 +7,36 @@ import { SiteShell } from '@/shared/ui/site-shell';
 const defaultTitle = `${SITE.name} — ${SITE.tagline}`;
 
 export const metadata: Metadata = {
+  alternates: { canonical: '/' },
+  applicationName: SITE.name,
+  authors: [{ name: SITE.name, url: SITE.url }],
+  category: 'technology',
+  creator: SITE.name,
+  description: SITE.description,
+  keywords: [...SITE.keywords],
   metadataBase: new URL(SITE.url),
+  openGraph: {
+    description: SITE.description,
+    locale: SITE.locale,
+    siteName: SITE.name,
+    title: defaultTitle,
+    type: 'website',
+    url: SITE.url,
+  },
+  publisher: SITE.name,
+  robots: {
+    follow: true,
+    googleBot: { follow: true, index: true },
+    index: true,
+  },
   title: {
     default: defaultTitle,
     template: `%s · ${SITE.name}`,
   },
-  description: SITE.description,
-  applicationName: SITE.name,
-  keywords: [...SITE.keywords],
-  authors: [{ name: SITE.name, url: SITE.url }],
-  creator: SITE.name,
-  publisher: SITE.name,
-  category: 'technology',
-  alternates: { canonical: '/' },
-  openGraph: {
-    type: 'website',
-    siteName: SITE.name,
-    title: defaultTitle,
-    description: SITE.description,
-    url: SITE.url,
-    locale: SITE.locale,
-  },
   twitter: {
     card: 'summary_large_image',
-    title: defaultTitle,
     description: SITE.description,
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: { index: true, follow: true },
+    title: defaultTitle,
   },
 };
 

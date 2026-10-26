@@ -3,8 +3,8 @@ import { SITE } from '@/shared/lib/site';
 
 export default function robots(): MetadataRoute.Robots {
   return {
-    rules: { userAgent: '*', allow: '/' },
-    sitemap: `${SITE.url}/sitemap.xml`,
     host: SITE.url,
+    rules: { allow: '/', userAgent: '*' },
+    sitemap: `${SITE.url}/sitemap.xml`,
   };
 }

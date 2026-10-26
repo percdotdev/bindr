@@ -8,7 +8,7 @@ export function HomeCatalogs() {
   return (
     <section className='flex flex-col gap-4'>
       <div className='flex flex-col gap-1'>
-        <h2 className='font-medium text-sm'>Curated catalogs</h2>
+        <h2 className='text-sm font-medium'>Curated catalogs</h2>
         <p className='text-muted-foreground text-xs'>
           Start from MM-safe 2026 meta presets and keep only what you want.
         </p>

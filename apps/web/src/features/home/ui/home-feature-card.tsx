@@ -31,25 +31,25 @@ export function HomeFeatureCard({
   return (
     <Link
       className={cn(
-        'group block transition-colors hover:bg-muted/30 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring',
+        'group hover:bg-muted/30 focus-visible:ring-ring block transition-colors focus-visible:ring-1 focus-visible:outline-none',
         className
       )}
       href={href}
     >
-      <Card className='h-full ring-foreground/10 transition-shadow group-hover:ring-foreground/25'>
+      <Card className='ring-foreground/10 group-hover:ring-foreground/25 h-full transition-shadow'>
         <CardHeader>
           <div className='flex items-center justify-between'>
-            <div className='flex size-8 items-center justify-center bg-muted ring-1 ring-foreground/10'>
+            <div className='bg-muted ring-foreground/10 flex size-8 items-center justify-center ring-1'>
               <Icon aria-hidden className='size-4' />
             </div>
-            <span className='font-mono text-[10px] text-muted-foreground tabular-nums'>
+            <span className='text-muted-foreground font-mono text-[10px] tabular-nums'>
               {index}
             </span>
           </div>
           <CardTitle className='mt-1'>{title}</CardTitle>
           <CardDescription>{description}</CardDescription>
         </CardHeader>
-        <CardFooter className='mt-auto border-foreground/10 text-muted-foreground text-xs transition-colors group-hover:text-foreground'>
+        <CardFooter className='border-foreground/10 text-muted-foreground group-hover:text-foreground mt-auto text-xs transition-colors'>
           {cta} →
         </CardFooter>
       </Card>

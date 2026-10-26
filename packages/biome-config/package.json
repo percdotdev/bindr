@@ -1,8 +1,8 @@
 {
   "name": "@workspace/biome-config",
   "version": "0.4.0",
-  "type": "module",
   "private": true,
+  "type": "module",
   "exports": {
     "./base": "./base.jsonc"
   }

@@ -48,7 +48,7 @@ export function RecommendedConfigPage() {
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='font-medium text-sm'>Recommended config</h1>
+          <h1 className='text-sm font-medium'>Recommended config</h1>
           <p className='text-muted-foreground text-xs'>
             Curated CS2 client cvars only — add individually or take the full
             set. Viewmodel and radar presets replace each other within their

@@ -2,33 +2,28 @@ import type { RecommendedConfigTemplate } from '@workspace/cs2/config/model/type
 
 export const RADAR_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   {
-    id: 'rec-radar-lineups',
-    label: 'Competitive radar (lineups)',
-    description:
-      'Zoomed-out minimap with larger HUD element — common execute setup.',
     category: 'radar',
-    mmSafe: true,
-    source: 'CS2 client cvar',
     commands: [
       'cl_radar_scale 0.4',
       'cl_hud_radar_scale 1.15',
       'cl_radar_always_centered 0',
     ],
+    description:
+      'Zoomed-out minimap with larger HUD element — common execute setup.',
+    id: 'rec-radar-lineups',
+    label: 'Competitive radar (lineups)',
+    mmSafe: true,
     patch: {
       radar: {
-        scale: 0.4,
-        hudScale: 1.15,
         alwaysCentered: false,
+        hudScale: 1.15,
+        scale: 0.4,
       },
     },
+    source: 'CS2 client cvar',
   },
   {
-    id: 'rec-radar-pro',
-    label: 'Pro radar',
-    description: 'Tighter zoom (0.35) with icon scaling.',
     category: 'radar',
-    mmSafe: true,
-    source: 'CS2 client cvar',
     commands: [
       'cl_radar_scale 0.35',
       'cl_radar_always_centered 0',
@@ -37,15 +32,20 @@ export const RADAR_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
       'cl_hud_radar_scale 1.15',
       'cl_radar_square_with_scoreboard 1',
     ],
+    description: 'Tighter zoom (0.35) with icon scaling.',
+    id: 'rec-radar-pro',
+    label: 'Pro radar',
+    mmSafe: true,
     patch: {
       radar: {
-        scale: 0.35,
         alwaysCentered: false,
-        rotate: true,
-        iconScaleMin: 0.5,
         hudScale: 1.15,
+        iconScaleMin: 0.5,
+        rotate: true,
+        scale: 0.35,
         squareWithScoreboard: true,
       },
     },
+    source: 'CS2 client cvar',
   },
 ];

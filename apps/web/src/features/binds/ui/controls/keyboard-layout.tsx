@@ -43,7 +43,7 @@ export function KeyboardLayout({
                     'h-full min-w-0 px-1 font-mono text-[10px] uppercase',
                     isBound && 'border-primary/50 bg-primary/10 text-primary',
                     isSelected &&
-                      'z-10 border-primary bg-primary/15 text-primary ring-2 ring-primary ring-inset'
+                      'border-primary bg-primary/15 text-primary ring-primary z-10 ring-2 ring-inset'
                   )}
                   key={key.bindKey}
                   onClick={() => {
@@ -64,7 +64,7 @@ export function KeyboardLayout({
           </div>
         </div>
       </div>
-      <p className='w-full text-center text-muted-foreground text-xs'>
+      <p className='text-muted-foreground w-full text-center text-xs'>
         Mouse keys and ANSI layout. Highlighted keys have a bind assigned.
       </p>
     </div>
