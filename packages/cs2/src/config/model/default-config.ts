@@ -64,6 +64,7 @@ export const DEFAULT_HUD: HudSettings = {
   hudScaling: 0.85,
   teammateColors: 1,
   showLoadout: true,
+  sniperShowInaccuracy: true,
 };
 
 export const DEFAULT_CONFIG: ConfigSettings = {

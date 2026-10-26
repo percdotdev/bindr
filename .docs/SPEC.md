@@ -263,7 +263,7 @@ features/binds/
 | Network | rate, interp, cmd/updaterate, max ping | Selects + sliders |
 | Audio | master, voice, music, 10s warning | Sliders + toggle |
 | Performance | fps caps, tracers, dynamic light, multicore | Toggles + sliders |
-| HUD | color, scale, teammate colors, loadout | Selects + toggles |
+| HUD | color, scale, teammate colors, loadout, sniper inaccuracy overlay | Selects + toggles |
 
 - Persist: `bindr:config:v1`
 - Export: `// config` block (per-section `// viewmodel` … `// hud` headers)

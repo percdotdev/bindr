@@ -31,7 +31,7 @@ const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
   network: 'Bandwidth and snapshot buffer ticks.',
   audio: 'Volume, voice and music levels.',
   performance: 'FPS caps, tracers and help popups.',
-  hud: 'HUD color, scale and on-screen elements.',
+  hud: 'HUD color, scale, on-screen elements and sniper overlay.',
 };
 
 export function ConfigEditor() {
