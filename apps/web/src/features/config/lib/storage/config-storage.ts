@@ -214,6 +214,10 @@ function normalizeHud(value: Record<string, unknown> | undefined): HudSettings {
     hudScaling: asNumber(stored.hudScaling, defaults.hudScaling),
     showBuildInfo: asBoolean(stored.showBuildInfo, defaults.showBuildInfo),
     showLoadout: asBoolean(stored.showLoadout, defaults.showLoadout),
+    sniperShowInaccuracy: asBoolean(
+      stored.sniperShowInaccuracy,
+      defaults.sniperShowInaccuracy
+    ),
     teamidOverheadFadeNearCrosshair: asNumber(
       stored.teamidOverheadFadeNearCrosshair,
       defaults.teamidOverheadFadeNearCrosshair

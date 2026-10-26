@@ -3,6 +3,21 @@ import type { RecommendedConfigTemplate } from '@workspace/cs2/config/model/type
 export const HUD_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   {
     category: 'hud',
+    commands: ['cl_sniper_show_inaccuracy 0'],
+    description:
+      'Hides the Oct 2025 inaccuracy circle on AWP and SSG 08 — restores the old static overlay. Settings → Game → Sniper Sights → Show Scoped Sniper Rifle Inaccuracy → No.',
+    id: 'rec-hud-classic-sniper-scope',
+    label: 'Classic AWP/Scout scope',
+    mmSafe: true,
+    patch: {
+      hud: {
+        sniperShowInaccuracy: false,
+      },
+    },
+    source: 'CS2 client cvar (Oct 2025)',
+  },
+  {
+    category: 'hud',
     commands: ['r_show_build_info false'],
     description:
       'Removes the version/debug overlay in the corner — cleaner competitive HUD.',

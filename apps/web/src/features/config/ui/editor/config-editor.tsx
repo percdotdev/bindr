@@ -26,7 +26,7 @@ import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
   audio: 'Volume, voice and music levels.',
-  hud: 'HUD color, scale and on-screen elements.',
+  hud: 'HUD color, scale, on-screen elements and sniper overlay.',
   mouse: 'Sensitivity and scoped ratio. Raw input is always on in CS2.',
   network: 'Bandwidth and snapshot buffer ticks.',
   performance: 'FPS caps, tracers and help popups.',

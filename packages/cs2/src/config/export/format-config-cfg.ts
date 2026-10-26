@@ -88,6 +88,7 @@ export function formatHudLines(hud: ConfigSettings['hud']) {
     `hud_scaling ${formatNumber(hud.hudScaling)}`,
     `cl_teammate_colors_show ${hud.teammateColors}`,
     `cl_showloadout ${formatBool(hud.showLoadout)}`,
+    `cl_sniper_show_inaccuracy ${formatBool(hud.sniperShowInaccuracy)}`,
     `cl_teamid_overhead_fade_near_crosshair ${formatNumber(hud.teamidOverheadFadeNearCrosshair)}`,
     `r_show_build_info ${hud.showBuildInfo}`,
   ];

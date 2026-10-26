@@ -69,6 +69,11 @@ export interface HudSettings {
   showBuildInfo: boolean;
   /** `cl_showloadout` — always show the weapon loadout panel */
   showLoadout: boolean;
+  /**
+   * `cl_sniper_show_inaccuracy` — moving spread circle on AWP/SSG 08.
+   * Off restores the pre–Oct 2025 static overlay.
+   */
+  sniperShowInaccuracy: boolean;
   /** `cl_teamid_overhead_fade_near_crosshair` (0–1, 0 = off) */
   teamidOverheadFadeNearCrosshair: number;
   /** `cl_teammate_colors_show` — 0 off, 1 colors, 2 colors + letters */

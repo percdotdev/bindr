@@ -62,6 +62,7 @@ export const DEFAULT_HUD: HudSettings = {
   hudScaling: 0.85,
   showBuildInfo: true,
   showLoadout: true,
+  sniperShowInaccuracy: true,
   teamidOverheadFadeNearCrosshair: 0.5,
   teammateColors: 1,
 };

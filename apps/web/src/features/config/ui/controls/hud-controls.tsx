@@ -93,6 +93,15 @@ export function HudControls({ hud, onUpdate }: HudControlsProps) {
         }}
       />
       <ConfigSwitchRow
+        description='cl_sniper_show_inaccuracy — moving spread circle on AWP/SSG 08. Off restores the classic overlay.'
+        enabled={hud.sniperShowInaccuracy}
+        id='hud-sniper-inaccuracy'
+        label='Show scoped sniper inaccuracy'
+        onChange={(enabled) => {
+          onUpdate('sniperShowInaccuracy', enabled);
+        }}
+      />
+      <ConfigSwitchRow
         description='r_show_build_info — version/debug overlay in the corner.'
         enabled={hud.showBuildInfo}
         id='hud-build-info'
