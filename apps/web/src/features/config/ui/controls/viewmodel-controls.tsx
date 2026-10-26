@@ -13,13 +13,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
+import { useTranslations } from 'next-intl';
+
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 const VIEWMODEL_FIELDS: {
   field: ViewmodelField;
   id: string;
-  label: string;
+  labelKey: 'fov' | 'offsetX' | 'offsetY' | 'offsetZ';
   max: number;
   min: number;
   step: number;
@@ -27,7 +29,7 @@ const VIEWMODEL_FIELDS: {
   {
     field: 'fov',
     id: 'viewmodel-fov',
-    label: 'FOV',
+    labelKey: 'fov',
     max: 68,
     min: 54,
     step: 1,
@@ -35,7 +37,7 @@ const VIEWMODEL_FIELDS: {
   {
     field: 'offsetX',
     id: 'viewmodel-offset-x',
-    label: 'Offset X',
+    labelKey: 'offsetX',
     max: 2.5,
     min: -2.5,
     step: 0.01,
@@ -43,7 +45,7 @@ const VIEWMODEL_FIELDS: {
   {
     field: 'offsetY',
     id: 'viewmodel-offset-y',
-    label: 'Offset Y',
+    labelKey: 'offsetY',
     max: 2,
     min: -2,
     step: 0.01,
@@ -51,7 +53,7 @@ const VIEWMODEL_FIELDS: {
   {
     field: 'offsetZ',
     id: 'viewmodel-offset-z',
-    label: 'Offset Z',
+    labelKey: 'offsetZ',
     max: 2,
     min: -2,
     step: 0.01,
@@ -83,12 +85,14 @@ export function ViewmodelControls({
   onUpdate,
   viewmodel,
 }: ViewmodelControlsProps) {
+  const t = useTranslations('config');
+  const tCommon = useTranslations('common');
   const presetValue = findMatchingPresetId(viewmodel) ?? 'custom';
 
   return (
     <div className='flex flex-col gap-6'>
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='viewmodel-preset'>Preset</Label>
+        <Label htmlFor='viewmodel-preset'>{t('preset')}</Label>
         <Select
           onValueChange={(value) => {
             if (value && value !== 'custom') {
@@ -98,13 +102,15 @@ export function ViewmodelControls({
           value={presetValue}
         >
           <SelectTrigger className='w-full' id='viewmodel-preset'>
-            <SelectValue placeholder='Custom' />
+            <SelectValue placeholder={tCommon('custom')} />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value='custom'>Custom</SelectItem>
+            <SelectItem value='custom'>{tCommon('custom')}</SelectItem>
             {VIEWMODEL_PRESETS.map((preset) => (
               <SelectItem key={preset.id} value={preset.id}>
-                {preset.label}
+                {t(
+                  `presets.${preset.id}.label` as 'presets.valve-default.label'
+                )}
               </SelectItem>
             ))}
           </SelectContent>
@@ -115,7 +121,7 @@ export function ViewmodelControls({
         <CrosshairControlSlider
           id={control.id}
           key={control.id}
-          label={control.label}
+          label={t(control.labelKey)}
           max={control.max}
           min={control.min}
           onValueChange={(value) => {
@@ -127,10 +133,10 @@ export function ViewmodelControls({
       ))}
 
       <ConfigSwitchRow
-        description='cl_prefer_lefthanded — CS2 replacement for removed cl_righthand. switchhands still toggles mid-round.'
+        description={t('leftHandedDescription')}
         enabled={viewmodel.preferLeftHanded}
         id='viewmodel-left-hand'
-        label='Left-handed'
+        label={t('leftHanded')}
         onChange={(enabled) => {
           onUpdate('preferLeftHanded', enabled);
         }}

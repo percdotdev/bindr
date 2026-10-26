@@ -1,9 +1,8 @@
 import { cn } from '@workspace/ui/lib/utils';
 import type { MDXComponents } from 'mdx/types';
-import Link from 'next/link';
 import type { ComponentPropsWithoutRef } from 'react';
-
 import { GuideImage } from '@/features/guides/ui/guide-image';
+import { Link } from '@/i18n/navigation';
 
 function isInternal(href: string) {
   return href.startsWith('/') || href.startsWith('#');
@@ -15,7 +14,7 @@ function Anchor({ href, ...props }: ComponentPropsWithoutRef<'a'>) {
     'font-medium text-foreground underline underline-offset-4 decoration-foreground/30 hover:decoration-foreground';
 
   if (isInternal(target)) {
-    return <Link className={className} href={target} {...props} />;
+    return <Link className={className} href={target as '/'} {...props} />;
   }
 
   return (

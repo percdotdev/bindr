@@ -1,6 +1,8 @@
 'use client';
 
 import type { MouseSettings } from '@workspace/cs2/config/model/types';
+import { useTranslations } from 'next-intl';
+
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface MouseControlsProps {
@@ -12,11 +14,13 @@ interface MouseControlsProps {
 }
 
 export function MouseControls({ mouse, onUpdate }: MouseControlsProps) {
+  const t = useTranslations('config');
+
   return (
     <div className='flex flex-col gap-6'>
       <CrosshairControlSlider
         id='mouse-sensitivity'
-        label='Sensitivity'
+        label={t('sensitivity')}
         max={6}
         min={0.1}
         onValueChange={(value) => {
@@ -27,7 +31,7 @@ export function MouseControls({ mouse, onUpdate }: MouseControlsProps) {
       />
       <CrosshairControlSlider
         id='mouse-zoom-ratio'
-        label='Zoom sensitivity ratio'
+        label={t('zoomSensitivity')}
         max={2}
         min={0.5}
         onValueChange={(value) => {

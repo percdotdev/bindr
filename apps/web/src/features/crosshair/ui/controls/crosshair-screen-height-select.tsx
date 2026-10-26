@@ -9,6 +9,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
+import { useTranslations } from 'next-intl';
 
 interface CrosshairScreenHeightSelectProps {
   onScreenHeightChange: (screenHeight: number) => void;
@@ -23,6 +24,7 @@ export function CrosshairScreenHeightSelect({
   onScreenHeightChange,
   screenHeight,
 }: CrosshairScreenHeightSelectProps) {
+  const t = useTranslations('crosshair');
   const presets: readonly number[] = CROSSHAIR_SCREEN_HEIGHT_PRESETS;
   const options = presets.includes(screenHeight)
     ? presets
@@ -30,7 +32,7 @@ export function CrosshairScreenHeightSelect({
 
   return (
     <div className='flex flex-col gap-2'>
-      <Label htmlFor='crosshair-screen-height'>Made for screen height</Label>
+      <Label htmlFor='crosshair-screen-height'>{t('screenHeight')}</Label>
       <Select
         onValueChange={(value) => {
           if (value !== null) {
@@ -50,10 +52,7 @@ export function CrosshairScreenHeightSelect({
           ))}
         </SelectContent>
       </Select>
-      <p className='text-muted-foreground text-xs'>
-        Sizes are in pixels. CS2 keeps the crosshair the same relative size when
-        you play at a different resolution.
-      </p>
+      <p className='text-muted-foreground text-xs'>{t('screenHeightHint')}</p>
     </div>
   );
 }

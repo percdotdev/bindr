@@ -6,6 +6,7 @@ import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { CopyIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 interface CrosshairExportPanelProps {
@@ -13,38 +14,40 @@ interface CrosshairExportPanelProps {
   shareCode: string;
 }
 
-async function copyText(value: string, successMessage: string) {
-  try {
-    await navigator.clipboard.writeText(value);
-    toast.success(successMessage);
-  } catch {
-    toast.error('Could not copy to clipboard');
-  }
-}
-
 export function CrosshairExportPanel({
   crosshair,
   shareCode,
 }: CrosshairExportPanelProps) {
+  const t = useTranslations('crosshair');
+  const tCommon = useTranslations('common');
   const commandLines = crosshairSettingsToConsoleLines(crosshair);
   const consoleCommands = commandLines.join('; ');
   const cfgBlock = `// share code: ${shareCode}\n${commandLines.join('\n')}`;
+
+  async function copyText(value: string, successMessage: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success(successMessage);
+    } catch {
+      toast.error(tCommon('copyFailed'));
+    }
+  }
 
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
         <div className='flex items-center justify-between gap-2'>
-          <Label htmlFor='crosshair-share-code'>Share code</Label>
+          <Label htmlFor='crosshair-share-code'>{t('shareCode')}</Label>
           <Button
             onClick={() => {
-              copyText(shareCode, 'Share code copied').catch(() => undefined);
+              copyText(shareCode, t('toastShareCopied')).catch(() => undefined);
             }}
             size='sm'
             type='button'
             variant='outline'
           >
             <CopyIcon data-icon='inline-start' />
-            Copy
+            {tCommon('copy')}
           </Button>
         </div>
         <Input
@@ -54,20 +57,22 @@ export function CrosshairExportPanel({
           value={shareCode}
         />
         <p className='text-muted-foreground text-xs'>
-          Paste into CS2 Settings → Crosshair, or run{' '}
+          {t('exportHintBefore')}{' '}
           <code className='bg-muted rounded-none px-1 py-0.5'>
             cl_crosshaircode
           </code>{' '}
-          in console.
+          {t('exportHintAfter')}
         </p>
       </div>
 
       <div className='flex flex-col gap-2'>
         <div className='flex items-center justify-between gap-2'>
-          <Label htmlFor='crosshair-console-commands'>Console commands</Label>
+          <Label htmlFor='crosshair-console-commands'>
+            {t('consoleCommands')}
+          </Label>
           <Button
             onClick={() => {
-              copyText(consoleCommands, 'Console commands copied').catch(
+              copyText(consoleCommands, t('toastCommandsCopied')).catch(
                 () => undefined
               );
             }}
@@ -76,7 +81,7 @@ export function CrosshairExportPanel({
             variant='outline'
           >
             <CopyIcon data-icon='inline-start' />
-            Copy
+            {tCommon('copy')}
           </Button>
         </div>
         <pre
@@ -89,15 +94,13 @@ export function CrosshairExportPanel({
 
       <Button
         onClick={() => {
-          copyText(cfgBlock, 'Share code and commands copied').catch(
-            () => undefined
-          );
+          copyText(cfgBlock, t('toastBothCopied')).catch(() => undefined);
         }}
         type='button'
         variant='outline'
       >
         <CopyIcon data-icon='inline-start' />
-        Copy both
+        {tCommon('copyBoth')}
       </Button>
     </div>
   );

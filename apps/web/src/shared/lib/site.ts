@@ -1,8 +1,6 @@
 const FALLBACK_URL = 'https://bindr.lol';
 
 export const SITE = {
-  description:
-    'Free browser tools for Counter-Strike 2: edit crosshairs, generate binds, tune cvars and build one autoexec.cfg. MM-safe, no download.',
   keywords: [
     'CS2 crosshair',
     'CS2 crosshair code',
@@ -18,8 +16,10 @@ export const SITE = {
     'Counter-Strike 2 settings',
     'CS2 2026',
   ],
-  locale: 'en_US',
   name: 'bindr.lol',
-  tagline: 'CS2 crosshair, binds & config tools',
+  ogLocales: {
+    en: 'en_US',
+    es: 'es_ES',
+  },
   url: process.env.NEXT_PUBLIC_SITE_URL ?? FALLBACK_URL,
 } as const;

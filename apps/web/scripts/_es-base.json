@@ -1,0 +1,165 @@
+{
+  "breadcrumb": {
+    "autoexec": "Autoexec",
+    "binds": "Binds",
+    "config": "Config del juego",
+    "crosshair": "Mira",
+    "guides": "Guías",
+    "recommended": "Recomendados"
+  },
+  "home": {
+    "catalogs": {
+      "binds": "Binds recomendados",
+      "config": "Config recomendada"
+    },
+    "catalogsSubtitle": "Parte de presets meta 2026 seguros para MM y quédate solo con lo que quieras.",
+    "catalogsTitle": "Catálogos curados",
+    "console": {
+      "loaded": "autoexec de bindr.lol cargado",
+      "tagline": "   bindr.lol  -  estudio de config CS2 en el navegador"
+    },
+    "ctaAutoexec": "Componer autoexec",
+    "ctaCrosshair": "Empezar con la mira",
+    "eyebrow": "Estudio de config para Counter-Strike 2",
+    "leadAfter": "en la carpeta del juego. Sin descargas, sin cheats.",
+    "leadBefore": "Crea tu mira, binds y cvars del juego en el navegador; luego copia comandos de consola o deja un",
+    "steps": {
+      "customize": {
+        "detail": "Deslizadores, interruptores y un teclado visual — sin memorizar sintaxis.",
+        "title": "Personalizar"
+      },
+      "export": {
+        "detail": "Copia el share code y los comandos, o descarga un autoexec.cfg.",
+        "title": "Exportar"
+      },
+      "import": {
+        "detail": "Pega un share code o parte de presets 2026 seguros para MM.",
+        "title": "Importar"
+      },
+      "preview": {
+        "detail": "Las miras se renderizan en mapas reales; el cfg se actualiza en vivo.",
+        "title": "Previsualizar"
+      }
+    },
+    "stepsTitle": "Cómo funciona",
+    "tools": {
+      "autoexec": {
+        "cta": "Componer cfg",
+        "description": "Une mira, config y binds en un autoexec.cfg con interruptores por sección.",
+        "title": "Compositor de autoexec"
+      },
+      "binds": {
+        "cta": "Crear binds",
+        "description": "Asigna comandos en un teclado visual y exporta líneas de bind agrupadas o un cfg listo para pegar.",
+        "title": "Generador de binds"
+      },
+      "config": {
+        "cta": "Ajustar cvars",
+        "description": "Ajusta viewmodel, ratón, radar, red, audio, rendimiento y cvars de HUD con deslizadores.",
+        "title": "Config del juego"
+      },
+      "crosshair": {
+        "cta": "Abrir editor",
+        "description": "Decodifica share codes de CS2 (los CSGO- antiguos se convierten), ajusta gap, color y estilo, previsualiza en mapas reales y exporta el código y los comandos.",
+        "title": "Editor de mira"
+      }
+    },
+    "toolsSubtitle": "Todo en el cliente",
+    "toolsTitle": "Herramientas",
+    "values": {
+      "browser": {
+        "detail": "Analiza, previsualiza y exporta sin instalar nada.",
+        "label": "Solo navegador"
+      },
+      "local": {
+        "detail": "Los cambios se guardan en tu navegador hasta que llegue el guardado en la nube.",
+        "label": "Local primero"
+      },
+      "mmSafe": {
+        "detail": "Binds y cvars siguen las reglas actuales de Valve — sin scripts prohibidos.",
+        "label": "Defaults seguros para MM"
+      }
+    }
+  },
+  "locale": { "en": "English", "es": "Español" },
+  "nav": {
+    "autoexec": {
+      "description": "Une mira, config y binds en un solo cfg.",
+      "label": "Compositor de autoexec"
+    },
+    "binds": {
+      "description": "Asigna comandos en un teclado visual y exporta el cfg.",
+      "label": "Generador de binds"
+    },
+    "bindsRecommended": {
+      "description": "Plantillas meta 2026 seguras para MM.",
+      "label": "Binds recomendados"
+    },
+    "catalogs": "catálogos",
+    "config": {
+      "description": "Viewmodel, ratón, radar, red, audio y cvars de HUD.",
+      "label": "Config del juego"
+    },
+    "configRecommended": {
+      "description": "Paquetes de cvars curados por sección.",
+      "label": "Config recomendada"
+    },
+    "crosshair": {
+      "description": "Decodifica share codes, previsualiza y exporta código y comandos.",
+      "label": "Editor de mira"
+    },
+    "editors": "editores",
+    "footer": {
+      "autoexec": "autoexec",
+      "binds": "binds",
+      "bindsCatalog": "catálogo binds",
+      "config": "config",
+      "configCatalog": "catálogo config",
+      "crosshair": "mira",
+      "guides": "guías"
+    },
+    "footerAria": "Pie de página",
+    "guides": "guías",
+    "localeAria": "Idioma"
+  },
+  "pages": {
+    "autoexec": {
+      "description": "Une tu mira, config y binds de CS2 en un solo autoexec.cfg con interruptores por sección y banner ASCII; luego cópialo o descárgalo.",
+      "title": "Compositor de autoexec"
+    },
+    "binds": {
+      "description": "Crea configs de binds de CS2 en un teclado visual y exporta líneas agrupadas o un fragmento de cfg listo para pegar.",
+      "title": "Generador de binds"
+    },
+    "bindsRecommended": {
+      "description": "Plantillas de binds CS2 seguras para MM — granadas, cuchillo, drop, lineup, compra y radar. Añade una a una o coge el set completo.",
+      "title": "Binds recomendados"
+    },
+    "config": {
+      "description": "Ajusta viewmodel, ratón, radar, red, audio, rendimiento y cvars de HUD con deslizadores; luego copia o descarga un fragmento de cfg.",
+      "title": "Editor de config"
+    },
+    "configRecommended": {
+      "description": "Paquetes de cvars de cliente para CS2 — viewmodel, ratón, radar, red, audio, rendimiento y HUD. Sin restos de CS:GO.",
+      "title": "Config recomendada"
+    },
+    "crosshair": {
+      "description": "Importa share codes de mira de CS2, ajusta gap, color y estilo, previsualiza sobre mapas reales y exporta el código más los comandos de consola.",
+      "title": "Editor de mira"
+    },
+    "guides": {
+      "description": "Guías y trucos para sacar el máximo a tu config, mira, binds y autoexec de Counter-Strike 2.",
+      "title": "Guías"
+    },
+    "home": {
+      "description": "Herramientas gratis en el navegador para Counter-Strike 2: edita miras, genera binds, ajusta cvars y crea un autoexec.cfg. Seguro para MM, sin descargas.",
+      "title": "Mira, binds y config para CS2"
+    }
+  },
+  "site": {
+    "description": "Herramientas gratis en el navegador para Counter-Strike 2: edita miras, genera binds, ajusta cvars y crea un autoexec.cfg. Seguro para MM, sin descargas.",
+    "disclaimer": "No estamos afiliados a Valve Corporation.",
+    "tagline": "Mira, binds y config para CS2",
+    "themeHint": "Pulsa <kbd>t</kbd> para el tema"
+  }
+}

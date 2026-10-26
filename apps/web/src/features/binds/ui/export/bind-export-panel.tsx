@@ -4,19 +4,11 @@ import { formatBindLines } from '@workspace/cs2/binds/export/format-bind';
 import { formatBindCfg } from '@workspace/cs2/binds/export/format-cfg';
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import { Button } from '@workspace/ui/components/button';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 interface BindExportPanelProps {
   binds: BindEntry[];
-}
-
-async function copyText(text: string, label: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    toast.success(`${label} copied`);
-  } catch {
-    toast.error(`Could not copy ${label.toLowerCase()}`);
-  }
 }
 
 function downloadCfg(text: string) {
@@ -30,30 +22,41 @@ function downloadCfg(text: string) {
 }
 
 export function BindExportPanel({ binds }: BindExportPanelProps) {
+  const t = useTranslations('binds');
+  const tCommon = useTranslations('common');
   const bindLines = formatBindLines(binds);
   const cfg = formatBindCfg(binds);
+
+  async function copyText(text: string, successMessage: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(successMessage);
+    } catch {
+      toast.error(tCommon('copyFailed'));
+    }
+  }
 
   return (
     <div className='flex flex-wrap gap-2'>
       <Button
         disabled={binds.length === 0}
         onClick={() => {
-          copyText(bindLines, 'Bind lines').catch(() => undefined);
+          copyText(bindLines, t('toastLines')).catch(() => undefined);
         }}
         type='button'
         variant='outline'
       >
-        Copy bind lines
+        {t('copyLines')}
       </Button>
       <Button
         disabled={binds.length === 0}
         onClick={() => {
-          copyText(cfg, 'CFG snippet').catch(() => undefined);
+          copyText(cfg, t('toastCfg')).catch(() => undefined);
         }}
         type='button'
         variant='outline'
       >
-        Copy CFG snippet
+        {t('copyCfg')}
       </Button>
       <Button
         disabled={binds.length === 0}
@@ -63,7 +66,7 @@ export function BindExportPanel({ binds }: BindExportPanelProps) {
         type='button'
         variant='outline'
       >
-        Download .cfg
+        {t('downloadCfg')}
       </Button>
     </div>
   );

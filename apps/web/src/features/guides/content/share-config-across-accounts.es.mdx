@@ -1,0 +1,29 @@
+Counter-Strike 2 guarda tu configuración por cuenta de Steam, dentro de la carpeta `userdata` de Steam. Está bien hasta que añades una segunda cuenta o cambias de PC y de repente no están tus binds, tu mira ni tu sensibilidad.
+
+Hay un override integrado del que casi nadie habla: una sola variable de entorno que le dice a CS2 que lea y escriba su config desde una carpeta *tú* eliges. Configúrala una vez y todas las cuentas de esa máquina comparten el mismo `cfg` — incluido tu `autoexec.cfg`.
+
+## Resumen rápido
+
+Crea una variable de entorno de **sistema** llamada `USRLOCALCSGO` y apúntala a tu carpeta `cfg` de CS2. Reinicia. Eso es todo el truco.
+
+## Cómo configurarlo en Windows
+
+1. Abre el menú Inicio y busca **"Editar las variables de entorno del sistema"**, luego abre el resultado.
+2. En Propiedades del sistema, haz clic en **Variables de entorno…**
+3. Bajo **Variables del sistema** — el cuadro inferior, no "Variables de usuario" — haz clic en **Nueva**.
+4. Pon el **Nombre de la variable** como `USRLOCALCSGO`.
+5. Pon el **Valor de la variable** a tu carpeta `cfg` de CS2, p. ej. `C:\Program Files (x86)\Steam\steamapps\common\Counter-Strike Global Offensive\game\csgo\cfg`.
+6. Haz clic en **Aceptar** en todos los diálogos para guardar.
+7. **Reinicia el PC** para que la variable se aplique en todas partes.
+
+![El diálogo Nueva variable del sistema con USRLOCALCSGO apuntando a la ruta cfg de CS2](/guides/usrlocalcsgo-env-var.webp)
+
+## Qué pasa después
+
+En el primer arranque tras el cambio, CS2 se verá "nuevo" — configura opciones de vídeo y teclas una vez. A partir de ahí, **todas las cuentas** que entren en este PC cargan esa misma config automáticamente.
+
+## Haz que tu autoexec se quede
+
+Como el juego ahora lee de una carpeta que controlas, un `autoexec.cfg` ahí se carga en cada arranque, en cada cuenta — sin volver a aplicarlo tras actualizaciones. Si aún no tienes uno, [móntalo con el compositor de autoexec](/autoexec) y guarda el archivo en esa carpeta exacta.
+
+> Apunta la variable a la carpeta `cfg` en sí, no a su padre. Si CS2 parece ignorarla, revisa la ruta y confirma que la creaste bajo **Variables del sistema**, luego reinicia otra vez.

@@ -5,6 +5,8 @@ import {
   showsClassicSplitControls,
   showsQuadrantSizeControl,
 } from '@workspace/cs2/crosshair/model/crosshair-style';
+import { useTranslations } from 'next-intl';
+
 import { useCrosshairEditor } from '@/features/crosshair/hooks/use-crosshair-editor';
 import { CrosshairAppearanceControls } from '@/features/crosshair/ui/controls/crosshair-appearance-controls';
 import { CrosshairDynamicControls } from '@/features/crosshair/ui/controls/crosshair-dynamic-controls';
@@ -22,6 +24,7 @@ import { CrosshairPreview } from '@/features/crosshair/ui/preview/crosshair-prev
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 export function CrosshairEditor() {
+  const t = useTranslations('crosshair');
   const {
     crosshair,
     shareCode,
@@ -37,11 +40,8 @@ export function CrosshairEditor() {
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
       <div className='flex flex-col gap-3'>
         <div className='flex flex-col gap-1'>
-          <h1 className='text-sm font-medium'>Crosshair editor</h1>
-          <p className='text-muted-foreground text-xs'>
-            Import a CS2 share code, tweak pixel-exact settings, then copy the
-            share code, console commands, or both back into the game.
-          </p>
+          <h1 className='text-sm font-medium'>{t('title')}</h1>
+          <p className='text-muted-foreground text-xs'>{t('subtitle')}</p>
         </div>
         <div className='flex items-center gap-2'>
           <ShareCodeImportDialog
@@ -57,15 +57,15 @@ export function CrosshairEditor() {
 
       <CollapsibleSection
         contentClassName='flex flex-col gap-4'
-        description='Share code for in-game settings, plus console commands for autoexec or the console.'
-        title='Export'
+        description={t('sections.exportDescription')}
+        title={t('sections.export')}
       >
         <CrosshairExportPanel crosshair={crosshair} shareCode={shareCode} />
       </CollapsibleSection>
 
       <CollapsibleSection
         contentClassName='flex flex-col gap-6'
-        title='Crosshair'
+        title={t('sections.crosshair')}
       >
         <CrosshairStyleSelect
           onStyleChange={(style) => updateField('style', style)}
@@ -78,7 +78,7 @@ export function CrosshairEditor() {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title='Outline'>
+      <CollapsibleSection title={t('sections.outline')}>
         <CrosshairOutlineControls
           crosshair={crosshair}
           onOutlineRgbaChange={updateOutlineRgba}
@@ -87,7 +87,7 @@ export function CrosshairEditor() {
       </CollapsibleSection>
 
       {isDynamicCrosshairStyle(crosshair.style) ? (
-        <CollapsibleSection title='Dynamic'>
+        <CollapsibleSection title={t('sections.dynamic')}>
           <CrosshairDynamicControls
             crosshair={crosshair}
             onUpdate={updateField}
@@ -96,7 +96,7 @@ export function CrosshairEditor() {
       ) : null}
 
       {showsClassicSplitControls(crosshair.style) ? (
-        <CollapsibleSection title='Split'>
+        <CollapsibleSection title={t('sections.split')}>
           <CrosshairSplitControls
             crosshair={crosshair}
             onUpdate={updateField}
@@ -105,7 +105,7 @@ export function CrosshairEditor() {
       ) : null}
 
       {showsQuadrantSizeControl(crosshair.style) ? (
-        <CollapsibleSection title='Quadrant'>
+        <CollapsibleSection title={t('sections.quadrant')}>
           <CrosshairQuadrantControls
             crosshair={crosshair}
             onUpdate={updateField}
@@ -113,14 +113,14 @@ export function CrosshairEditor() {
         </CollapsibleSection>
       ) : null}
 
-      <CollapsibleSection defaultOpen={false} title='Scope dot'>
+      <CollapsibleSection defaultOpen={false} title={t('sections.scopeDot')}>
         <CrosshairScopeDotControls
           crosshair={crosshair}
           onUpdate={updateField}
         />
       </CollapsibleSection>
 
-      <CollapsibleSection defaultOpen={false} title='Resolution'>
+      <CollapsibleSection defaultOpen={false} title={t('sections.resolution')}>
         <CrosshairScreenHeightSelect
           onScreenHeightChange={(value) => updateField('screenHeight', value)}
           screenHeight={crosshair.screenHeight}

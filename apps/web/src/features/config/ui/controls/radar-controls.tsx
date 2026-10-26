@@ -1,6 +1,8 @@
 'use client';
 
 import type { RadarSettings } from '@workspace/cs2/config/model/types';
+import { useTranslations } from 'next-intl';
+
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
@@ -13,11 +15,13 @@ interface RadarControlsProps {
 }
 
 export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
+  const t = useTranslations('config');
+
   return (
     <div className='flex flex-col gap-6'>
       <CrosshairControlSlider
         id='radar-scale'
-        label='Radar zoom (cl_radar_scale)'
+        label={t('radarZoom')}
         max={1}
         min={0.25}
         onValueChange={(value) => {
@@ -28,7 +32,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
       />
       <CrosshairControlSlider
         id='radar-hud-scale'
-        label='HUD radar size'
+        label={t('hudRadarSize')}
         max={1.3}
         min={0.8}
         onValueChange={(value) => {
@@ -39,7 +43,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
       />
       <CrosshairControlSlider
         id='radar-icon-scale'
-        label='Min icon size'
+        label={t('minIconSize')}
         max={1.25}
         min={0.4}
         onValueChange={(value) => {
@@ -49,28 +53,28 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
         value={radar.iconScaleMin}
       />
       <ConfigSwitchRow
-        description='cl_radar_always_centered — off shows more of the map.'
+        description={t('alwaysCenteredDescription')}
         enabled={radar.alwaysCentered}
         id='radar-centered'
-        label='Always centered'
+        label={t('alwaysCentered')}
         onChange={(enabled) => {
           onUpdate('alwaysCentered', enabled);
         }}
       />
       <ConfigSwitchRow
-        description='cl_radar_rotate — rotate the radar with your view.'
+        description={t('rotateRadarDescription')}
         enabled={radar.rotate}
         id='radar-rotate'
-        label='Rotate radar'
+        label={t('rotateRadar')}
         onChange={(enabled) => {
           onUpdate('rotate', enabled);
         }}
       />
       <ConfigSwitchRow
-        description='cl_radar_square_with_scoreboard — square radar on scoreboard.'
+        description={t('squareScoreboardDescription')}
         enabled={radar.squareWithScoreboard}
         id='radar-square'
-        label='Square with scoreboard'
+        label={t('squareScoreboard')}
         onChange={(enabled) => {
           onUpdate('squareWithScoreboard', enabled);
         }}

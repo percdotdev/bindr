@@ -25,6 +25,12 @@
       "skillPath": "skills/next-upgrade/SKILL.md",
       "computedHash": "e3aeb1f9e8a68d24df0c1c2e3c8ab97ede09a7251a2c76988318d02254346979"
     },
+    "nextjs-intl": {
+      "source": "r-senchuk/agentskills",
+      "sourceType": "github",
+      "skillPath": ".agents/skills/nextjs-intl/SKILL.md",
+      "computedHash": "751bbdc7d6a43469a8b1ffd7f45cde5a77dc67e4186e21f4ce2e8e942908b2ff"
+    },
     "no-use-effect": {
       "source": "alejandrobailo/no-use-effect",
       "sourceType": "github",

@@ -1,6 +1,8 @@
 'use client';
 
 import type { AudioSettings } from '@workspace/cs2/config/model/types';
+import { useTranslations } from 'next-intl';
+
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
@@ -13,11 +15,13 @@ interface AudioControlsProps {
 }
 
 export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
+  const t = useTranslations('config');
+
   return (
     <div className='flex flex-col gap-6'>
       <CrosshairControlSlider
         id='audio-master'
-        label='Master volume'
+        label={t('masterVolume')}
         max={1}
         min={0}
         onValueChange={(value) => {
@@ -28,7 +32,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
       />
       <CrosshairControlSlider
         id='audio-voice'
-        label='Voice volume'
+        label={t('voiceVolume')}
         max={1}
         min={0}
         onValueChange={(value) => {
@@ -39,7 +43,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
       />
       <CrosshairControlSlider
         id='audio-music'
-        label='Music volume (round/menu/MVP)'
+        label={t('musicVolume')}
         max={1}
         min={0}
         onValueChange={(value) => {
@@ -50,7 +54,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
       />
       <CrosshairControlSlider
         id='audio-ten-second'
-        label='Bomb timer beep'
+        label={t('bombBeep')}
         max={1}
         min={0}
         onValueChange={(value) => {
@@ -60,10 +64,10 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         value={audio.tenSecondWarning}
       />
       <ConfigSwitchRow
-        description='snd_mute_losefocus — mute the game when alt-tabbed.'
+        description={t('muteAltTabDescription')}
         enabled={audio.muteOnFocusLoss}
         id='audio-mute-focus'
-        label='Mute when alt-tabbed'
+        label={t('muteAltTab')}
         onChange={(enabled) => {
           onUpdate('muteOnFocusLoss', enabled);
         }}

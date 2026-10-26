@@ -9,6 +9,7 @@ import {
   SelectValue,
 } from '@workspace/ui/components/select';
 import Image from 'next/image';
+import { useTranslations } from 'next-intl';
 import { useCallback, useState } from 'react';
 import {
   PREVIEW_MAP_BACKGROUNDS,
@@ -26,6 +27,7 @@ interface CrosshairPreviewProps {
 }
 
 export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
+  const t = useTranslations('crosshair');
   const [activeMapId, setActiveMapId] = useState(
     PREVIEW_MAP_BACKGROUNDS[0]?.id ?? 'inferno'
   );
@@ -61,7 +63,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
         style={{ aspectRatio: `${PREVIEW_MAP_WIDTH} / ${PREVIEW_MAP_HEIGHT}` }}
       >
         <Image
-          alt={`${activeMap.label} crosshair preview background`}
+          alt={t('previewAlt', { map: activeMap.label })}
           className='size-full object-cover'
           height={PREVIEW_MAP_HEIGHT}
           priority={activeMap.id === 'inferno'}
@@ -77,7 +79,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
 
         <div className='pointer-events-none absolute top-1/2 left-1/2 flex size-[120px] -translate-x-1/2 -translate-y-1/2 items-center justify-center overflow-hidden'>
           <canvas
-            aria-label='Crosshair preview'
+            aria-label={t('previewAria')}
             className='block'
             height={PREVIEW_CANVAS_SIZE}
             ref={canvasRef}
@@ -100,7 +102,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
             value={activeMap.id}
           >
             <SelectTrigger
-              aria-label='Preview map'
+              aria-label={t('mapAria')}
               className='h-7 min-w-28 border-white/20 bg-black/60 text-white backdrop-blur-sm hover:bg-black/75 data-placeholder:text-white/70 [&_svg]:text-white/70'
               id='preview-map'
               size='sm'

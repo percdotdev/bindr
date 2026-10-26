@@ -10,51 +10,141 @@ import {
   navigationMenuTriggerStyle,
 } from '@workspace/ui/components/navigation-menu';
 import { cn } from '@workspace/ui/lib/utils';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
+
+import { Link, usePathname } from '@/i18n/navigation';
+import { LocaleSwitcher } from '@/shared/ui/locale-switcher';
 
 interface NavLink {
   description: string;
-  href: string;
+  href:
+    | '/crosshair'
+    | '/binds'
+    | '/config'
+    | '/autoexec'
+    | '/binds/recommended'
+    | '/config/recommended';
   label: string;
 }
 
-const EDITOR_LINKS: NavLink[] = [
-  {
-    description: 'Decode share codes, preview, export code and commands.',
-    href: '/crosshair',
-    label: 'Crosshair editor',
-  },
-  {
-    description: 'Assign commands on a visual keyboard, export cfg.',
-    href: '/binds',
-    label: 'Bind generator',
-  },
-  {
-    description: 'Viewmodel, mouse, radar, network, audio, HUD cvars.',
-    href: '/config',
-    label: 'Game config',
-  },
-  {
-    description: 'Merge crosshair, config and binds into one cfg.',
-    href: '/autoexec',
-    label: 'Autoexec composer',
-  },
-];
+export function SiteNav() {
+  const pathname = usePathname();
+  const t = useTranslations('nav');
+  const onHome = pathname === '/';
+  const [menuValue, setMenuValue] = useState<string | null>(null);
+  const closeMenu = () => setMenuValue(null);
 
-const CATALOG_LINKS: NavLink[] = [
-  {
-    description: 'MM-safe 2026 meta bind templates.',
-    href: '/binds/recommended',
-    label: 'Recommended binds',
-  },
-  {
-    description: 'Curated cvar bundles per section.',
-    href: '/config/recommended',
-    label: 'Recommended config',
-  },
-];
+  const editorLinks: NavLink[] = [
+    {
+      description: t('crosshair.description'),
+      href: '/crosshair',
+      label: t('crosshair.label'),
+    },
+    {
+      description: t('binds.description'),
+      href: '/binds',
+      label: t('binds.label'),
+    },
+    {
+      description: t('config.description'),
+      href: '/config',
+      label: t('config.label'),
+    },
+    {
+      description: t('autoexec.description'),
+      href: '/autoexec',
+      label: t('autoexec.label'),
+    },
+  ];
+
+  const catalogLinks: NavLink[] = [
+    {
+      description: t('bindsRecommended.description'),
+      href: '/binds/recommended',
+      label: t('bindsRecommended.label'),
+    },
+    {
+      description: t('configRecommended.description'),
+      href: '/config/recommended',
+      label: t('configRecommended.label'),
+    },
+  ];
+
+  return (
+    <header
+      className={cn(
+        'mx-auto flex w-full max-w-4xl items-center gap-4 px-6 pt-6 pb-1',
+        onHome ? 'justify-end' : 'justify-between'
+      )}
+    >
+      {onHome ? null : (
+        <Link
+          className='text-foreground hover:text-muted-foreground font-mono text-xs transition-colors'
+          href='/'
+        >
+          bindr.lol
+        </Link>
+      )}
+      <div className='flex items-center gap-3'>
+        <NavigationMenu
+          align='end'
+          className='font-mono'
+          onValueChange={setMenuValue}
+          value={menuValue}
+        >
+          <NavigationMenuList>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>{t('editors')}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className='grid w-[280px] gap-0.5'>
+                  {editorLinks.map((item) => (
+                    <NavMenuLink
+                      active={pathname === item.href}
+                      description={item.description}
+                      href={item.href}
+                      key={item.href}
+                      label={item.label}
+                      onSelect={closeMenu}
+                    />
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuTrigger>{t('catalogs')}</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <ul className='grid w-[280px] gap-0.5'>
+                  {catalogLinks.map((item) => (
+                    <NavMenuLink
+                      active={pathname === item.href}
+                      description={item.description}
+                      href={item.href}
+                      key={item.href}
+                      label={item.label}
+                      onSelect={closeMenu}
+                    />
+                  ))}
+                </ul>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+            <NavigationMenuItem>
+              <NavigationMenuLink
+                active={pathname.startsWith('/guides')}
+                className={navigationMenuTriggerStyle()}
+                onClick={closeMenu}
+                render={<Link href='/guides' />}
+              >
+                {t('guides')}
+              </NavigationMenuLink>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+        </NavigationMenu>
+        <LocaleSwitcher />
+      </div>
+    </header>
+  );
+}
 
 function NavMenuLink({
   active,
@@ -77,83 +167,5 @@ function NavMenuLink({
         </span>
       </NavigationMenuLink>
     </li>
-  );
-}
-
-export function SiteNav() {
-  const pathname = usePathname();
-  const onHome = pathname === '/';
-  const [menuValue, setMenuValue] = useState<string | null>(null);
-  const closeMenu = () => setMenuValue(null);
-
-  return (
-    <header
-      className={cn(
-        'mx-auto flex w-full max-w-4xl items-center gap-4 px-6 pt-6 pb-1',
-        onHome ? 'justify-end' : 'justify-between'
-      )}
-    >
-      {onHome ? null : (
-        <Link
-          className='text-foreground hover:text-muted-foreground font-mono text-xs transition-colors'
-          href='/'
-        >
-          bindr.lol
-        </Link>
-      )}
-      <NavigationMenu
-        align='end'
-        className='font-mono'
-        onValueChange={setMenuValue}
-        value={menuValue}
-      >
-        <NavigationMenuList>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>editors</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className='grid w-[280px] gap-0.5'>
-                {EDITOR_LINKS.map((item) => (
-                  <NavMenuLink
-                    active={pathname === item.href}
-                    description={item.description}
-                    href={item.href}
-                    key={item.href}
-                    label={item.label}
-                    onSelect={closeMenu}
-                  />
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuTrigger>catalogs</NavigationMenuTrigger>
-            <NavigationMenuContent>
-              <ul className='grid w-[280px] gap-0.5'>
-                {CATALOG_LINKS.map((item) => (
-                  <NavMenuLink
-                    active={pathname === item.href}
-                    description={item.description}
-                    href={item.href}
-                    key={item.href}
-                    label={item.label}
-                    onSelect={closeMenu}
-                  />
-                ))}
-              </ul>
-            </NavigationMenuContent>
-          </NavigationMenuItem>
-          <NavigationMenuItem>
-            <NavigationMenuLink
-              active={pathname.startsWith('/guides')}
-              className={navigationMenuTriggerStyle()}
-              onClick={closeMenu}
-              render={<Link href='/guides' />}
-            >
-              guides
-            </NavigationMenuLink>
-          </NavigationMenuItem>
-        </NavigationMenuList>
-      </NavigationMenu>
-    </header>
   );
 }

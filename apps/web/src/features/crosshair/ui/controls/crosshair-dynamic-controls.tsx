@@ -5,6 +5,8 @@ import { showsSpreadLimitControl } from '@workspace/cs2/crosshair/model/crosshai
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
+import { useTranslations } from 'next-intl';
+
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface CrosshairDynamicControlsProps {
@@ -19,10 +21,12 @@ export function CrosshairDynamicControls({
   crosshair,
   onUpdate,
 }: CrosshairDynamicControlsProps) {
+  const t = useTranslations('crosshair');
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='crosshair-follow-recoil'>Follow recoil</Label>
+        <Label htmlFor='crosshair-follow-recoil'>{t('followRecoil')}</Label>
         <Switch
           checked={crosshair.followRecoil}
           id='crosshair-follow-recoil'
@@ -33,7 +37,7 @@ export function CrosshairDynamicControls({
       {showsSpreadLimitControl(crosshair.style) ? (
         <CrosshairControlSlider
           id='crosshair-spread-limit'
-          label='Max spread (px)'
+          label={t('maxSpread')}
           max={CROSSHAIR_LIMITS.dynamicSpreadLimit.max}
           min={CROSSHAIR_LIMITS.dynamicSpreadLimit.min}
           onValueChange={(value) => onUpdate('dynamicSpreadLimit', value)}

@@ -12,6 +12,8 @@ import {
   showsCrosshairTStyleControl,
 } from '@workspace/cs2/crosshair/model/crosshair-style';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import { useTranslations } from 'next-intl';
+
 import type { CrosshairRgba } from '@/features/crosshair/lib/storage/crosshair-store';
 import { CrosshairColorPicker } from '@/features/crosshair/ui/controls/crosshair-color-picker';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
@@ -31,6 +33,7 @@ export function CrosshairAppearanceControls({
   onRgbaChange,
   onUpdate,
 }: CrosshairAppearanceControlsProps) {
+  const t = useTranslations('crosshair');
   const gapLimits = allowsNegativeCrosshairGap(crosshair.style)
     ? CROSSHAIR_MENU_LIMITS.classicGap
     : CROSSHAIR_MENU_LIMITS.gap;
@@ -42,7 +45,7 @@ export function CrosshairAppearanceControls({
       {showsCrosshairLengthControl(crosshair.style) ? (
         <CrosshairControlSlider
           id='crosshair-length'
-          label='Length (px)'
+          label={t('length')}
           max={CROSSHAIR_LIMITS.length.max}
           min={CROSSHAIR_LIMITS.length.min}
           onValueChange={(value) => onUpdate('length', value)}
@@ -52,7 +55,7 @@ export function CrosshairAppearanceControls({
       ) : null}
       <CrosshairControlSlider
         id='crosshair-thickness'
-        label='Thickness (px)'
+        label={t('thickness')}
         max={CROSSHAIR_LIMITS.thickness.max}
         min={CROSSHAIR_LIMITS.thickness.min}
         onValueChange={(value) => onUpdate('thickness', value)}
@@ -62,7 +65,7 @@ export function CrosshairAppearanceControls({
       {showsCrosshairGapControl(crosshair.style) ? (
         <CrosshairControlSlider
           id='crosshair-gap'
-          label='Gap (px)'
+          label={t('gap')}
           max={gapLimits.max}
           min={gapLimits.min}
           onValueChange={(value) => onUpdate('gap', value)}
@@ -73,7 +76,7 @@ export function CrosshairAppearanceControls({
 
       <CrosshairColorPicker
         id='crosshair-color'
-        label='Color'
+        label={t('color')}
         onChange={onRgbaChange}
         value={{
           alpha: crosshair.alpha,
@@ -84,7 +87,7 @@ export function CrosshairAppearanceControls({
       />
       <CrosshairControlSlider
         id='crosshair-alpha'
-        label='Alpha'
+        label={t('alpha')}
         max={CROSSHAIR_LIMITS.alpha.max}
         min={CROSSHAIR_LIMITS.alpha.min}
         onValueChange={(value) => onUpdate('alpha', value)}
@@ -97,14 +100,14 @@ export function CrosshairAppearanceControls({
           {showsDot ? (
             <CrosshairToggle
               enabled={crosshair.centerDotEnabled}
-              label='Center dot'
+              label={t('centerDot')}
               onToggle={(value) => onUpdate('centerDotEnabled', value)}
             />
           ) : null}
           {showsTStyle ? (
             <CrosshairToggle
               enabled={crosshair.tStyleEnabled}
-              label='T-style'
+              label={t('tStyle')}
               onToggle={(value) => onUpdate('tStyleEnabled', value)}
             />
           ) : null}

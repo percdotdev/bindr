@@ -9,6 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@workspace/ui/components/select';
+import { useTranslations } from 'next-intl';
+
 import type { CrosshairRgba } from '@/features/crosshair/lib/storage/crosshair-store';
 import { CrosshairColorPicker } from '@/features/crosshair/ui/controls/crosshair-color-picker';
 
@@ -22,25 +24,26 @@ interface CrosshairOutlineControlsProps {
 }
 
 const OUTLINE_MODE_OPTIONS = [
-  { label: 'Off', value: 0 },
-  { label: 'Full (1px around)', value: 1 },
-  { label: 'Half (top & left only)', value: 2 },
-] as const;
+  { key: 'outlineOff' as const, value: 0 },
+  { key: 'outlineFull' as const, value: 1 },
+  { key: 'outlineHalf' as const, value: 2 },
+];
 
 export function CrosshairOutlineControls({
   crosshair,
   onOutlineRgbaChange,
   onUpdate,
 }: CrosshairOutlineControlsProps) {
-  const activeLabel =
+  const t = useTranslations('crosshair');
+  const activeKey =
     OUTLINE_MODE_OPTIONS.find(
       (option) => option.value === crosshair.outlineMode
-    )?.label ?? 'Off';
+    )?.key ?? 'outlineOff';
 
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='crosshair-outline-mode'>Outline</Label>
+        <Label htmlFor='crosshair-outline-mode'>{t('outlineMode')}</Label>
         <Select
           onValueChange={(value) => {
             if (value !== null) {
@@ -50,12 +53,12 @@ export function CrosshairOutlineControls({
           value={String(crosshair.outlineMode)}
         >
           <SelectTrigger className='w-full' id='crosshair-outline-mode'>
-            <SelectValue>{activeLabel}</SelectValue>
+            <SelectValue>{t(activeKey)}</SelectValue>
           </SelectTrigger>
           <SelectContent>
             {OUTLINE_MODE_OPTIONS.map((option) => (
               <SelectItem key={option.value} value={String(option.value)}>
-                {option.label}
+                {t(option.key)}
               </SelectItem>
             ))}
           </SelectContent>
@@ -65,7 +68,7 @@ export function CrosshairOutlineControls({
       {crosshair.outlineMode === 0 ? null : (
         <CrosshairColorPicker
           id='crosshair-outline-color'
-          label='Outline color'
+          label={t('outlineColor')}
           onChange={onOutlineRgbaChange}
           value={{
             alpha: crosshair.outlineAlpha,

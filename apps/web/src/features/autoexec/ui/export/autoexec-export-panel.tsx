@@ -2,19 +2,11 @@
 
 import { Button } from '@workspace/ui/components/button';
 import { CopyIcon, DownloadIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 interface AutoexecExportPanelProps {
   cfg: string;
-}
-
-async function copyText(text: string) {
-  try {
-    await navigator.clipboard.writeText(text);
-    toast.success('autoexec.cfg copied');
-  } catch {
-    toast.error('Could not copy autoexec.cfg');
-  }
 }
 
 function downloadCfg(text: string) {
@@ -28,6 +20,17 @@ function downloadCfg(text: string) {
 }
 
 export function AutoexecExportPanel({ cfg }: AutoexecExportPanelProps) {
+  const t = useTranslations('autoexec');
+
+  async function copyText(text: string) {
+    try {
+      await navigator.clipboard.writeText(text);
+      toast.success(t('toastCopied'));
+    } catch {
+      toast.error(t('toastCopyFailed'));
+    }
+  }
+
   return (
     <div className='flex flex-wrap gap-2'>
       <Button
@@ -38,7 +41,7 @@ export function AutoexecExportPanel({ cfg }: AutoexecExportPanelProps) {
         variant='outline'
       >
         <CopyIcon data-icon='inline-start' />
-        Copy cfg
+        {t('copy')}
       </Button>
       <Button
         onClick={() => {
@@ -48,7 +51,7 @@ export function AutoexecExportPanel({ cfg }: AutoexecExportPanelProps) {
         variant='outline'
       >
         <DownloadIcon data-icon='inline-start' />
-        Download autoexec.cfg
+        {t('download')}
       </Button>
     </div>
   );

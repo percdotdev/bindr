@@ -2,6 +2,8 @@
 
 import { CROSSHAIR_LIMITS } from '@workspace/cs2/crosshair/model/crosshair-limits';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import { useTranslations } from 'next-intl';
+
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface CrosshairSplitControlsProps {
@@ -17,11 +19,13 @@ export function CrosshairSplitControls({
   crosshair,
   onUpdate,
 }: CrosshairSplitControlsProps) {
+  const t = useTranslations('crosshair');
+
   return (
     <div className='flex flex-col gap-4'>
       <CrosshairControlSlider
         id='crosshair-split-distance'
-        label='Split distance (px)'
+        label={t('splitDistance')}
         max={CROSSHAIR_LIMITS.splitDistance.max}
         min={CROSSHAIR_LIMITS.splitDistance.min}
         onValueChange={(value) => onUpdate('splitDistance', value)}
@@ -30,7 +34,7 @@ export function CrosshairSplitControls({
       />
       <CrosshairControlSlider
         id='crosshair-inner-split-alpha'
-        label='Inner split alpha'
+        label={t('innerSplitAlpha')}
         max={CROSSHAIR_LIMITS.innerSplitAlpha.max}
         min={CROSSHAIR_LIMITS.innerSplitAlpha.min}
         onValueChange={(value) => onUpdate('innerSplitAlpha', value)}
@@ -39,7 +43,7 @@ export function CrosshairSplitControls({
       />
       <CrosshairControlSlider
         id='crosshair-outer-split-alpha'
-        label='Outer split alpha'
+        label={t('outerSplitAlpha')}
         max={CROSSHAIR_LIMITS.outerSplitAlpha.max}
         min={CROSSHAIR_LIMITS.outerSplitAlpha.min}
         onValueChange={(value) => onUpdate('outerSplitAlpha', value)}
@@ -48,7 +52,7 @@ export function CrosshairSplitControls({
       />
       <CrosshairControlSlider
         id='crosshair-split-size-ratio'
-        label='Split size ratio'
+        label={t('splitSizeRatio')}
         max={CROSSHAIR_LIMITS.splitSizeRatio.max}
         min={CROSSHAIR_LIMITS.splitSizeRatio.min}
         onValueChange={(value) => onUpdate('splitSizeRatio', value)}

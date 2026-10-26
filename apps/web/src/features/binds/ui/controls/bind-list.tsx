@@ -2,12 +2,12 @@
 
 import { formatBindLine } from '@workspace/cs2/binds/export/format-bind';
 import type { BindCategory, BindEntry } from '@workspace/cs2/binds/model/types';
-import {
-  BIND_CATEGORY_LABELS,
-  BIND_CATEGORY_ORDER,
-} from '@workspace/cs2/binds/recommended/categories';
+import { BIND_CATEGORY_ORDER } from '@workspace/cs2/binds/recommended/categories';
 import { Button } from '@workspace/ui/components/button';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
+import { asBindItemKey } from '@/features/binds/lib/bind-item-key';
+import { Link } from '@/i18n/navigation';
 
 interface BindListProps {
   binds: BindEntry[];
@@ -50,31 +50,54 @@ function groupBinds(binds: BindEntry[]) {
   return groups;
 }
 
-function getGroupLabel(category: BindCategory | 'other') {
-  if (category === 'other') {
-    return 'Custom';
-  }
-
-  return BIND_CATEGORY_LABELS[category];
-}
-
 export function BindList({
   binds,
   onRemove,
   onSelectKey,
   selectedKey,
 }: BindListProps) {
+  const t = useTranslations('binds');
+  const tCommon = useTranslations('common');
+
+  function getGroupLabel(category: BindCategory | 'other') {
+    if (category === 'other') {
+      return t('customCategory');
+    }
+
+    return t(`categories.${category}`);
+  }
+
+  function getBindLabel(bind: BindEntry) {
+    const itemKey = asBindItemKey(bind.id);
+    if (itemKey) {
+      return t(`items.${itemKey}.label`);
+    }
+
+    return bind.label;
+  }
+
+  function getBindDescription(bind: BindEntry) {
+    const itemKey = asBindItemKey(bind.id);
+    if (itemKey) {
+      return t(`items.${itemKey}.description`);
+    }
+
+    return bind.description;
+  }
+
   if (binds.length === 0) {
     return (
       <p className='text-muted-foreground text-sm'>
-        No binds yet.{' '}
-        <Link
-          className='underline underline-offset-4'
-          href='/binds/recommended'
-        >
-          Pick from recommended binds
-        </Link>{' '}
-        or click a key on the keyboard.
+        {t.rich('emptyList', {
+          link: (chunks) => (
+            <Link
+              className='underline underline-offset-4'
+              href='/binds/recommended'
+            >
+              {chunks}
+            </Link>
+          ),
+        })}
       </p>
     );
   }
@@ -89,54 +112,59 @@ export function BindList({
             {getGroupLabel(group.category)}
           </h3>
           <ul className='flex flex-col gap-2'>
-            {group.items.map((bind) => (
-              <li
-                className='flex items-start justify-between gap-3 rounded-md border p-3'
-                key={bind.id}
-              >
-                <button
-                  className='min-w-0 flex-1 text-left'
-                  onClick={() => {
-                    onSelectKey(bind.key);
-                  }}
-                  type='button'
+            {group.items.map((bind) => {
+              const label = getBindLabel(bind);
+              const description = getBindDescription(bind);
+
+              return (
+                <li
+                  className='flex items-start justify-between gap-3 rounded-md border p-3'
+                  key={bind.id}
                 >
-                  <div className='flex flex-wrap items-center gap-2'>
-                    <p className='font-mono text-xs font-medium uppercase'>
-                      {bind.key}
-                    </p>
-                    {bind.label ? (
-                      <span className='bg-muted rounded-full px-2 py-0.5 text-[10px]'>
-                        {bind.label}
-                      </span>
+                  <button
+                    className='min-w-0 flex-1 text-left'
+                    onClick={() => {
+                      onSelectKey(bind.key);
+                    }}
+                    type='button'
+                  >
+                    <div className='flex flex-wrap items-center gap-2'>
+                      <p className='font-mono text-xs font-medium uppercase'>
+                        {bind.key}
+                      </p>
+                      {label ? (
+                        <span className='bg-muted rounded-full px-2 py-0.5 text-[10px]'>
+                          {label}
+                        </span>
+                      ) : null}
+                      {selectedKey === bind.key ? (
+                        <span className='text-muted-foreground text-[10px]'>
+                          {t('selected')}
+                        </span>
+                      ) : null}
+                    </div>
+                    {description ? (
+                      <p className='text-muted-foreground mt-1 text-xs'>
+                        {description}
+                      </p>
                     ) : null}
-                    {selectedKey === bind.key ? (
-                      <span className='text-muted-foreground text-[10px]'>
-                        selected
-                      </span>
-                    ) : null}
-                  </div>
-                  {bind.description ? (
-                    <p className='text-muted-foreground mt-1 text-xs'>
-                      {bind.description}
+                    <p className='text-muted-foreground mt-2 font-mono text-xs break-all'>
+                      {formatBindLine(bind)}
                     </p>
-                  ) : null}
-                  <p className='text-muted-foreground mt-2 font-mono text-xs break-all'>
-                    {formatBindLine(bind)}
-                  </p>
-                </button>
-                <Button
-                  onClick={() => {
-                    onRemove(bind.key);
-                  }}
-                  size='sm'
-                  type='button'
-                  variant='ghost'
-                >
-                  Remove
-                </Button>
-              </li>
-            ))}
+                  </button>
+                  <Button
+                    onClick={() => {
+                      onRemove(bind.key);
+                    }}
+                    size='sm'
+                    type='button'
+                    variant='ghost'
+                  >
+                    {tCommon('remove')}
+                  </Button>
+                </li>
+              );
+            })}
           </ul>
         </section>
       ))}

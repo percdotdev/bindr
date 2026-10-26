@@ -21,6 +21,26 @@ import {
 
 export type CrosshairRgba = CrosshairRgb & { alpha: number };
 
+export type CrosshairImportErrorKey =
+  | 'importErrorFailed'
+  | 'importErrorInvalid'
+  | 'importErrorInvalidUrl'
+  | 'importErrorUnsupported';
+
+function mapImportError(error: unknown): CrosshairImportErrorKey {
+  const message = error instanceof Error ? error.message : '';
+
+  if (message.includes('Unsupported')) {
+    return 'importErrorUnsupported';
+  }
+
+  if (message.includes('Invalid')) {
+    return 'importErrorInvalid';
+  }
+
+  return 'importErrorFailed';
+}
+
 function applyFieldUpdate<K extends CrosshairField>(
   current: CrosshairSettings,
   field: K,
@@ -43,7 +63,7 @@ interface CrosshairStore {
   crosshair: CrosshairSettings;
   hydrate: (codeParam: string | null) => void;
   hydrated: boolean;
-  importError: string | null;
+  importError: CrosshairImportErrorKey | null;
   importShareCode: (code: string) => ShareCodeSource | null;
   resetCrosshair: () => void;
   updateField: <K extends CrosshairField>(
@@ -73,7 +93,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       } catch {
         set({
           hydrated: true,
-          importError: 'Invalid share code in URL',
+          importError: 'importErrorInvalidUrl',
         });
         return;
       }
@@ -97,10 +117,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       return source;
     } catch (error) {
       set({
-        importError:
-          error instanceof Error
-            ? error.message
-            : 'Failed to import share code',
+        importError: mapImportError(error),
       });
       return null;
     }

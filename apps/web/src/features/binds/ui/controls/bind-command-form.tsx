@@ -3,6 +3,7 @@
 import { Button } from '@workspace/ui/components/button';
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 interface BindCommandFormProps {
@@ -18,20 +19,19 @@ export function BindCommandForm({
   onSave,
   selectedKey,
 }: BindCommandFormProps) {
+  const t = useTranslations('binds');
   const [draft, setDraft] = useState(command);
 
   if (!selectedKey) {
     return (
-      <p className='text-muted-foreground text-sm'>
-        Select a key on the keyboard to add or edit a bind.
-      </p>
+      <p className='text-muted-foreground text-sm'>{t('selectKeyHint')}</p>
     );
   }
 
   return (
     <div className='flex flex-col gap-3'>
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='bind-key'>Key</Label>
+        <Label htmlFor='bind-key'>{t('keyLabel')}</Label>
         <Input
           className='font-mono'
           id='bind-key'
@@ -40,7 +40,7 @@ export function BindCommandForm({
         />
       </div>
       <div className='flex flex-col gap-2'>
-        <Label htmlFor='bind-command'>Console command</Label>
+        <Label htmlFor='bind-command'>{t('commandLabel')}</Label>
         <Input
           className='font-mono'
           id='bind-command'
@@ -58,11 +58,11 @@ export function BindCommandForm({
           }}
           type='button'
         >
-          Save bind
+          {t('saveBind')}
         </Button>
         {command ? (
           <Button onClick={onRemove} type='button' variant='outline'>
-            Remove bind
+            {t('removeBind')}
           </Button>
         ) : null}
       </div>

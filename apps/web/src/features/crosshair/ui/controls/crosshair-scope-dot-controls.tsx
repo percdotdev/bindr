@@ -4,6 +4,8 @@ import { CROSSHAIR_LIMITS } from '@workspace/cs2/crosshair/model/crosshair-limit
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
+import { useTranslations } from 'next-intl';
+
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface CrosshairScopeDotControlsProps {
@@ -19,10 +21,14 @@ export function CrosshairScopeDotControls({
   crosshair,
   onUpdate,
 }: CrosshairScopeDotControlsProps) {
+  const t = useTranslations('crosshair');
+
   return (
     <div className='flex flex-col gap-4'>
       <div className='flex items-center justify-between gap-2'>
-        <Label htmlFor='crosshair-scope-dot-color'>Use crosshair color</Label>
+        <Label htmlFor='crosshair-scope-dot-color'>
+          {t('useCrosshairColor')}
+        </Label>
         <Switch
           checked={crosshair.scopeDotUsesCrosshairColor}
           id='crosshair-scope-dot-color'
@@ -33,7 +39,7 @@ export function CrosshairScopeDotControls({
       </div>
       <CrosshairControlSlider
         id='crosshair-scope-dot-scale'
-        label='Dot scale'
+        label={t('dotScale')}
         max={CROSSHAIR_LIMITS.scopeDotScale.max}
         min={CROSSHAIR_LIMITS.scopeDotScale.min}
         onValueChange={(value) => onUpdate('scopeDotScale', value)}

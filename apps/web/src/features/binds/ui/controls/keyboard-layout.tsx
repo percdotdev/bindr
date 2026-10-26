@@ -8,6 +8,9 @@ import {
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import { Button } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
+import { useTranslations } from 'next-intl';
+
+import { translateKeyLabel } from '@/shared/lib/translate-key-label';
 
 interface KeyboardLayoutProps {
   binds: BindEntry[];
@@ -20,6 +23,8 @@ export function KeyboardLayout({
   onSelectKey,
   selectedKey,
 }: KeyboardLayoutProps) {
+  const t = useTranslations('binds');
+  const tCommon = useTranslations('common');
   const boundKeys = new Set(binds.map((bind) => bind.key));
 
   return (
@@ -57,7 +62,7 @@ export function KeyboardLayout({
                   type='button'
                   variant='outline'
                 >
-                  {key.label}
+                  {translateKeyLabel(tCommon, key.bindKey, key.label)}
                 </Button>
               );
             })}
@@ -65,7 +70,7 @@ export function KeyboardLayout({
         </div>
       </div>
       <p className='text-muted-foreground w-full text-center text-xs'>
-        Mouse keys and ANSI layout. Highlighted keys have a bind assigned.
+        {t('keyboardHint')}
       </p>
     </div>
   );

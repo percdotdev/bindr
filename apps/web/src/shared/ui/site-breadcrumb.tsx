@@ -8,18 +8,19 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from '@workspace/ui/components/breadcrumb';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 import { Fragment } from 'react';
 
-const SEGMENT_LABELS: Record<string, string> = {
-  autoexec: 'Autoexec',
-  binds: 'Binds',
-  config: 'Game config',
-  crosshair: 'Crosshair',
-  guides: 'Guides',
-  recommended: 'Recommended',
-};
+import { Link, usePathname } from '@/i18n/navigation';
+
+const SEGMENT_KEYS = new Set([
+  'autoexec',
+  'binds',
+  'config',
+  'crosshair',
+  'guides',
+  'recommended',
+]);
 
 const DASH_RE = /-/gu;
 
@@ -28,12 +29,9 @@ function humanize(segment: string) {
   return spaced.charAt(0).toUpperCase() + spaced.slice(1);
 }
 
-function toLabel(segment: string) {
-  return SEGMENT_LABELS[segment] ?? humanize(segment);
-}
-
 export function SiteBreadcrumb() {
   const pathname = usePathname();
+  const t = useTranslations('breadcrumb');
 
   if (pathname === '/') {
     return null;
@@ -43,7 +41,17 @@ export function SiteBreadcrumb() {
   const crumbs = segments.map((segment, index) => ({
     href: `/${segments.slice(0, index + 1).join('/')}`,
     isLast: index === segments.length - 1,
-    label: toLabel(segment),
+    label: SEGMENT_KEYS.has(segment)
+      ? t(
+          segment as
+            | 'autoexec'
+            | 'binds'
+            | 'config'
+            | 'crosshair'
+            | 'guides'
+            | 'recommended'
+        )
+      : humanize(segment),
   }));
 
   return (

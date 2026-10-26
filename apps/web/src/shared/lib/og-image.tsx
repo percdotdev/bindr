@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 import { SITE } from '@/shared/lib/site';
 
-export const OG_ALT = `${SITE.name} — ${SITE.tagline}`;
+export const OG_ALT = `${SITE.name} — CS2 crosshair, binds & config tools`;
 export const OG_SIZE = { height: 630, width: 1200 };
 export const OG_CONTENT_TYPE = 'image/png';
 

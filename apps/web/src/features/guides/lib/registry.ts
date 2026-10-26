@@ -1,15 +1,17 @@
 import type { MDXComponents } from 'mdx/types';
 import type { ComponentType } from 'react';
 
+import type { AppLocale } from '@/i18n/routing';
+
+export type GuideSlug = 'share-config-across-accounts';
+
 export interface GuideMeta {
   date: string;
-  description: string;
-  slug: string;
-  title: string;
+  slug: GuideSlug;
 }
 
 export interface GuideEntry {
-  load: () => Promise<{
+  load: (locale: AppLocale) => Promise<{
     default: ComponentType<{ components?: MDXComponents }>;
   }>;
   meta: GuideMeta;
@@ -17,14 +19,15 @@ export interface GuideEntry {
 
 export const GUIDES: GuideEntry[] = [
   {
-    load: () =>
-      import('@/features/guides/content/share-config-across-accounts.mdx'),
+    load: (locale) =>
+      locale === 'es'
+        ? import(
+            '@/features/guides/content/share-config-across-accounts.es.mdx'
+          )
+        : import('@/features/guides/content/share-config-across-accounts.mdx'),
     meta: {
       date: '2026-06-15',
-      description:
-        'Point CS2 at one cfg folder so your binds, crosshair and autoexec follow every Steam account.',
       slug: 'share-config-across-accounts',
-      title: 'Share one config across every CS2 account',
     },
   },
 ];

@@ -2,6 +2,8 @@
 
 import { CROSSHAIR_LIMITS } from '@workspace/cs2/crosshair/model/crosshair-limits';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import { useTranslations } from 'next-intl';
+
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface CrosshairQuadrantControlsProps {
@@ -20,10 +22,12 @@ export function CrosshairQuadrantControls({
   crosshair,
   onUpdate,
 }: CrosshairQuadrantControlsProps) {
+  const t = useTranslations('crosshair');
+
   return (
     <CrosshairControlSlider
       id='crosshair-quadrant-size'
-      label='Quadrant size'
+      label={t('quadrantSize')}
       max={CROSSHAIR_LIMITS.splitSizeRatio.max}
       min={CROSSHAIR_LIMITS.splitSizeRatio.min}
       onValueChange={(value) => onUpdate('splitSizeRatio', value)}

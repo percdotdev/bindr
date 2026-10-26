@@ -12,8 +12,10 @@ import {
   PopoverTrigger,
 } from '@workspace/ui/components/popover';
 import { ChevronDownIcon, CopyIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useMemo, useState } from 'react';
 import { toast } from 'sonner';
+
 import { buildCrosshairShareUrl } from '@/features/crosshair/lib/share-url/crosshair-share-url';
 
 interface CrosshairCopyMenuProps {
@@ -21,19 +23,12 @@ interface CrosshairCopyMenuProps {
   shareCode: string;
 }
 
-async function copyText(value: string, successMessage: string) {
-  try {
-    await navigator.clipboard.writeText(value);
-    toast.success(successMessage);
-  } catch {
-    toast.error('Could not copy to clipboard');
-  }
-}
-
 export function CrosshairCopyMenu({
   crosshair,
   shareCode,
 }: CrosshairCopyMenuProps) {
+  const t = useTranslations('crosshair');
+  const tCommon = useTranslations('common');
   const [open, setOpen] = useState(false);
   const consoleCommands = useMemo(
     () => crosshairSettingsToConsoleCommands(crosshair),
@@ -43,6 +38,15 @@ export function CrosshairCopyMenu({
     () => crosshairSettingsToCfgBlock(crosshair),
     [crosshair]
   );
+
+  async function copyText(value: string, successMessage: string) {
+    try {
+      await navigator.clipboard.writeText(value);
+      toast.success(successMessage);
+    } catch {
+      toast.error(tCommon('copyFailed'));
+    }
+  }
 
   async function handleCopy(value: string, message: string) {
     await copyText(value, message);
@@ -55,7 +59,7 @@ export function CrosshairCopyMenu({
         render={
           <Button size='sm' type='button' variant='outline'>
             <CopyIcon data-icon='inline-start' />
-            Copy
+            {tCommon('copy')}
             <ChevronDownIcon
               className='size-3 opacity-60'
               data-icon='inline-end'
@@ -66,41 +70,41 @@ export function CrosshairCopyMenu({
       <PopoverContent align='start' className='w-56 p-1'>
         <Button
           className='w-full justify-start'
-          onClick={() => handleCopy(shareCode, 'Share code copied')}
+          onClick={() => handleCopy(shareCode, t('toastShareCopied'))}
           size='sm'
           type='button'
           variant='ghost'
         >
-          Share code
+          {t('copyShareCode')}
         </Button>
         <Button
           className='w-full justify-start'
-          onClick={() => handleCopy(consoleCommands, 'Console commands copied')}
+          onClick={() => handleCopy(consoleCommands, t('toastCommandsCopied'))}
           size='sm'
           type='button'
           variant='ghost'
         >
-          Console commands
+          {t('copyCommands')}
         </Button>
         <Button
           className='w-full justify-start'
-          onClick={() => handleCopy(cfgBlock, 'Share code and commands copied')}
+          onClick={() => handleCopy(cfgBlock, t('toastBothCopied'))}
           size='sm'
           type='button'
           variant='ghost'
         >
-          Share code + commands
+          {t('copyBothMenu')}
         </Button>
         <Button
           className='w-full justify-start'
           onClick={() =>
-            handleCopy(buildCrosshairShareUrl(shareCode), 'Share link copied')
+            handleCopy(buildCrosshairShareUrl(shareCode), t('toastLinkCopied'))
           }
           size='sm'
           type='button'
           variant='ghost'
         >
-          Share link
+          {t('copyLink')}
         </Button>
       </PopoverContent>
     </Popover>

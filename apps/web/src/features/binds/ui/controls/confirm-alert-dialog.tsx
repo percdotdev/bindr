@@ -11,6 +11,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@workspace/ui/components/alert-dialog';
+import { useTranslations } from 'next-intl';
 import {
   cloneElement,
   isValidElement,
@@ -40,6 +41,7 @@ export function ConfirmAlertDialog({
   title,
   trigger,
 }: ConfirmAlertDialogProps) {
+  const tCommon = useTranslations('common');
   const [open, setOpen] = useState(false);
 
   if (disabled) {
@@ -59,7 +61,7 @@ export function ConfirmAlertDialog({
           <AlertDialogDescription>{description}</AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               onConfirm();

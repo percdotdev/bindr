@@ -3,7 +3,8 @@
 import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import { SparklesIcon } from 'lucide-react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
 import { BindCommandForm } from '@/features/binds/ui/controls/bind-command-form';
 import { BindList } from '@/features/binds/ui/controls/bind-list';
@@ -11,9 +12,12 @@ import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-d
 import { KeyboardLayout } from '@/features/binds/ui/controls/keyboard-layout';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { BindExportPanel } from '@/features/binds/ui/export/bind-export-panel';
+import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 export function BindEditor() {
+  const t = useTranslations('binds');
+  const tCommon = useTranslations('common');
   const {
     activeKeys,
     binds,
@@ -35,46 +39,43 @@ export function BindEditor() {
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='text-sm font-medium'>Bind generator</h1>
-          <p className='text-muted-foreground text-xs'>
-            Build your config from scratch or pull binds from the recommended
-            catalog, then export bind lines or a cfg snippet.
-          </p>
+          <h1 className='text-sm font-medium'>{t('title')}</h1>
+          <p className='text-muted-foreground text-xs'>{t('subtitleFull')}</p>
         </div>
         <Link
           className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
           href='/binds/recommended'
         >
-          Browse recommended binds →
+          {t('browseRecommended')}
         </Link>
         <div className='flex flex-wrap items-center gap-2'>
           <BindExportPanel binds={binds} />
           <ConfirmAlertDialog
-            confirmLabel='Add all'
-            description='This replaces your entire bind config with the full recommended set. Any custom binds are removed.'
+            confirmLabel={tCommon('addAll')}
+            description={t('addAllDescription')}
             destructive={false}
             disabled={allRecommendedAdded}
             onConfirm={loadRecommendedBinds}
-            title='Add all recommended binds?'
+            title={t('addAllTitle')}
             trigger={<Button type='button' variant='outline' />}
           >
             <SparklesIcon data-icon='inline-start' />
-            Add all
+            {tCommon('addAll')}
           </ConfirmAlertDialog>
           <ConfirmAlertDialog
-            confirmLabel='Clear all'
-            description='This removes every bind from your config. Saved binds in local storage are cleared too.'
+            confirmLabel={tCommon('clearAll')}
+            description={t('clearDescription')}
             disabled={binds.length === 0}
             onConfirm={clearBinds}
-            title='Clear all binds?'
+            title={t('clearTitle')}
             trigger={<Button type='button' variant='ghost' />}
           >
-            Clear all
+            {tCommon('clearAll')}
           </ConfirmAlertDialog>
         </div>
       </div>
 
-      <CollapsibleSection title='Keyboard'>
+      <CollapsibleSection title={t('sections.keyboard')}>
         <KeyboardLayout
           binds={binds}
           onSelectKey={selectKey}
@@ -82,7 +83,7 @@ export function BindEditor() {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection title='Command'>
+      <CollapsibleSection title={t('sections.command')}>
         <BindCommandForm
           command={selectedBind?.command ?? ''}
           key={selectedKey ?? 'none'}
@@ -106,10 +107,10 @@ export function BindEditor() {
             className='text-muted-foreground text-xs underline-offset-4 hover:underline'
             href='/binds/recommended'
           >
-            Add from recommended
+            {t('addFromRecommended')}
           </Link>
         }
-        title='Active binds'
+        title={t('sections.active')}
       >
         <BindList
           binds={binds}

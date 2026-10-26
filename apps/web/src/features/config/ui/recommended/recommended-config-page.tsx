@@ -1,17 +1,16 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
-import {
-  CONFIG_CATEGORY_LABELS,
-  CONFIG_CATEGORY_ORDER,
-} from '@workspace/cs2/config/recommended/categories';
+import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { RecommendedConfigCard } from '@/features/config/ui/recommended/recommended-config-card';
+import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 function groupTemplatesByCategory() {
@@ -31,6 +30,8 @@ function groupTemplatesByCategory() {
 }
 
 export function RecommendedConfigPage() {
+  const t = useTranslations('config');
+  const tCommon = useTranslations('common');
   const {
     addRecommendedConfig,
     enabledRecommendations,
@@ -48,32 +49,35 @@ export function RecommendedConfigPage() {
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='text-sm font-medium'>Recommended config</h1>
+          <h1 className='text-sm font-medium'>{t('recommendedTitle')}</h1>
           <p className='text-muted-foreground text-xs'>
-            Curated CS2 client cvars only — add individually or take the full
-            set. Viewmodel and radar presets replace each other within their
-            category. CS:GO leftovers are not included.
+            {t('recommendedLeadFull')}
           </p>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
           <ConfirmAlertDialog
-            confirmLabel='Add all'
-            description='This replaces your entire config with the full recommended set. Custom values and manual edits are removed.'
+            confirmLabel={tCommon('addAll')}
+            description={t('addAllRecommendedDescription')}
             disabled={allRecommendedAdded}
             onConfirm={loadAllRecommendedConfigs}
-            title='Add all recommended config?'
+            title={t('addAllRecommendedTitle')}
             trigger={<Button type='button' variant='outline' />}
           >
-            Add all ({RECOMMENDED_CONFIG_TEMPLATES.length})
+            {tCommon('addAllCount', {
+              count: RECOMMENDED_CONFIG_TEMPLATES.length,
+            })}
           </ConfirmAlertDialog>
           <span className='text-muted-foreground text-xs'>
-            {addedCount} of {RECOMMENDED_CONFIG_TEMPLATES.length} in your config
+            {t('inConfigCount', {
+              added: addedCount,
+              total: RECOMMENDED_CONFIG_TEMPLATES.length,
+            })}
           </span>
           <Link
             className='text-muted-foreground text-xs underline-offset-4 hover:underline'
             href='/config'
           >
-            Open editor
+            {t('openEditor')}
           </Link>
         </div>
       </div>
@@ -88,7 +92,7 @@ export function RecommendedConfigPage() {
           <CollapsibleSection
             contentClassName='flex flex-col gap-3'
             key={category}
-            title={CONFIG_CATEGORY_LABELS[category]}
+            title={t(`categories.${category}`)}
           >
             {templates.map((template) => (
               <RecommendedConfigCard

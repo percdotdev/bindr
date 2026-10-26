@@ -1,17 +1,16 @@
 'use client';
 
 import type { BindCategory } from '@workspace/cs2/binds/model/types';
-import {
-  BIND_CATEGORY_LABELS,
-  BIND_CATEGORY_ORDER,
-} from '@workspace/cs2/binds/recommended/categories';
+import { BIND_CATEGORY_ORDER } from '@workspace/cs2/binds/recommended/categories';
 import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
 import { useBindEditor } from '@/features/binds/hooks/use-bind-editor';
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { RecommendedBindCard } from '@/features/binds/ui/recommended/recommended-bind-card';
+import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 function groupTemplatesByCategory() {
@@ -31,6 +30,8 @@ function groupTemplatesByCategory() {
 }
 
 export function RecommendedBindsPage() {
+  const t = useTranslations('binds');
+  const tCommon = useTranslations('common');
   const { activeKeys, addRecommendedBind, loadRecommendedBinds, removeBind } =
     useBindEditor();
 
@@ -45,31 +46,35 @@ export function RecommendedBindsPage() {
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='text-sm font-medium'>Recommended binds</h1>
+          <h1 className='text-sm font-medium'>{t('recommendedTitle')}</h1>
           <p className='text-muted-foreground text-xs'>
-            Pick only the binds you want. Each one is Valve MM safe and uses
-            2026 meta keys — add individually or take the full set.
+            {t('recommendedLead')}
           </p>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
           <ConfirmAlertDialog
-            confirmLabel='Add all'
-            description='This replaces your entire bind config with the full recommended set. Any custom binds are removed.'
+            confirmLabel={tCommon('addAll')}
+            description={t('addAllDescription')}
             disabled={allRecommendedAdded}
             onConfirm={loadRecommendedBinds}
-            title='Add all recommended binds?'
+            title={t('addAllTitle')}
             trigger={<Button type='button' variant='outline' />}
           >
-            Add all ({RECOMMENDED_BIND_TEMPLATES.length})
+            {tCommon('addAllCount', {
+              count: RECOMMENDED_BIND_TEMPLATES.length,
+            })}
           </ConfirmAlertDialog>
           <span className='text-muted-foreground text-xs'>
-            {addedCount} of {RECOMMENDED_BIND_TEMPLATES.length} in your config
+            {t('inConfigCount', {
+              added: addedCount,
+              total: RECOMMENDED_BIND_TEMPLATES.length,
+            })}
           </span>
           <Link
             className='text-muted-foreground text-xs underline-offset-4 hover:underline'
             href='/binds'
           >
-            Open editor
+            {t('openEditor')}
           </Link>
         </div>
       </div>
@@ -84,7 +89,7 @@ export function RecommendedBindsPage() {
           <CollapsibleSection
             contentClassName='flex flex-col gap-3'
             key={category}
-            title={BIND_CATEGORY_LABELS[category]}
+            title={t(`categories.${category}`)}
           >
             {templates.map((template) => (
               <RecommendedBindCard

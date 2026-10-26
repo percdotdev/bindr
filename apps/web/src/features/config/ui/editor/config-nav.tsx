@@ -2,20 +2,23 @@
 
 import { buttonVariants } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
-import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { useTranslations } from 'next-intl';
 
-const CONFIG_NAV = [
-  { href: '/config', label: 'Editor' },
-  { href: '/config/recommended', label: 'Recommended' },
-] as const;
+import { Link, usePathname } from '@/i18n/navigation';
 
 export function ConfigNav() {
   const pathname = usePathname();
+  const t = useTranslations('common');
+  const tConfig = useTranslations('config');
+
+  const items = [
+    { href: '/config' as const, label: t('editor') },
+    { href: '/config/recommended' as const, label: t('recommended') },
+  ];
 
   return (
-    <nav aria-label='Config sections' className='flex flex-wrap gap-2'>
-      {CONFIG_NAV.map((item) => {
+    <nav aria-label={tConfig('navAria')} className='flex flex-wrap gap-2'>
+      {items.map((item) => {
         const isActive = pathname === item.href;
 
         return (

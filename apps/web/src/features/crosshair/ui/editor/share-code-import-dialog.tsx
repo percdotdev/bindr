@@ -14,40 +14,43 @@ import {
 import { Input } from '@workspace/ui/components/input';
 import { Label } from '@workspace/ui/components/label';
 import { DownloadIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 import { toast } from 'sonner';
 
+import type { CrosshairImportErrorKey } from '@/features/crosshair/lib/storage/crosshair-store';
+
 interface ShareCodeImportDialogProps {
-  importError: string | null;
+  importError: CrosshairImportErrorKey | null;
   onImport: (code: string) => ShareCodeSource | null;
-}
-
-function notifyImported(source: ShareCodeSource) {
-  if (source === 'converted') {
-    toast.success('CS:GO-era code converted to pixels', {
-      description:
-        'Old codes used resolution-relative units. Sizes were converted for 1080p and may be off by a pixel.',
-    });
-    return;
-  }
-
-  if (source === 'pixel-legacy') {
-    toast.success('Crosshair imported', {
-      description:
-        'This code predates outline colors and scope-dot settings; defaults were used for those.',
-    });
-    return;
-  }
-
-  toast.success('Crosshair imported');
 }
 
 export function ShareCodeImportDialog({
   importError,
   onImport,
 }: ShareCodeImportDialogProps) {
+  const t = useTranslations('crosshair');
+  const tCommon = useTranslations('common');
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState('');
+
+  function notifyImported(source: ShareCodeSource) {
+    if (source === 'converted') {
+      toast.success(t('importToastConverted'), {
+        description: t('importToastConvertedDesc'),
+      });
+      return;
+    }
+
+    if (source === 'pixel-legacy') {
+      toast.success(t('importToastLegacy'), {
+        description: t('importToastLegacyDesc'),
+      });
+      return;
+    }
+
+    toast.success(t('importToastOk'));
+  }
 
   function handleImport() {
     const source = onImport(draft);
@@ -66,18 +69,19 @@ export function ShareCodeImportDialog({
         render={<Button size='sm' type='button' variant='outline' />}
       >
         <DownloadIcon data-icon='inline-start' />
-        Import
+        {tCommon('import')}
       </DialogTrigger>
       <DialogContent className='sm:max-w-md'>
         <DialogHeader>
-          <DialogTitle>Import share code</DialogTitle>
+          <DialogTitle>{t('importTitle')}</DialogTitle>
           <DialogDescription>
-            Paste a <code>CS…</code> code from CS2 settings. Older{' '}
-            <code>CSGO-…</code> codes are converted automatically.
+            {t.rich('importDialogDescription', {
+              code: (chunks) => <code>{chunks}</code>,
+            })}
           </DialogDescription>
         </DialogHeader>
         <div className='flex flex-col gap-2'>
-          <Label htmlFor='share-code-import'>Share code</Label>
+          <Label htmlFor='share-code-import'>{t('importLabel')}</Label>
           <Input
             aria-invalid={importError !== null}
             className='font-mono'
@@ -92,12 +96,12 @@ export function ShareCodeImportDialog({
             value={draft}
           />
           {importError ? (
-            <p className='text-destructive text-xs'>{importError}</p>
+            <p className='text-destructive text-xs'>{t(importError)}</p>
           ) : null}
         </div>
         <DialogFooter>
           <Button onClick={handleImport} type='button'>
-            Import
+            {tCommon('import')}
           </Button>
         </DialogFooter>
       </DialogContent>

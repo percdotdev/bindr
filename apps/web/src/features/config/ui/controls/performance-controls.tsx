@@ -1,6 +1,8 @@
 'use client';
 
 import type { PerformanceSettings } from '@workspace/cs2/config/model/types';
+import { useTranslations } from 'next-intl';
+
 import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
@@ -16,11 +18,13 @@ export function PerformanceControls({
   onUpdate,
   performance,
 }: PerformanceControlsProps) {
+  const t = useTranslations('config');
+
   return (
     <div className='flex flex-col gap-6'>
       <CrosshairControlSlider
         id='perf-fps-max'
-        label='FPS cap (0 = unlimited)'
+        label={t('fpsCap')}
         max={600}
         min={0}
         onValueChange={(value) => {
@@ -31,7 +35,7 @@ export function PerformanceControls({
       />
       <CrosshairControlSlider
         id='perf-fps-max-ui'
-        label='Menu FPS cap'
+        label={t('menuFpsCap')}
         max={240}
         min={30}
         onValueChange={(value) => {
@@ -41,37 +45,37 @@ export function PerformanceControls({
         value={performance.fpsMaxUi}
       />
       <ConfigSwitchRow
-        description='engine_low_latency_sleep_after_client_tick — pair with a real fps_max, not 0.'
+        description={t('lowLatencyDescription')}
         enabled={performance.lowLatencySleep}
         id='perf-low-latency'
-        label='Low-latency sleep'
+        label={t('lowLatency')}
         onChange={(enabled) => {
           onUpdate('lowLatencySleep', enabled);
         }}
       />
       <ConfigSwitchRow
-        description='r_drawtracers_firstperson — first-person bullet tracers.'
+        description={t('tracersDescription')}
         enabled={performance.drawTracersFirstPerson}
         id='perf-tracers'
-        label='First-person tracers'
+        label={t('tracers')}
         onChange={(enabled) => {
           onUpdate('drawTracersFirstPerson', enabled);
         }}
       />
       <ConfigSwitchRow
-        description='cl_autohelp — automatic hint messages.'
+        description={t('autoHelpDescription')}
         enabled={performance.autohelp}
         id='perf-autohelp'
-        label='Auto-help'
+        label={t('autoHelp')}
         onChange={(enabled) => {
           onUpdate('autohelp', enabled);
         }}
       />
       <ConfigSwitchRow
-        description='gameinstructor_enable — tutorial popups.'
+        description={t('instructorDescription')}
         enabled={performance.gameInstructor}
         id='perf-game-instructor'
-        label='Game instructor'
+        label={t('instructor')}
         onChange={(enabled) => {
           onUpdate('gameInstructor', enabled);
         }}

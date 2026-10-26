@@ -13,6 +13,7 @@ import {
 } from '@workspace/ui/components/alert-dialog';
 import { Button } from '@workspace/ui/components/button';
 import { RotateCcwIcon } from 'lucide-react';
+import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
 interface CrosshairResetAlertProps {
@@ -20,6 +21,8 @@ interface CrosshairResetAlertProps {
 }
 
 export function CrosshairResetAlert({ onReset }: CrosshairResetAlertProps) {
+  const t = useTranslations('crosshair');
+  const tCommon = useTranslations('common');
   const [open, setOpen] = useState(false);
 
   return (
@@ -28,17 +31,17 @@ export function CrosshairResetAlert({ onReset }: CrosshairResetAlertProps) {
         render={<Button size='sm' type='button' variant='ghost' />}
       >
         <RotateCcwIcon data-icon='inline-start' />
-        Reset
+        {tCommon('reset')}
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Reset crosshair?</AlertDialogTitle>
+          <AlertDialogTitle>{t('resetTitle')}</AlertDialogTitle>
           <AlertDialogDescription>
-            This restores the default crosshair and clears your saved draft.
+            {t('resetDescription')}
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel>{tCommon('cancel')}</AlertDialogCancel>
           <AlertDialogAction
             onClick={() => {
               onReset();
@@ -46,7 +49,7 @@ export function CrosshairResetAlert({ onReset }: CrosshairResetAlertProps) {
             }}
             variant='destructive'
           >
-            Reset
+            {tCommon('reset')}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>

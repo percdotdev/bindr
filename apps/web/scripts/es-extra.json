@@ -1,0 +1,467 @@
+{
+  "common": {
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "copy": "Copiar",
+    "copyBoth": "Copiar ambos",
+    "download": "Descargar",
+    "reset": "Restablecer",
+    "import": "Importar",
+    "add": "Añadir",
+    "remove": "Quitar",
+    "added": "Añadido",
+    "clearAll": "Borrar todo",
+    "addAll": "Añadir todo",
+    "addAllCount": "Añadir todo ({count})",
+    "editor": "Editor",
+    "recommended": "Recomendados",
+    "valveMm": "Valve MM",
+    "source": "Fuente: {source}",
+    "copyFailed": "No se pudo copiar al portapapeles",
+    "custom": "Personalizado",
+    "keys": {
+      "esc": "Esc",
+      "backspace": "Retroceso",
+      "tab": "Tab",
+      "capslock": "Bloq Mayús",
+      "enter": "Intro",
+      "shift": "Mayús",
+      "rshift": "Mayús",
+      "ctrl": "Ctrl",
+      "rctrl": "Ctrl",
+      "alt": "Alt",
+      "ralt": "Alt",
+      "space": "Espacio"
+    }
+  },
+  "crosshair": {
+    "title": "Editor de mira",
+    "subtitle": "Importa un share code de CS2, ajusta ajustes al píxel y copia el código, los comandos de consola o ambos de vuelta al juego.",
+    "sections": {
+      "export": "Exportar",
+      "exportDescription": "Share code para los ajustes del juego, más comandos de consola para autoexec o la consola.",
+      "crosshair": "Mira",
+      "outline": "Contorno",
+      "dynamic": "Dinámica",
+      "split": "Separación",
+      "quadrant": "Cuadrante",
+      "scopeDot": "Punto de mira",
+      "resolution": "Resolución"
+    },
+    "previewAria": "Vista previa de la mira",
+    "mapAria": "Mapa de vista previa",
+    "style": "Estilo",
+    "length": "Longitud (px)",
+    "thickness": "Grosor (px)",
+    "gap": "Separación (px)",
+    "color": "Color",
+    "alpha": "Alfa",
+    "centerDot": "Punto central",
+    "tStyle": "Estilo T",
+    "outlineMode": "Contorno",
+    "outlineColor": "Color del contorno",
+    "outlineOff": "Off",
+    "outlineFull": "Completo (1px alrededor)",
+    "outlineHalf": "Mitad (arriba e izquierda)",
+    "followRecoil": "Seguir el recoil",
+    "maxSpread": "Spread máx. (px)",
+    "splitDistance": "Distancia de separación (px)",
+    "innerSplitAlpha": "Alfa separación interior",
+    "outerSplitAlpha": "Alfa separación exterior",
+    "splitSizeRatio": "Ratio de tamaño de separación",
+    "quadrantSize": "Tamaño del cuadrante",
+    "useCrosshairColor": "Usar color de la mira",
+    "dotScale": "Escala del punto",
+    "screenHeight": "Hecho para altura de pantalla",
+    "shareCode": "Share code",
+    "consoleCommands": "Comandos de consola",
+    "shareCodeHintBefore": "Pégalo en el diálogo de",
+    "shareCodeHintAfter": "del juego.",
+    "importTitle": "Importar share code",
+    "importDescription": "Los códigos <code>CSGO-…</code> se convierten automáticamente.",
+    "importLabel": "Share code",
+    "resetTitle": "¿Restablecer la mira?",
+    "resetDescription": "Esto restaura la mira por defecto. Se perderán tus ajustes actuales.",
+    "toastShareCopied": "Share code copiado",
+    "toastCommandsCopied": "Comandos de consola copiados",
+    "toastBothCopied": "Share code y comandos copiados",
+    "toastLinkCopied": "Enlace de compartir copiado",
+    "copyShareCode": "Share code",
+    "copyCommands": "Comandos de consola",
+    "copyBothMenu": "Share code + comandos",
+    "copyLink": "Enlace de compartir",
+    "styles": {
+      "0": {
+        "label": "Cruz dinámica",
+        "description": "Cruz que se abre con la imprecisión real del arma."
+      },
+      "1": {
+        "label": "Círculo dinámico",
+        "description": "Anillo que crece con la imprecisión real del arma."
+      },
+      "2": {
+        "label": "Cruz dinámica (clásica)",
+        "description": "Cruz dinámica de la era CS:GO con brazos partidos y gaps negativos."
+      },
+      "3": {
+        "label": "Círculo estático",
+        "description": "Anillo fijo alrededor del centro."
+      },
+      "4": {
+        "label": "Cruz estática",
+        "description": "Cruz fija. La más habitual en configs pro."
+      },
+      "5": {
+        "label": "Cruz dinámica (legacy / feedback de disparo)",
+        "description": "Cruz estática que solo reacciona al disparar."
+      },
+      "6": {
+        "label": "Solo punto",
+        "description": "Solo el punto central. El tamaño lo marca el grosor."
+      },
+      "7": {
+        "label": "Cuadrante dinámico",
+        "description": "Cuatro arcos que se abren con la imprecisión. Default del juego."
+      },
+      "8": {
+        "label": "Cuadrado estático",
+        "description": "Cuadrado fijo alrededor del centro."
+      },
+      "9": {
+        "label": "Cuadrante estático",
+        "description": "Anillo fijo partido en cuatro arcos. El tamaño del arco es ajustable."
+      }
+    }
+  },
+  "binds": {
+    "title": "Generador de binds",
+    "subtitle": "Haz clic en una tecla, escribe un comando de consola y exporta líneas de bind o un fragmento de cfg.",
+    "navAria": "Secciones del generador de binds",
+    "sections": {
+      "keyboard": "Teclado",
+      "command": "Comando",
+      "active": "Binds activos",
+      "export": "Exportar"
+    },
+    "commandLabel": "Comando de consola",
+    "assign": "Asignar bind",
+    "selectKey": "Selecciona primero una tecla en el teclado.",
+    "empty": "Aún no hay binds. Haz clic en una tecla y asigna un comando.",
+    "addAllTitle": "¿Añadir todos los binds recomendados?",
+    "addAllDescription": "Esto sustituye toda tu config de binds por el set recomendado completo. Se eliminan los binds personalizados.",
+    "clearTitle": "¿Borrar todos los binds?",
+    "clearDescription": "Esto quita todos los binds de tu config. También se borran los guardados en local storage.",
+    "toastLines": "Líneas de bind copiadas",
+    "toastCfg": "Fragmento de CFG copiado",
+    "copyLines": "Copiar líneas de bind",
+    "copyCfg": "Copiar cfg",
+    "downloadCfg": "Descargar cfg",
+    "categories": {
+      "buy": "Binds de compra",
+      "comms": "Comunicación",
+      "lineups": "Lineups de smoke",
+      "misc": "HUD e interruptores",
+      "movement": "Movimiento",
+      "radar": "Radar",
+      "utility": "Granadas y utilidad",
+      "weapons": "Armas"
+    },
+    "items": {
+      "rec-smoke": {
+        "label": "Smoke",
+        "description": "Smoke al instante sin rueda. CS2 slot 8 — el bind de execute más usado."
+      },
+      "rec-flash": {
+        "label": "Flashbang",
+        "description": "Flash al instante. CS2 slot 7 — debajo de WASD en la fila Z/X/C."
+      },
+      "rec-he": {
+        "label": "Granada HE",
+        "description": "HE al instante. CS2 slot 6."
+      },
+      "rec-molotov": {
+        "label": "Molotov / Incendiaria",
+        "description": "Granada de fuego en una tecla. Slot 10 (molotov T / incendiaria CT)."
+      },
+      "rec-decoy": {
+        "label": "Decoy",
+        "description": "Granada decoy. CS2 slot 9."
+      },
+      "rec-knife": {
+        "label": "Cuchillo rápido",
+        "description": "Cuchillo rápido para movimiento y bhops sin scrollear."
+      },
+      "rec-drop": {
+        "label": "Tirar objeto",
+        "description": "Tira lo que lleves. Selecciona la bomba primero para tirar el C4."
+      },
+      "rec-lineup-release": {
+        "label": "Soltar lineup",
+        "description": "Pulsa con Espacio en el pico del salto para lineups de smoke consistentes. Bind de una sola acción — seguro en Valve MM."
+      },
+      "rec-radar-zoom": {
+        "label": "Zoom del radar",
+        "description": "Cicla el zoom del radar (0.25–1.0) para ver más o menos mapa."
+      },
+      "rec-radar-hud": {
+        "label": "Tamaño HUD del radar",
+        "description": "Ajusta la escala del minimapa en el HUD durante la partida."
+      },
+      "rec-buy-full": {
+        "label": "Full buy",
+        "description": "Rifle, armadura, utilidad completa y defuser. Las armas del otro equipo se ignoran, así que vale en T y CT. `buy m4a1` es la M4A4."
+      },
+      "rec-buy-force": {
+        "label": "Force buy",
+        "description": "Armadura ligera, rifle barato y dos nades para romper ecos."
+      },
+      "rec-buy-awp": {
+        "label": "Compra AWP",
+        "description": "AWP con armadura y un par de nades."
+      },
+      "rec-buy-pistol": {
+        "label": "Pistola + armadura",
+        "description": "Deagle, armadura completa y un flash para rondas anti-eco."
+      },
+      "rec-mwheel-jump": {
+        "label": "Salto con rueda",
+        "description": "Bind de salto a la rueda para bunny hops más consistentes. Una sola acción — seguro en Valve MM."
+      },
+      "rec-ptt": {
+        "label": "Pulsar para hablar",
+        "description": "Mantén para hablar por voz de equipo sin micrófono abierto."
+      },
+      "rec-inspect": {
+        "label": "Inspeccionar arma",
+        "description": "Mantén para inspeccionar el arma o cuchillo equipado."
+      },
+      "rec-fps-toggle": {
+        "label": "Alternar contador FPS",
+        "description": "Muestra u oculta el overlay de FPS cuando quieras."
+      },
+      "rec-build-info-toggle": {
+        "label": "Alternar texto de build",
+        "description": "Oculta o muestra la marca de versión/build abajo a la izquierda. Por defecto está on; Valve la pide en clips de bugs, así que guarda una tecla para recuperarla."
+      },
+      "rec-hand-toggle": {
+        "label": "Cambiar mano del arma",
+        "description": "Cambio de mano en CS2. H es el bind por defecto. La preferencia persistente es `cl_prefer_lefthanded` en config — `cl_righthand` ya no existe."
+      }
+    },
+    "recommendedTitle": "Binds recomendados",
+    "recommendedSubtitle": "Set inicial seguro para MM. Añade de uno en uno o sustituye toda tu config de binds.",
+    "addBind": "Añadir bind"
+  },
+  "config": {
+    "title": "Config del juego",
+    "subtitle": "Ajusta viewmodel, ratón, radar, red, audio, rendimiento y HUD; luego exporta un fragmento de cfg.",
+    "navAria": "Secciones de config",
+    "sectionNavAria": "Secciones de config",
+    "addAllTitle": "¿Añadir toda la config recomendada?",
+    "addAllDescription": "Esto aplica el set completo de cvars recomendados y sustituye valores en conflicto. Luego puedes seguir retocando.",
+    "resetTitle": "¿Restablecer config?",
+    "resetDescription": "Esto restaura los cvars por defecto. Se borran los parches recomendados y las ediciones manuales.",
+    "toastCopied": "Config cfg copiada",
+    "copyCfg": "Copiar cfg",
+    "downloadCfg": "Descargar cfg",
+    "categories": {
+      "audio": "Audio",
+      "hud": "HUD y UI",
+      "mouse": "Ratón y sensibilidad",
+      "network": "Red",
+      "performance": "Rendimiento y misc",
+      "radar": "Radar y minimapa",
+      "viewmodel": "Viewmodel"
+    },
+    "recommendedTitle": "Config recomendada",
+    "recommendedSubtitle": "Paquetes de cvars curados. Añade de uno en uno o aplica el set completo.",
+    "addConfig": "Añadir config",
+    "addAllRecommendedTitle": "¿Añadir toda la config recomendada?",
+    "addAllRecommendedDescription": "Esto sustituye toda tu config por el set recomendado completo. Se eliminan valores personalizados y ediciones manuales.",
+    "preset": "Preset",
+    "leftHanded": "Zurdo",
+    "leftHandedDescription": "cl_prefer_lefthanded — sustituto en CS2 del eliminado cl_righthand. switchhands sigue cambiando en mitad de ronda.",
+    "fov": "FOV",
+    "offsetX": "Offset X",
+    "offsetY": "Offset Y",
+    "offsetZ": "Offset Z",
+    "sensitivity": "Sensibilidad",
+    "zoomSensitivity": "Ratio de sensibilidad con zoom",
+    "radarZoom": "Zoom del radar (cl_radar_scale)",
+    "hudRadarSize": "Tamaño del radar en HUD",
+    "minIconSize": "Tamaño mín. de icono",
+    "alwaysCentered": "Siempre centrado",
+    "alwaysCenteredDescription": "cl_radar_always_centered — off muestra más mapa.",
+    "rotateRadar": "Rotar radar",
+    "rotateRadarDescription": "cl_radar_rotate — rota el radar con tu vista.",
+    "squareScoreboard": "Cuadrado con el marcador",
+    "squareScoreboardDescription": "cl_radar_square_with_scoreboard — radar cuadrado en el marcador.",
+    "rate": "Rate",
+    "rateDescription": "rate — máx. bytes/s del servidor. 786432 es Unrestricted en el menú.",
+    "bufferTicks": "Ticks de buffer",
+    "bufferTicksDescription": "cl_net_buffer_ticks — delay extra de snapshot. Esto es lo que realmente mueve el interp en CS2. No uses cl_interp ni cl_cmdrate.",
+    "pingCap": "Tope de ping de matchmaking",
+    "rate196608": "196608 (1.5 Mbps)",
+    "rate262144": "262144 (2 Mbps)",
+    "rate524288": "524288 (4 Mbps)",
+    "rate786432": "786432 (sin límite)",
+    "buffer0": "0 (default, menor delay)",
+    "buffer1": "1 (jitter leve)",
+    "buffer2": "2 (conexión con pérdida)",
+    "masterVolume": "Volumen maestro",
+    "voiceVolume": "Volumen de voz",
+    "musicVolume": "Volumen de música (ronda/menú/MVP)",
+    "bombBeep": "Pitido del temporizador de bomba",
+    "muteAltTab": "Silenciar al alt-tab",
+    "muteAltTabDescription": "snd_mute_losefocus — silencia el juego al alt-tabear.",
+    "fpsCap": "Tope de FPS (0 = ilimitado)",
+    "menuFpsCap": "Tope de FPS del menú",
+    "lowLatency": "Sleep de baja latencia",
+    "lowLatencyDescription": "engine_low_latency_sleep_after_client_tick — combínalo con un fps_max real, no 0.",
+    "tracers": "Trazadores en primera persona",
+    "tracersDescription": "r_drawtracers_firstperson — trazadores de bala en primera persona.",
+    "autoHelp": "Ayuda automática",
+    "autoHelpDescription": "cl_autohelp — mensajes de pista automáticos.",
+    "instructor": "Instructor del juego",
+    "instructorDescription": "gameinstructor_enable — popups de tutorial.",
+    "hudColor": "Color del HUD",
+    "hudColorDescription": "cl_hud_color — color de acento del HUD.",
+    "hudScale": "Escala del HUD",
+    "teammateColors": "Colores de compañeros",
+    "teammateColorsDescription": "cl_teammate_colors_show — identificación de compañeros.",
+    "teammateFade": "Fundido del nombre al apuntar",
+    "alwaysLoadout": "Mostrar siempre el loadout",
+    "alwaysLoadoutDescription": "cl_showloadout — muestra siempre el panel de loadout.",
+    "sniperInaccuracy": "Mostrar imprecisión con mira de sniper",
+    "sniperInaccuracyDescription": "cl_sniper_show_inaccuracy — círculo de spread al moverte con AWP/SSG 08. Off restaura el overlay clásico.",
+    "buildInfo": "Mostrar info de build",
+    "buildInfoDescription": "r_show_build_info — overlay de versión/debug en la esquina.",
+    "colorTeam": "Color del equipo",
+    "colorWhite": "Blanco",
+    "colorBrightWhite": "Blanco brillante",
+    "colorLightBlue": "Azul claro",
+    "colorBlue": "Azul",
+    "colorPurple": "Morado",
+    "colorRed": "Rojo",
+    "colorOrange": "Naranja",
+    "colorYellow": "Amarillo",
+    "colorGreen": "Verde",
+    "colorAqua": "Agua",
+    "colorPink": "Rosa",
+    "colorTeammate": "Color de compañero",
+    "teammateOff": "Off",
+    "teammateColorsOnly": "Colores",
+    "teammateColorsLetters": "Colores + letras",
+    "presets": {
+      "valve-default": {
+        "label": "Default de Valve",
+        "description": "Viewmodel de escritorio stock de CS2 (presetpos 1)."
+      },
+      "wide-competitive": {
+        "label": "Competitivo amplio",
+        "description": "FOV máximo con offsets custom — presetpos 0 para que los offsets se mantengan."
+      }
+    },
+    "items": {
+      "rec-vm-valve": {
+        "label": "Viewmodel default de Valve",
+        "description": "FOV y offsets stock del viewmodel — base antes de retocar."
+      },
+      "rec-vm-wide": {
+        "label": "Viewmodel competitivo amplio",
+        "description": "FOV máx. (68) con offsets custom. presetpos 0 desbloquea los offsets — 1/2/3 los pisan."
+      },
+      "rec-mouse-raw": {
+        "label": "Ratio de zoom 1.0",
+        "description": "Mantén la sensibilidad con mira 1:1 respecto a hip-fire. Raw input siempre está on en CS2 — `m_rawinput` ya no existe."
+      },
+      "rec-radar-lineups": {
+        "label": "Radar competitivo (lineups)",
+        "description": "Minimapa alejado con elemento de HUD más grande — setup habitual de executes."
+      },
+      "rec-radar-pro": {
+        "label": "Radar pro",
+        "description": "Zoom más cerrado (0.35) con escala de iconos."
+      },
+      "rec-network-competitive": {
+        "label": "Red competitiva",
+        "description": "Rate sin límite y cero ticks de buffer extra — default de baja latencia de Valve. `cl_cmdrate` / `cl_updaterate` / `cl_interp` no existen como ajustes de jugador en CS2."
+      },
+      "rec-network-ping-cap": {
+        "label": "Tope de ping MM (80)",
+        "description": "Limita la búsqueda de MM a 80 ms."
+      },
+      "rec-audio-clean": {
+        "label": "Silenciar música, bajar voz",
+        "description": "Silencia música de ronda/menú/MVP, mantiene el pitido de bomba y baja la voz de compañeros. La voz usa `snd_voipvolume` — `voice_scale` ya no existe."
+      },
+      "rec-perf-no-tracers": {
+        "label": "Ocultar trazadores en 1ª persona",
+        "description": "Menos ruido visual al sprayear — tweak habitual de FPS."
+      },
+      "rec-perf-fps": {
+        "label": "FPS sin tope + tope de UI",
+        "description": "FPS in-game sin tope con menú a 120 fps."
+      },
+      "rec-perf-no-clutter": {
+        "label": "Desactivar popups de ayuda",
+        "description": "Apaga auto-help y el instructor del juego."
+      },
+      "rec-perf-low-latency": {
+        "label": "Sleep de baja latencia del engine",
+        "description": "Mueve el sleep de Reflex/baja latencia después de la simulación del cliente. Combínalo con un `fps_max` real, no 0."
+      },
+      "rec-hud-classic-sniper-scope": {
+        "label": "Mira clásica AWP/Scout",
+        "description": "Oculta el círculo de imprecisión de oct 2025 en AWP y SSG 08 — restaura el overlay estático antiguo. Ajustes → Juego → Miras de sniper → Mostrar imprecisión con mira → No."
+      },
+      "rec-hud-hide-build-info": {
+        "label": "Ocultar texto de build",
+        "description": "Quita el overlay de versión/debug de la esquina — HUD competitivo más limpio."
+      },
+      "rec-hud-teamid-fade": {
+        "label": "Fundir nombres de compañeros en la mira",
+        "description": "Fundido máximo (1.0) cuando la mira está sobre un compañero — menos ruido de nombres en pelea. 0 desactiva el fundido."
+      },
+      "rec-hud-readable": {
+        "label": "HUD competitivo legible",
+        "description": "Acento verde, HUD un poco más pequeño y colores de compañeros con letras."
+      }
+    }
+  },
+  "autoexec": {
+    "title": "Compositor de autoexec",
+    "subtitle": "Une mira, config y binds en un autoexec.cfg con banner de consola opcional.",
+    "include": "Incluir",
+    "includeDescription": "Elige qué partes van al archivo. Edita cada una en su propia herramienta.",
+    "banner": "Banner de consola",
+    "preview": "Vista previa",
+    "toastCopied": "autoexec.cfg copiado",
+    "toastCopyFailed": "No se pudo copiar autoexec.cfg",
+    "copy": "Copiar autoexec.cfg",
+    "download": "Descargar autoexec.cfg",
+    "slices": {
+      "crosshair": {
+        "label": "Mira",
+        "description": "Comandos de consola y el share code de CS2."
+      },
+      "config": {
+        "label": "Config del juego",
+        "description": "Viewmodel, ratón, radar, red, audio, rendimiento, HUD."
+      },
+      "binds": {
+        "label": "Binds",
+        "description": "Teclas a comandos, agrupadas por categoría."
+      }
+    }
+  },
+  "guides": {
+    "eyebrow": "Guías",
+    "title": "Guías de setup y trucos",
+    "subtitle": "Tutoriales para sacar el máximo a tu config de CS2 — cosas que el menú del juego no te cuenta.",
+    "share-config-across-accounts": {
+      "title": "Comparte una config entre todas tus cuentas de CS2",
+      "description": "Apunta CS2 a una sola carpeta cfg para que binds, mira y autoexec sigan a cada cuenta de Steam."
+    }
+  }
+}

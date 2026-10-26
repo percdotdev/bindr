@@ -1,14 +1,12 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
-import {
-  CONFIG_CATEGORY_LABELS,
-  CONFIG_CATEGORY_ORDER,
-} from '@workspace/cs2/config/recommended/categories';
+import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import { SparklesIcon } from 'lucide-react';
-import Link from 'next/link';
+import { useTranslations } from 'next-intl';
+
 import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { AudioControls } from '@/features/config/ui/controls/audio-controls';
@@ -22,19 +20,12 @@ import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { ConfigResetAlert } from '@/features/config/ui/editor/config-reset-alert';
 import { ConfigSectionNav } from '@/features/config/ui/editor/config-section-nav';
 import { ConfigExportPanel } from '@/features/config/ui/export/config-export-panel';
+import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
-const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
-  audio: 'Volume, voice and music levels.',
-  hud: 'HUD color, scale, on-screen elements and sniper overlay.',
-  mouse: 'Sensitivity and scoped ratio. Raw input is always on in CS2.',
-  network: 'Bandwidth and snapshot buffer ticks.',
-  performance: 'FPS caps, tracers and help popups.',
-  radar: 'Minimap zoom, rotation and icon sizing.',
-  viewmodel: 'Weapon position, FOV and handedness.',
-};
-
 export function ConfigEditor() {
+  const t = useTranslations('config');
+  const tCommon = useTranslations('common');
   const {
     applyViewmodelPreset,
     config,
@@ -112,31 +103,28 @@ export function ConfigEditor() {
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='text-sm font-medium'>Game config</h1>
-          <p className='text-muted-foreground text-xs'>
-            Tune always-on cvars — viewmodel, mouse, radar, network, audio,
-            performance and HUD — then copy or download a cfg snippet for CS2.
-          </p>
+          <h1 className='text-sm font-medium'>{t('title')}</h1>
+          <p className='text-muted-foreground text-xs'>{t('subtitleEditor')}</p>
         </div>
         <Link
           className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
           href='/config/recommended'
         >
-          Browse recommended config →
+          {t('browseRecommended')}
         </Link>
         <div className='flex flex-wrap items-center gap-2'>
           <ConfigExportPanel config={config} />
           <ConfirmAlertDialog
-            confirmLabel='Add all'
-            description='This applies the full recommended cvar set and replaces conflicting values. You can still tweak anything afterward.'
+            confirmLabel={tCommon('addAll')}
+            description={t('addAllDescription')}
             destructive={false}
             disabled={allRecommendedAdded}
             onConfirm={loadAllRecommendedConfigs}
-            title='Add all recommended config?'
+            title={t('addAllTitle')}
             trigger={<Button type='button' variant='outline' />}
           >
             <SparklesIcon data-icon='inline-start' />
-            Add all
+            {tCommon('addAll')}
           </ConfirmAlertDialog>
           <ConfigResetAlert onReset={resetConfig} />
         </div>
@@ -147,10 +135,10 @@ export function ConfigEditor() {
 
       {CONFIG_CATEGORY_ORDER.map((category) => (
         <CollapsibleSection
-          description={SECTION_DESCRIPTIONS[category]}
+          description={t(`sectionDescriptions.${category}`)}
           id={`config-${category}`}
           key={category}
-          title={CONFIG_CATEGORY_LABELS[category]}
+          title={t(`categories.${category}`)}
         >
           {renderControls(category)}
         </CollapsibleSection>

@@ -7,13 +7,14 @@ import {
 } from '@workspace/ui/components/card';
 import { cn } from '@workspace/ui/lib/utils';
 import type { LucideIcon } from 'lucide-react';
-import Link from 'next/link';
+
+import { Link } from '@/i18n/navigation';
 
 interface HomeFeatureCardProps {
   className?: string;
   cta: string;
   description: string;
-  href: string;
+  href: '/crosshair' | '/binds' | '/config' | '/autoexec';
   icon: LucideIcon;
   index: string;
   title: string;

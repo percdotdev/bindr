@@ -1,8 +1,11 @@
+'use client';
+
 import {
   AnimatedSpan,
   Terminal,
   TypingAnimation,
 } from '@workspace/ui/components/terminal';
+import { useTranslations } from 'next-intl';
 
 const BANNER_ART = [
   '    __    _           __',
@@ -13,6 +16,8 @@ const BANNER_ART = [
 ];
 
 export function HomeConsole() {
+  const t = useTranslations('home.console');
+
   return (
     <Terminal className='border-foreground/10 text-foreground h-100 max-h-none max-w-none rounded-none font-mono'>
       <TypingAnimation className='text-foreground'>
@@ -27,7 +32,7 @@ export function HomeConsole() {
         </AnimatedSpan>
       ))}
       <AnimatedSpan className='text-muted-foreground'>
-        {'   bindr.lol  -  browser CS2 config studio'}
+        {t('tagline')}
       </AnimatedSpan>
       <AnimatedSpan className='text-muted-foreground'>
         ===============================================
@@ -41,9 +46,7 @@ export function HomeConsole() {
       <TypingAnimation className='text-muted-foreground'>
         bind "z" "switchhands"
       </TypingAnimation>
-      <AnimatedSpan className='text-foreground'>
-        bindr.lol autoexec loaded
-      </AnimatedSpan>
+      <AnimatedSpan className='text-foreground'>{t('loaded')}</AnimatedSpan>
     </Terminal>
   );
 }
