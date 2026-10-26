@@ -6,6 +6,16 @@
     "ultracite/biome/next",
     "@workspace/biome-config/base"
   ],
+  "linter": {
+    "rules": {
+      "performance": {
+        // Inline event handlers are the app's existing style. Ultracite 8
+        // promotes this to an error; rewriting every callback is out of
+        // scope for a dependency upgrade.
+        "noJsxPropsBind": "off"
+      }
+    }
+  },
   "overrides": [
     {
       // Vendored shadcn breadcrumb — keep upstream markup; its current-page span
@@ -26,6 +36,7 @@
       "linter": {
         "rules": {
           "style": {
+            "noIncrementDecrement": "off",
             "noNestedTernary": "off",
             "noSubstr": "off"
           },

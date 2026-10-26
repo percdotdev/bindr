@@ -6,7 +6,7 @@ const STORAGE_KEY = 'bindr:binds:v1';
 const BIND_CATEGORIES = new Set<BindCategory>(BIND_CATEGORY_ORDER);
 
 const DEAD_RECOMMENDED_BIND_IDS = new Set(['rec-clear-decals']);
-const CLEAR_DECALS_TAIL = /\s*;\s*r_cleardecals\b/g;
+const CLEAR_DECALS_TAIL = /\s*;\s*r_cleardecals\b/gu;
 
 function isOptionalString(value: unknown): boolean {
   return value === undefined || typeof value === 'string';
@@ -75,9 +75,9 @@ function migrateStoredBinds(binds: BindEntry[]): BindEntry[] {
         command,
         ...(bind.id === 'rec-hand-toggle'
           ? {
-              label: 'Swap weapon hand',
               description:
                 'CS2 hand swap. Persistent preference is cl_prefer_lefthanded.',
+              label: 'Swap weapon hand',
             }
           : {}),
       },

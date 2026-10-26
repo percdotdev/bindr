@@ -79,38 +79,38 @@ export function migrateLegacyCrosshair(
 
   return {
     ...DEFAULT_CROSSHAIR,
-    style,
-    followRecoil: legacy.followRecoil,
-    centerDotEnabled: legacy.centerDotEnabled,
-    tStyleEnabled: legacy.tStyleEnabled,
-    red,
-    green,
-    blue,
     alpha,
-    outlineRed: 0,
-    outlineGreen: 0,
-    outlineBlue: 0,
-    outlineAlpha: alpha,
-    outlineMode: legacy.outlineEnabled ? 1 : 0,
-    thickness,
-    length,
+    blue,
+    centerDotEnabled: legacy.centerDotEnabled,
+    followRecoil: legacy.followRecoil,
     gap,
-    splitDistance: clampCrosshairValue(
-      Math.round(legacy.splitDistance),
-      CROSSHAIR_LIMITS.splitDistance
-    ),
+    green,
     innerSplitAlpha: clampCrosshairValue(
       legacy.innerSplitAlpha,
       CROSSHAIR_LIMITS.innerSplitAlpha
     ),
+    length,
     outerSplitAlpha: clampCrosshairValue(
       legacy.outerSplitAlpha,
       CROSSHAIR_LIMITS.outerSplitAlpha
+    ),
+    outlineAlpha: alpha,
+    outlineBlue: 0,
+    outlineGreen: 0,
+    outlineMode: legacy.outlineEnabled ? 1 : 0,
+    outlineRed: 0,
+    red,
+    screenHeight,
+    splitDistance: clampCrosshairValue(
+      Math.round(legacy.splitDistance),
+      CROSSHAIR_LIMITS.splitDistance
     ),
     splitSizeRatio: clampCrosshairValue(
       legacy.splitSizeRatio,
       CROSSHAIR_LIMITS.splitSizeRatio
     ),
-    screenHeight,
+    style,
+    thickness,
+    tStyleEnabled: legacy.tStyleEnabled,
   };
 }

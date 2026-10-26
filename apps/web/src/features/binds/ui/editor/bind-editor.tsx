@@ -35,14 +35,14 @@ export function BindEditor() {
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='font-medium text-sm'>Bind generator</h1>
+          <h1 className='text-sm font-medium'>Bind generator</h1>
           <p className='text-muted-foreground text-xs'>
             Build your config from scratch or pull binds from the recommended
             catalog, then export bind lines or a cfg snippet.
           </p>
         </div>
         <Link
-          className='w-fit text-muted-foreground text-xs underline-offset-4 hover:underline'
+          className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
           href='/binds/recommended'
         >
           Browse recommended binds →

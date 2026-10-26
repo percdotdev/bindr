@@ -15,7 +15,7 @@ export function ConfigSectionNav() {
       {CONFIG_CATEGORY_ORDER.map((category) => (
         <a
           className={cn(
-            'rounded-full border px-3 py-1 text-muted-foreground text-xs transition-colors',
+            'text-muted-foreground rounded-full border px-3 py-1 text-xs transition-colors',
             'hover:border-foreground/30 hover:text-foreground'
           )}
           href={`#config-${category}`}

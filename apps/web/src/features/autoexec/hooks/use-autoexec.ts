@@ -13,9 +13,9 @@ import { useMountEffect } from '@/shared/hooks/use-mount-effect';
 
 const DEFAULT_INCLUDE: AutoexecInclude = {
   banner: true,
-  crosshair: true,
-  config: true,
   binds: true,
+  config: true,
+  crosshair: true,
 };
 
 export function useAutoexec() {

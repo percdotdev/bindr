@@ -45,7 +45,7 @@ export function RecommendedBindsPage() {
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='font-medium text-sm'>Recommended binds</h1>
+          <h1 className='text-sm font-medium'>Recommended binds</h1>
           <p className='text-muted-foreground text-xs'>
             Pick only the binds you want. Each one is Valve MM safe and uses
             2026 meta keys — add individually or take the full set.

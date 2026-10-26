@@ -99,7 +99,7 @@ export const AnimatedSpan = ({
   return (
     <motion.div
       animate={shouldAnimate ? { opacity: 1, y: 0 } : { opacity: 0, y: -5 }}
-      className={cn('grid font-normal text-sm tracking-tight', className)}
+      className={cn('grid text-sm font-normal tracking-tight', className)}
       initial={{ opacity: 0, y: -5 }}
       onAnimationComplete={() => {
         if (!sequence) {
@@ -111,7 +111,7 @@ export const AnimatedSpan = ({
         sequence.completeItem(itemIndex);
       }}
       ref={elementRef}
-      transition={{ duration: 0.3, delay: sequence ? 0 : delay / 1000 }}
+      transition={{ delay: sequence ? 0 : delay / 1000, duration: 0.3 }}
       {...props}
     >
       {children}
@@ -226,7 +226,7 @@ export const TypingAnimation = ({
 
   return (
     <MotionComponent
-      className={cn('font-normal text-sm tracking-tight', className)}
+      className={cn('text-sm font-normal tracking-tight', className)}
       ref={elementRef}
       {...props}
     >
@@ -262,12 +262,12 @@ export const Terminal = ({
       return null;
     }
     return {
+      activeIndex,
       completeItem: (index: number) => {
         setActiveIndex((current) =>
           index === current ? current + 1 : current
         );
       },
-      activeIndex,
       sequenceStarted: sequenceHasStarted,
     };
   }, [sequence, activeIndex, sequenceHasStarted]);
@@ -287,12 +287,12 @@ export const Terminal = ({
   const content = (
     <div
       className={cn(
-        'z-0 h-full max-h-100 w-full max-w-lg rounded-xl border border-border bg-background',
+        'border-border bg-background z-0 h-full max-h-100 w-full max-w-lg rounded-xl border',
         className
       )}
       ref={containerRef}
     >
-      <div className='flex flex-col gap-y-2 border-border border-b p-4'>
+      <div className='border-border flex flex-col gap-y-2 border-b p-4'>
         <div className='flex flex-row gap-x-2'>
           <div className='h-2 w-2 rounded-full bg-red-500' />
           <div className='h-2 w-2 rounded-full bg-yellow-500' />

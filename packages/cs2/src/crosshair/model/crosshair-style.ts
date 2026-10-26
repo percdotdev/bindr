@@ -1,54 +1,54 @@
 /** Ordered like the in-game dropdown (settings_crosshair.xml). */
 export const CROSSHAIR_STYLE_OPTIONS = [
   {
-    value: 4,
-    label: 'Static Cross',
     description: 'Fixed cross. Most common in pro configs.',
+    label: 'Static Cross',
+    value: 4,
   },
   {
-    value: 3,
-    label: 'Static Circle',
     description: 'Fixed ring around the center.',
+    label: 'Static Circle',
+    value: 3,
   },
   {
-    value: 8,
-    label: 'Static Square',
     description: 'Fixed square around the center.',
+    label: 'Static Square',
+    value: 8,
   },
   {
-    value: 6,
-    label: 'Dot Only',
     description: 'Just the center dot. Sized by thickness.',
+    label: 'Dot Only',
+    value: 6,
   },
   {
-    value: 9,
-    label: 'Static Quadrant',
     description: 'Fixed ring split into four arcs. Arc size is adjustable.',
+    label: 'Static Quadrant',
+    value: 9,
   },
   {
-    value: 0,
-    label: 'Dynamic Cross',
     description: 'Cross that spreads with real weapon inaccuracy.',
+    label: 'Dynamic Cross',
+    value: 0,
   },
   {
-    value: 1,
-    label: 'Dynamic Circle',
     description: 'Ring that grows with real weapon inaccuracy.',
+    label: 'Dynamic Circle',
+    value: 1,
   },
   {
-    value: 2,
-    label: 'Dynamic Cross (Classic)',
     description: 'CS:GO-era dynamic cross with split arms and negative gaps.',
+    label: 'Dynamic Cross (Classic)',
+    value: 2,
   },
   {
-    value: 5,
-    label: 'Dynamic Cross (Legacy/Shot Feedback)',
     description: 'Static cross that only reacts when firing.',
+    label: 'Dynamic Cross (Legacy/Shot Feedback)',
+    value: 5,
   },
   {
-    value: 7,
-    label: 'Dynamic Quadrant',
     description: 'Four arcs that spread with inaccuracy. Game default.',
+    label: 'Dynamic Quadrant',
+    value: 7,
   },
 ] as const;
 

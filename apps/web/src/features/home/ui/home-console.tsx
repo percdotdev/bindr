@@ -14,7 +14,7 @@ const BANNER_ART = [
 
 export function HomeConsole() {
   return (
-    <Terminal className='h-100 max-h-none max-w-none rounded-none border-foreground/10 font-mono text-foreground'>
+    <Terminal className='border-foreground/10 text-foreground h-100 max-h-none max-w-none rounded-none font-mono'>
       <TypingAnimation className='text-foreground'>
         ] exec autoexec
       </TypingAnimation>
@@ -22,7 +22,7 @@ export function HomeConsole() {
         ===============================================
       </AnimatedSpan>
       {BANNER_ART.map((line) => (
-        <AnimatedSpan className='whitespace-pre text-foreground' key={line}>
+        <AnimatedSpan className='text-foreground whitespace-pre' key={line}>
           {line}
         </AnimatedSpan>
       ))}

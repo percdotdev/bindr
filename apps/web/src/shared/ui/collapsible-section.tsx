@@ -38,11 +38,11 @@ export function CollapsibleSection({
     >
       <div className='flex items-center gap-2 px-(--card-spacing)'>
         <CollapsibleTrigger className='group/section flex flex-1 items-center gap-2 text-left'>
-          <ChevronDownIcon className='size-4 shrink-0 -rotate-90 text-muted-foreground transition-transform duration-200 group-data-panel-open/section:rotate-0' />
+          <ChevronDownIcon className='text-muted-foreground size-4 shrink-0 -rotate-90 transition-transform duration-200 group-data-panel-open/section:rotate-0' />
           <span className='flex flex-col gap-1'>
-            <span className='font-heading font-medium text-sm'>{title}</span>
+            <span className='font-heading text-sm font-medium'>{title}</span>
             {description ? (
-              <span className='font-normal text-muted-foreground text-xs'>
+              <span className='text-muted-foreground text-xs font-normal'>
                 {description}
               </span>
             ) : null}

@@ -30,80 +30,14 @@ function Anchor({ href, ...props }: ComponentPropsWithoutRef<'a'>) {
 }
 
 export const guideMdxComponents: MDXComponents = {
-  h2: ({ className, ...props }: ComponentPropsWithoutRef<'h2'>) => (
-    <h2
-      className={cn(
-        'mt-10 mb-3 border-foreground/10 border-b pb-2 font-medium font-mono text-base tracking-tight',
-        className
-      )}
-      {...props}
-    />
-  ),
-  h3: ({ className, ...props }: ComponentPropsWithoutRef<'h3'>) => (
-    <h3 className={cn('mt-8 mb-2 font-medium text-sm', className)} {...props} />
-  ),
-  p: ({ className, ...props }: ComponentPropsWithoutRef<'p'>) => (
-    <p
-      className={cn(
-        'my-4 text-foreground/90 text-sm leading-relaxed',
-        className
-      )}
-      {...props}
-    />
-  ),
   a: Anchor,
-  ul: ({ className, ...props }: ComponentPropsWithoutRef<'ul'>) => (
-    <ul
-      className={cn(
-        'my-4 ml-5 list-disc space-y-2 marker:text-muted-foreground',
-        className
-      )}
-      {...props}
-    />
-  ),
-  ol: ({ className, ...props }: ComponentPropsWithoutRef<'ol'>) => (
-    <ol
-      className={cn(
-        'my-4 ml-5 list-decimal space-y-2 marker:text-muted-foreground',
-        className
-      )}
-      {...props}
-    />
-  ),
-  li: ({ className, ...props }: ComponentPropsWithoutRef<'li'>) => (
-    <li
-      className={cn(
-        'pl-1 text-foreground/90 text-sm leading-relaxed',
-        className
-      )}
-      {...props}
-    />
-  ),
-  strong: ({ className, ...props }: ComponentPropsWithoutRef<'strong'>) => (
-    <strong
-      className={cn('font-medium text-foreground', className)}
-      {...props}
-    />
-  ),
   blockquote: ({
     className,
     ...props
   }: ComponentPropsWithoutRef<'blockquote'>) => (
     <blockquote
       className={cn(
-        'my-4 border-foreground/20 border-l-2 pl-4 text-muted-foreground text-sm italic',
-        className
-      )}
-      {...props}
-    />
-  ),
-  hr: ({ className, ...props }: ComponentPropsWithoutRef<'hr'>) => (
-    <hr className={cn('my-8 border-foreground/10', className)} {...props} />
-  ),
-  pre: ({ className, ...props }: ComponentPropsWithoutRef<'pre'>) => (
-    <pre
-      className={cn(
-        'my-4 overflow-x-auto border border-foreground/10 bg-muted/40 p-4 font-mono text-xs leading-relaxed [&>code]:bg-transparent [&>code]:p-0',
+        'border-foreground/20 text-muted-foreground my-4 border-l-2 pl-4 text-sm italic',
         className
       )}
       {...props}
@@ -112,11 +46,77 @@ export const guideMdxComponents: MDXComponents = {
   code: ({ className, ...props }: ComponentPropsWithoutRef<'code'>) => (
     <code
       className={cn(
-        'bg-muted px-1 py-0.5 font-mono text-[0.85em] text-foreground',
+        'bg-muted text-foreground px-1 py-0.5 font-mono text-[0.85em]',
         className
       )}
       {...props}
     />
   ),
+  h2: ({ className, ...props }: ComponentPropsWithoutRef<'h2'>) => (
+    <h2
+      className={cn(
+        'border-foreground/10 mt-10 mb-3 border-b pb-2 font-mono text-base font-medium tracking-tight',
+        className
+      )}
+      {...props}
+    />
+  ),
+  h3: ({ className, ...props }: ComponentPropsWithoutRef<'h3'>) => (
+    <h3 className={cn('mt-8 mb-2 text-sm font-medium', className)} {...props} />
+  ),
+  hr: ({ className, ...props }: ComponentPropsWithoutRef<'hr'>) => (
+    <hr className={cn('border-foreground/10 my-8', className)} {...props} />
+  ),
   img: GuideImage,
+  li: ({ className, ...props }: ComponentPropsWithoutRef<'li'>) => (
+    <li
+      className={cn(
+        'text-foreground/90 pl-1 text-sm leading-relaxed',
+        className
+      )}
+      {...props}
+    />
+  ),
+  ol: ({ className, ...props }: ComponentPropsWithoutRef<'ol'>) => (
+    <ol
+      className={cn(
+        'marker:text-muted-foreground my-4 ml-5 list-decimal space-y-2',
+        className
+      )}
+      {...props}
+    />
+  ),
+  p: ({ className, ...props }: ComponentPropsWithoutRef<'p'>) => (
+    <p
+      className={cn(
+        'text-foreground/90 my-4 text-sm leading-relaxed',
+        className
+      )}
+      {...props}
+    />
+  ),
+  pre: ({ className, ...props }: ComponentPropsWithoutRef<'pre'>) => (
+    <pre
+      className={cn(
+        'border-foreground/10 bg-muted/40 my-4 overflow-x-auto border p-4 font-mono text-xs leading-relaxed [&>code]:bg-transparent [&>code]:p-0',
+        className
+      )}
+      {...props}
+    />
+  ),
+  strong: ({ className, ...props }: ComponentPropsWithoutRef<'strong'>) => (
+    <strong
+      className={cn('text-foreground font-medium', className)}
+      {...props}
+    />
+  ),
+  ul: ({ className, ...props }: ComponentPropsWithoutRef<'ul'>) => (
+    <ul
+      className={cn(
+        'marker:text-muted-foreground my-4 ml-5 list-disc space-y-2',
+        className
+      )}
+      {...props}
+    />
+  ),
 };

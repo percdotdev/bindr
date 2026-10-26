@@ -13,10 +13,10 @@ const FOOTER_LINKS = [
 export function SiteFooter() {
   return (
     <footer className='mx-auto mt-auto w-full max-w-4xl px-6 py-10'>
-      <div className='flex flex-col gap-4 border-foreground/10 border-t pt-8'>
+      <div className='border-foreground/10 flex flex-col gap-4 border-t pt-8'>
         <div className='flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between'>
           <Link
-            className='w-fit font-mono text-foreground text-xs transition-colors hover:text-muted-foreground'
+            className='text-foreground hover:text-muted-foreground w-fit font-mono text-xs transition-colors'
             href='/'
           >
             bindr.lol
@@ -27,7 +27,7 @@ export function SiteFooter() {
           >
             {FOOTER_LINKS.map((item) => (
               <Link
-                className='text-muted-foreground transition-colors hover:text-foreground'
+                className='text-muted-foreground hover:text-foreground transition-colors'
                 href={item.href}
                 key={item.href}
               >
@@ -36,11 +36,11 @@ export function SiteFooter() {
             ))}
           </nav>
         </div>
-        <div className='flex flex-col gap-1 font-mono text-[10px] text-muted-foreground sm:flex-row sm:items-center sm:justify-between'>
+        <div className='text-muted-foreground flex flex-col gap-1 font-mono text-[10px] sm:flex-row sm:items-center sm:justify-between'>
           <p>Not affiliated with Valve Corporation.</p>
           <p>
             Press{' '}
-            <kbd className='rounded-none bg-muted px-1 py-0.5 text-foreground ring-1 ring-foreground/10'>
+            <kbd className='bg-muted text-foreground ring-foreground/10 rounded-none px-1 py-0.5 ring-1'>
               t
             </kbd>{' '}
             for theme

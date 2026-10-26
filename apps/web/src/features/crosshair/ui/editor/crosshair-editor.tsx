@@ -36,7 +36,7 @@ export function CrosshairEditor() {
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
       <div className='flex flex-col gap-3'>
         <div className='flex flex-col gap-1'>
-          <h1 className='font-medium text-sm'>Crosshair editor</h1>
+          <h1 className='text-sm font-medium'>Crosshair editor</h1>
           <p className='text-muted-foreground text-xs'>
             Import a CS2 share code, tweak pixel-exact settings, and copy the
             result back into the game.

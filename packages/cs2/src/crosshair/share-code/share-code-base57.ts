@@ -16,7 +16,7 @@ export function bytesToBase57(
   }
 
   let result = '';
-  for (let index = 0; index < digits; index++) {
+  for (let index = 0; index < digits; index += 1) {
     result += SHARE_CODE_DICTIONARY[Number(value % DICTIONARY_LENGTH)];
     value /= DICTIONARY_LENGTH;
   }
@@ -27,7 +27,7 @@ export function bytesToBase57(
 /** Base-57 digits (least significant first) → big-endian bytes. */
 export function base57ToBytes(digits: string, byteCount: number): number[] {
   let value = BigInt(0);
-  for (let index = digits.length - 1; index >= 0; index--) {
+  for (let index = digits.length - 1; index >= 0; index -= 1) {
     const digit = SHARE_CODE_DICTIONARY.indexOf(digits[index] ?? '');
     if (digit === -1) {
       throw new Error('Invalid crosshair share code');
@@ -40,7 +40,7 @@ export function base57ToBytes(digits: string, byteCount: number): number[] {
   }
 
   const bytes = new Array<number>(byteCount).fill(0);
-  for (let index = byteCount - 1; index >= 0; index--) {
+  for (let index = byteCount - 1; index >= 0; index -= 1) {
     bytes[index] = Number(value & BYTE_MASK);
     value >>= BITS_PER_BYTE;
   }
@@ -51,7 +51,7 @@ export function base57ToBytes(digits: string, byteCount: number): number[] {
 /** Valve checksum: sum of every byte after the first, mod 256. */
 export function shareCodeChecksum(bytes: readonly number[]): number {
   let sum = 0;
-  for (let index = 1; index < bytes.length; index++) {
+  for (let index = 1; index < bytes.length; index += 1) {
     sum = (sum + (bytes[index] ?? 0)) & 0xff;
   }
   return sum;

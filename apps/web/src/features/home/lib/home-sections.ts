@@ -17,40 +17,40 @@ export interface HomeTool {
 
 export const HOME_TOOLS: HomeTool[] = [
   {
-    index: '01',
-    href: '/crosshair',
-    icon: Crosshair,
-    title: 'Crosshair editor',
+    cta: 'Open editor',
     description:
       'Decode CS2 share codes (old CSGO- codes convert), tweak gap, color and style, preview on real maps, export console commands.',
-    cta: 'Open editor',
+    href: '/crosshair',
+    icon: Crosshair,
+    index: '01',
+    title: 'Crosshair editor',
   },
   {
-    index: '02',
-    href: '/binds',
-    icon: Keyboard,
-    title: 'Bind generator',
+    cta: 'Build binds',
     description:
       'Assign commands on a visual keyboard and export grouped bind lines or a ready-to-paste cfg.',
-    cta: 'Build binds',
+    href: '/binds',
+    icon: Keyboard,
+    index: '02',
+    title: 'Bind generator',
   },
   {
-    index: '03',
-    href: '/config',
-    icon: SlidersHorizontal,
-    title: 'Game config',
+    cta: 'Tune cvars',
     description:
       'Dial in viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders.',
-    cta: 'Tune cvars',
+    href: '/config',
+    icon: SlidersHorizontal,
+    index: '03',
+    title: 'Game config',
   },
   {
-    index: '04',
-    href: '/autoexec',
-    icon: FileCode2,
-    title: 'Autoexec composer',
+    cta: 'Compose cfg',
     description:
       'Merge crosshair, config and binds into one autoexec.cfg with per-section toggles.',
-    cta: 'Compose cfg',
+    href: '/autoexec',
+    icon: FileCode2,
+    index: '04',
+    title: 'Autoexec composer',
   },
 ];
 
@@ -62,24 +62,24 @@ export interface HomeStep {
 
 export const HOME_STEPS: HomeStep[] = [
   {
+    detail: 'Paste a share code or start from MM-safe 2026 presets.',
     step: '01',
     title: 'Import',
-    detail: 'Paste a share code or start from MM-safe 2026 presets.',
   },
   {
+    detail: 'Sliders, toggles and a visual keyboard — no syntax to memorize.',
     step: '02',
     title: 'Customize',
-    detail: 'Sliders, toggles and a visual keyboard — no syntax to memorize.',
   },
   {
+    detail: 'Crosshairs render on real maps; cfg output updates live.',
     step: '03',
     title: 'Preview',
-    detail: 'Crosshairs render on real maps; cfg output updates live.',
   },
   {
+    detail: 'Copy console commands or download a single autoexec.cfg.',
     step: '04',
     title: 'Export',
-    detail: 'Copy console commands or download a single autoexec.cfg.',
   },
 ];
 
@@ -100,15 +100,15 @@ export interface HomeValueProp {
 
 export const HOME_VALUE_PROPS: HomeValueProp[] = [
   {
-    label: 'Browser-only',
     detail: 'Parse, preview and export without installing anything.',
+    label: 'Browser-only',
   },
   {
-    label: 'MM-safe defaults',
     detail: 'Binds and cvars follow current Valve rules — no banned scripts.',
+    label: 'MM-safe defaults',
   },
   {
-    label: 'Local-first',
     detail: 'Edits persist in your browser until cloud save ships.',
+    label: 'Local-first',
   },
 ];

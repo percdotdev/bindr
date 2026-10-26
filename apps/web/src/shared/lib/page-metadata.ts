@@ -17,21 +17,21 @@ export function createPageMetadata({
   const fullTitle = `${title} · ${SITE.name}`;
 
   return {
-    title,
-    description,
     alternates: { canonical: path },
+    description,
     openGraph: {
-      type,
+      description,
+      locale: SITE.locale,
       siteName: SITE.name,
       title: fullTitle,
-      description,
+      type,
       url: path,
-      locale: SITE.locale,
     },
+    title,
     twitter: {
       card: 'summary_large_image',
-      title: fullTitle,
       description,
+      title: fullTitle,
     },
   };
 }

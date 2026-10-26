@@ -57,7 +57,7 @@ export function CrosshairColorPicker({
         >
           <span
             aria-hidden
-            className='size-4 rounded-full border border-border'
+            className='border-border size-4 rounded-full border'
             style={{ background: CHECKERBOARD }}
           >
             <span

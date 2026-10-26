@@ -37,9 +37,9 @@ export function useBindEditor() {
     clearBinds,
     loadRecommendedBinds,
     removeBind,
-    selectKey,
     selectedBind,
     selectedKey,
+    selectKey,
     upsertBind,
   };
 }
