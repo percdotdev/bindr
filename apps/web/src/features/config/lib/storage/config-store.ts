@@ -45,8 +45,32 @@ function persistConfig(config: ConfigSettings) {
 }
 
 export const useConfigStore = create<ConfigStore>((set, get) => ({
+  addRecommendedConfig: (templateId) => {
+    const next = applyRecommendedTemplate(get().config, templateId);
+    if (!next) {
+      return false;
+    }
+
+    persistConfig(next);
+    set({ config: next });
+    return true;
+  },
+
+  applyViewmodelPreset: (presetId) => {
+    const preset = getViewmodelPresetById(presetId);
+    if (!preset) {
+      return false;
+    }
+
+    const next: ConfigSettings = {
+      ...get().config,
+      viewmodel: { ...preset.viewmodel },
+    };
+    persistConfig(next);
+    set({ config: next });
+    return true;
+  },
   config: DEFAULT_CONFIG,
-  hydrated: false,
 
   hydrate: () => {
     if (get().hydrated) {
@@ -57,6 +81,29 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       config: loadStoredConfig() ?? DEFAULT_CONFIG,
       hydrated: true,
     });
+  },
+  hydrated: false,
+
+  loadAllRecommendedConfigs: () => {
+    const next = applyAllRecommendedTemplates();
+    persistConfig(next);
+    set({ config: next });
+  },
+
+  removeRecommendedConfig: (templateId) => {
+    const next = removeRecommendedTemplate(get().config, templateId);
+    if (!next) {
+      return false;
+    }
+
+    persistConfig(next);
+    set({ config: next });
+    return true;
+  },
+
+  resetConfig: () => {
+    clearStoredConfig();
+    set({ config: DEFAULT_CONFIG });
   },
 
   updateField: (section, field, value) => {
@@ -74,53 +121,5 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
 
   updateViewmodelField: (field, value) => {
     get().updateField('viewmodel', field, value);
-  },
-
-  applyViewmodelPreset: (presetId) => {
-    const preset = getViewmodelPresetById(presetId);
-    if (!preset) {
-      return false;
-    }
-
-    const next: ConfigSettings = {
-      ...get().config,
-      viewmodel: { ...preset.viewmodel },
-    };
-    persistConfig(next);
-    set({ config: next });
-    return true;
-  },
-
-  addRecommendedConfig: (templateId) => {
-    const next = applyRecommendedTemplate(get().config, templateId);
-    if (!next) {
-      return false;
-    }
-
-    persistConfig(next);
-    set({ config: next });
-    return true;
-  },
-
-  removeRecommendedConfig: (templateId) => {
-    const next = removeRecommendedTemplate(get().config, templateId);
-    if (!next) {
-      return false;
-    }
-
-    persistConfig(next);
-    set({ config: next });
-    return true;
-  },
-
-  loadAllRecommendedConfigs: () => {
-    const next = applyAllRecommendedTemplates();
-    persistConfig(next);
-    set({ config: next });
-  },
-
-  resetConfig: () => {
-    clearStoredConfig();
-    set({ config: DEFAULT_CONFIG });
   },
 }));

@@ -24,9 +24,9 @@ export async function generateMetadata({
   }
 
   return createPageMetadata({
-    title: entry.meta.title,
     description: entry.meta.description,
     path: `/guides/${slug}`,
+    title: entry.meta.title,
     type: 'article',
   });
 }

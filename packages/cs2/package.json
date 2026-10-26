@@ -1,17 +1,17 @@
 {
   "name": "@workspace/cs2",
   "version": "0.4.0",
-  "type": "module",
   "private": true,
+  "type": "module",
+  "exports": {
+    "./*": "./src/*.ts"
+  },
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
-    "@types/node": "^20",
+    "@types/node": "^22.20.5",
     "@workspace/ts-config": "workspace:*",
-    "typescript": "^5"
-  },
-  "exports": {
-    "./*": "./src/*.ts"
+    "typescript": "^7"
   }
 }

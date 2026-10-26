@@ -37,7 +37,7 @@ export interface DecodedShareCode {
 function decodeLegacyShareCode(normalizedCode: string): DecodedShareCode {
   const digits = normalizedCode
     .slice(LEGACY_SHARE_CODE_PREFIX.length)
-    .replace(/-/g, '');
+    .replace(/-/gu, '');
   const bytes = base57ToBytes(digits, LEGACY_SHARE_CODE_BYTES);
   const version = readLegacyPayloadVersion(bytes);
 

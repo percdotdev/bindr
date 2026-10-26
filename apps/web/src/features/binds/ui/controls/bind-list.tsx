@@ -85,7 +85,7 @@ export function BindList({
     <div className='flex flex-col gap-4'>
       {groups.map((group) => (
         <section className='flex flex-col gap-2' key={group.category}>
-          <h3 className='font-medium text-muted-foreground text-xs uppercase tracking-wide'>
+          <h3 className='text-muted-foreground text-xs font-medium tracking-wide uppercase'>
             {getGroupLabel(group.category)}
           </h3>
           <ul className='flex flex-col gap-2'>
@@ -102,26 +102,26 @@ export function BindList({
                   type='button'
                 >
                   <div className='flex flex-wrap items-center gap-2'>
-                    <p className='font-medium font-mono text-xs uppercase'>
+                    <p className='font-mono text-xs font-medium uppercase'>
                       {bind.key}
                     </p>
                     {bind.label ? (
-                      <span className='rounded-full bg-muted px-2 py-0.5 text-[10px]'>
+                      <span className='bg-muted rounded-full px-2 py-0.5 text-[10px]'>
                         {bind.label}
                       </span>
                     ) : null}
                     {selectedKey === bind.key ? (
-                      <span className='text-[10px] text-muted-foreground'>
+                      <span className='text-muted-foreground text-[10px]'>
                         selected
                       </span>
                     ) : null}
                   </div>
                   {bind.description ? (
-                    <p className='mt-1 text-muted-foreground text-xs'>
+                    <p className='text-muted-foreground mt-1 text-xs'>
                       {bind.description}
                     </p>
                   ) : null}
-                  <p className='mt-2 break-all font-mono text-muted-foreground text-xs'>
+                  <p className='text-muted-foreground mt-2 font-mono text-xs break-all'>
                     {formatBindLine(bind)}
                   </p>
                 </button>

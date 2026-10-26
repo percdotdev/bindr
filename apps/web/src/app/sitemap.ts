@@ -17,17 +17,17 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 
   const staticEntries: MetadataRoute.Sitemap = STATIC_ROUTES.map((route) => ({
-    url: `${SITE.url}${route}`,
-    lastModified: now,
     changeFrequency: 'monthly',
+    lastModified: now,
     priority: route === '' ? 1 : 0.7,
+    url: `${SITE.url}${route}`,
   }));
 
   const guideEntries: MetadataRoute.Sitemap = getGuideMetas().map((meta) => ({
-    url: `${SITE.url}/guides/${meta.slug}`,
-    lastModified: new Date(meta.date),
     changeFrequency: 'monthly',
+    lastModified: new Date(meta.date),
     priority: 0.5,
+    url: `${SITE.url}/guides/${meta.slug}`,
   }));
 
   return [...staticEntries, ...guideEntries];

@@ -17,6 +17,8 @@ export interface GuideEntry {
 
 export const GUIDES: GuideEntry[] = [
   {
+    load: () =>
+      import('@/features/guides/content/share-config-across-accounts.mdx'),
     meta: {
       date: '2026-06-15',
       description:
@@ -24,7 +26,5 @@ export const GUIDES: GuideEntry[] = [
       slug: 'share-config-across-accounts',
       title: 'Share one config across every CS2 account',
     },
-    load: () =>
-      import('@/features/guides/content/share-config-across-accounts.mdx'),
   },
 ];

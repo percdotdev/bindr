@@ -116,41 +116,41 @@ export function bytesToCrosshairSettings(
   const bits = readUint32(bytes, 18);
 
   return {
-    style: Math.min(flags & STYLE_MASK, CROSSHAIR_LIMITS.style.max),
-    followRecoil: Boolean((flags >> 5) & 1),
-    centerDotEnabled: Boolean((flags >> 6) & 1),
-    tStyleEnabled: Boolean((flags >> 7) & 1),
-    red: byteAt(bytes, 5),
-    green: byteAt(bytes, 6),
-    blue: byteAt(bytes, 7),
     alpha: byteAt(bytes, 8),
-    outlineRed: byteAt(bytes, 9),
-    outlineGreen: byteAt(bytes, 10),
-    outlineBlue: byteAt(bytes, 11),
-    outlineAlpha: byteAt(bytes, 12),
-    thickness: Math.min(
-      sizeByte & THICKNESS_MASK,
-      CROSSHAIR_LIMITS.thickness.max
-    ),
-    outlineMode: Math.min(sizeByte >> 6, CROSSHAIR_LIMITS.outlineMode.max),
-    gap: clampLimit(readInt16(bytes, 14), 'gap'),
-    length: byteAt(bytes, 16),
+    blue: byteAt(bytes, 7),
+    centerDotEnabled: Boolean((flags >> 6) & 1),
     dynamicSpreadLimit: byteAt(bytes, 17),
-    splitDistance: bits & SEVEN_BITS,
+    followRecoil: Boolean((flags >> 5) & 1),
+    gap: clampLimit(readInt16(bytes, 14), 'gap'),
+    green: byteAt(bytes, 6),
     innerSplitAlpha:
       Math.min((bits >>> 7) & SEVEN_BITS, HUNDREDTHS) / HUNDREDTHS,
+    length: byteAt(bytes, 16),
     outerSplitAlpha:
       (Math.min((bits >>> 14) & SEVEN_BITS, OUTER_SPLIT_ALPHA_MAX_STEPS) +
         OUTER_SPLIT_ALPHA_OFFSET) /
       HUNDREDTHS,
-    splitSizeRatio:
-      Math.min((bits >>> 21) & SEVEN_BITS, HUNDREDTHS) / HUNDREDTHS,
-    scopeDotUsesCrosshairColor: Boolean((bits >>> 28) & 1),
+    outlineAlpha: byteAt(bytes, 12),
+    outlineBlue: byteAt(bytes, 11),
+    outlineGreen: byteAt(bytes, 10),
+    outlineMode: Math.min(sizeByte >> 6, CROSSHAIR_LIMITS.outlineMode.max),
+    outlineRed: byteAt(bytes, 9),
+    red: byteAt(bytes, 5),
     scopeDotScale:
       (Math.min(byteAt(bytes, 22), SCOPE_DOT_SCALE_MAX_STEPS) +
         SCOPE_DOT_SCALE_OFFSET) /
       HUNDREDTHS,
+    scopeDotUsesCrosshairColor: Boolean((bits >>> 28) & 1),
     screenHeight: Math.max(screenHeight, CROSSHAIR_LIMITS.screenHeight.min),
+    splitDistance: bits & SEVEN_BITS,
+    splitSizeRatio:
+      Math.min((bits >>> 21) & SEVEN_BITS, HUNDREDTHS) / HUNDREDTHS,
+    style: Math.min(flags & STYLE_MASK, CROSSHAIR_LIMITS.style.max),
+    thickness: Math.min(
+      sizeByte & THICKNESS_MASK,
+      CROSSHAIR_LIMITS.thickness.max
+    ),
+    tStyleEnabled: Boolean((flags >> 7) & 1),
   };
 }
 

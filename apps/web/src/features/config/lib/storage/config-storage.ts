@@ -76,8 +76,8 @@ function normalizeViewmodel(
     offsetX: asNumber(stored.offsetX, defaults.offsetX),
     offsetY: asNumber(stored.offsetY, defaults.offsetY),
     offsetZ: asNumber(stored.offsetZ, defaults.offsetZ),
-    presetPos: asNumber(stored.presetPos, defaults.presetPos),
     preferLeftHanded,
+    presetPos: asNumber(stored.presetPos, defaults.presetPos),
   };
 }
 
@@ -103,11 +103,11 @@ function normalizeRadar(
   const stored = value ?? {};
 
   return {
-    scale: asNumber(stored.scale, defaults.scale),
-    hudScale: asNumber(stored.hudScale, defaults.hudScale),
     alwaysCentered: asBoolean(stored.alwaysCentered, defaults.alwaysCentered),
-    rotate: asBoolean(stored.rotate, defaults.rotate),
+    hudScale: asNumber(stored.hudScale, defaults.hudScale),
     iconScaleMin: asNumber(stored.iconScaleMin, defaults.iconScaleMin),
+    rotate: asBoolean(stored.rotate, defaults.rotate),
+    scale: asNumber(stored.scale, defaults.scale),
     squareWithScoreboard: asBoolean(
       stored.squareWithScoreboard,
       defaults.squareWithScoreboard
@@ -122,9 +122,9 @@ function normalizeNetwork(
   const stored = value ?? {};
 
   return {
-    rate: asNumber(stored.rate, defaults.rate),
     bufferTicks: asNumber(stored.bufferTicks, defaults.bufferTicks),
     maxPing: asNumber(stored.maxPing, defaults.maxPing),
+    rate: asNumber(stored.rate, defaults.rate),
   };
 }
 
@@ -140,16 +140,16 @@ function normalizeAudio(
 
   return {
     master: asNumber(stored.master, defaults.master),
-    voipVolume,
+    musicVolume: asNumber(stored.musicVolume, defaults.musicVolume),
     muteOnFocusLoss: asBoolean(
       stored.muteOnFocusLoss,
       defaults.muteOnFocusLoss
     ),
-    musicVolume: asNumber(stored.musicVolume, defaults.musicVolume),
     tenSecondWarning: asNumber(
       stored.tenSecondWarning,
       defaults.tenSecondWarning
     ),
+    voipVolume,
   };
 }
 
@@ -160,13 +160,13 @@ function normalizePerformance(
   const stored = value ?? {};
 
   return {
-    fpsMax: asNumber(stored.fpsMax, defaults.fpsMax),
-    fpsMaxUi: asNumber(stored.fpsMaxUi, defaults.fpsMaxUi),
+    autohelp: asBoolean(stored.autohelp, defaults.autohelp),
     drawTracersFirstPerson: asBoolean(
       stored.drawTracersFirstPerson,
       defaults.drawTracersFirstPerson
     ),
-    autohelp: asBoolean(stored.autohelp, defaults.autohelp),
+    fpsMax: asNumber(stored.fpsMax, defaults.fpsMax),
+    fpsMaxUi: asNumber(stored.fpsMaxUi, defaults.fpsMaxUi),
     gameInstructor: asBoolean(stored.gameInstructor, defaults.gameInstructor),
     lowLatencySleep: asBoolean(
       stored.lowLatencySleep,
@@ -236,21 +236,21 @@ function normalizeConfigSettings(
   value: Record<string, unknown>
 ): ConfigSettings {
   return {
-    viewmodel: normalizeViewmodel(
-      isPlainObject(value.viewmodel) ? value.viewmodel : undefined
+    audio: normalizeAudio(isPlainObject(value.audio) ? value.audio : undefined),
+    enabledRecommendations: normalizeEnabledRecommendations(
+      value.enabledRecommendations
     ),
+    hud: normalizeHud(isPlainObject(value.hud) ? value.hud : undefined),
     mouse: normalizeMouse(isPlainObject(value.mouse) ? value.mouse : undefined),
-    radar: normalizeRadar(isPlainObject(value.radar) ? value.radar : undefined),
     network: normalizeNetwork(
       isPlainObject(value.network) ? value.network : undefined
     ),
-    audio: normalizeAudio(isPlainObject(value.audio) ? value.audio : undefined),
     performance: normalizePerformance(
       isPlainObject(value.performance) ? value.performance : undefined
     ),
-    hud: normalizeHud(isPlainObject(value.hud) ? value.hud : undefined),
-    enabledRecommendations: normalizeEnabledRecommendations(
-      value.enabledRecommendations
+    radar: normalizeRadar(isPlainObject(value.radar) ? value.radar : undefined),
+    viewmodel: normalizeViewmodel(
+      isPlainObject(value.viewmodel) ? value.viewmodel : undefined
     ),
   };
 }

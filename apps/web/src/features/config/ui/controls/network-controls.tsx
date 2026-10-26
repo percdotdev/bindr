@@ -8,16 +8,16 @@ import {
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 const RATE_OPTIONS: ConfigSelectOption[] = [
-  { value: '196608', label: '196608 (1.5 Mbps)' },
-  { value: '262144', label: '262144 (2 Mbps)' },
-  { value: '524288', label: '524288 (4 Mbps)' },
-  { value: '786432', label: '786432 (unrestricted)' },
+  { label: '196608 (1.5 Mbps)', value: '196608' },
+  { label: '262144 (2 Mbps)', value: '262144' },
+  { label: '524288 (4 Mbps)', value: '524288' },
+  { label: '786432 (unrestricted)', value: '786432' },
 ];
 
 const BUFFER_TICK_OPTIONS: ConfigSelectOption[] = [
-  { value: '0', label: '0 (default, lowest delay)' },
-  { value: '1', label: '1 (mild jitter)' },
-  { value: '2', label: '2 (lossy connection)' },
+  { label: '0 (default, lowest delay)', value: '0' },
+  { label: '1 (mild jitter)', value: '1' },
+  { label: '2 (lossy connection)', value: '2' },
 ];
 
 interface NetworkControlsProps {

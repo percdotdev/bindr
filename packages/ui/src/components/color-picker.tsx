@@ -49,7 +49,7 @@ declare global {
   }
 }
 
-const HEX_PATTERN = /^[0-9A-Fa-f]{3,4}$|^[0-9A-Fa-f]{6}$|^[0-9A-Fa-f]{8}$/;
+const HEX_PATTERN = /^[0-9A-Fa-f]{3,4}$|^[0-9A-Fa-f]{6}$|^[0-9A-Fa-f]{8}$/u;
 
 const DEFAULT_SWATCHES = [
   '#000000',
@@ -359,7 +359,7 @@ export function ColorPicker({
   return (
     <div
       className={cn(
-        'flex w-full max-w-[320px] flex-col gap-3 rounded-xl border bg-background p-3 shadow-sm',
+        'bg-background flex w-full max-w-[320px] flex-col gap-3 rounded-xl border p-3 shadow-sm',
         className
       )}
     >
@@ -409,7 +409,7 @@ export function ColorPicker({
         </div>
 
         {showAlpha ? (
-          <div className='relative h-4 overflow-hidden rounded-full bg-muted'>
+          <div className='bg-muted relative h-4 overflow-hidden rounded-full'>
             <input
               className='figma-range absolute inset-0 m-0 h-full w-full cursor-pointer appearance-none rounded-full p-0'
               max={100}

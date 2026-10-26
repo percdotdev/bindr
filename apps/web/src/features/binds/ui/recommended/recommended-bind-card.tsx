@@ -18,27 +18,27 @@ export function RecommendedBindCard({
   template,
 }: RecommendedBindCardProps) {
   const preview = formatBindLine({
+    command: template.command,
     id: template.id,
     key: template.key,
-    command: template.command,
   });
 
   return (
     <article className='flex flex-col gap-3 rounded-md border p-4 sm:flex-row sm:items-start sm:justify-between'>
       <div className='min-w-0 flex-1'>
         <div className='flex flex-wrap items-center gap-2'>
-          <h3 className='font-medium text-sm'>{template.label}</h3>
-          <span className='rounded-full bg-muted px-2 py-0.5 font-mono text-[10px] uppercase'>
+          <h3 className='text-sm font-medium'>{template.label}</h3>
+          <span className='bg-muted rounded-full px-2 py-0.5 font-mono text-[10px] uppercase'>
             {template.key}
           </span>
           {template.mmSafe ? (
-            <span className='text-[10px] text-muted-foreground'>Valve MM</span>
+            <span className='text-muted-foreground text-[10px]'>Valve MM</span>
           ) : null}
         </div>
-        <p className='mt-1 text-muted-foreground text-xs'>
+        <p className='text-muted-foreground mt-1 text-xs'>
           {template.description}
         </p>
-        <p className='mt-2 break-all font-mono text-muted-foreground text-xs'>
+        <p className='text-muted-foreground mt-2 font-mono text-xs break-all'>
           {preview}
         </p>
       </div>

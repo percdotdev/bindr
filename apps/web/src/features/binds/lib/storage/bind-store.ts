@@ -34,9 +34,9 @@ function upsertBindEntry(binds: BindEntry[], key: string, command: string) {
   return [
     ...binds,
     {
+      command: trimmed,
       id: createBindId(),
       key,
-      command: trimmed,
     },
   ];
 }
@@ -55,47 +55,6 @@ interface BindStore {
 }
 
 export const useBindStore = create<BindStore>((set, get) => ({
-  binds: [],
-  hydrated: false,
-  selectedKey: null,
-
-  hydrate: () => {
-    if (get().hydrated) {
-      return;
-    }
-
-    set({
-      binds: loadStoredBinds() ?? [],
-      hydrated: true,
-    });
-  },
-
-  selectKey: (key) => {
-    set((state) => ({
-      selectedKey: state.selectedKey === key ? null : key,
-    }));
-  },
-
-  upsertBind: (key, command) => {
-    const nextBinds = upsertBindEntry(get().binds, key, command);
-    saveStoredBinds(nextBinds);
-    set({ binds: nextBinds });
-  },
-
-  removeBind: (key) => {
-    const nextBinds = get().binds.filter((bind) => bind.key !== key);
-    saveStoredBinds(nextBinds);
-    set((state) => ({
-      binds: nextBinds,
-      selectedKey: state.selectedKey === key ? null : state.selectedKey,
-    }));
-  },
-
-  clearBinds: () => {
-    clearStoredBinds();
-    set({ binds: [], selectedKey: null });
-  },
-
   addRecommendedBind: (templateId) => {
     const template = getRecommendedTemplateById(templateId);
     if (!template) {
@@ -116,10 +75,50 @@ export const useBindStore = create<BindStore>((set, get) => ({
     set({ binds: nextBinds });
     return true;
   },
+  binds: [],
+
+  clearBinds: () => {
+    clearStoredBinds();
+    set({ binds: [], selectedKey: null });
+  },
+
+  hydrate: () => {
+    if (get().hydrated) {
+      return;
+    }
+
+    set({
+      binds: loadStoredBinds() ?? [],
+      hydrated: true,
+    });
+  },
+  hydrated: false,
 
   loadRecommendedBinds: () => {
     const nextBinds = createRecommendedBinds();
     saveStoredBinds(nextBinds);
     set({ binds: nextBinds, selectedKey: null });
+  },
+
+  removeBind: (key) => {
+    const nextBinds = get().binds.filter((bind) => bind.key !== key);
+    saveStoredBinds(nextBinds);
+    set((state) => ({
+      binds: nextBinds,
+      selectedKey: state.selectedKey === key ? null : state.selectedKey,
+    }));
+  },
+  selectedKey: null,
+
+  selectKey: (key) => {
+    set((state) => ({
+      selectedKey: state.selectedKey === key ? null : key,
+    }));
+  },
+
+  upsertBind: (key, command) => {
+    const nextBinds = upsertBindEntry(get().binds, key, command);
+    saveStoredBinds(nextBinds);
+    set({ binds: nextBinds });
   },
 }));

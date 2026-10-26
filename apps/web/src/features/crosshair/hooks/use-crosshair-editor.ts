@@ -114,12 +114,12 @@ export function useCrosshairEditor() {
 
   return {
     crosshair,
-    shareCode,
     importError,
-    updateField: updateFieldWithUrl,
-    updateRgba: updateRgbaWithUrl,
-    updateOutlineRgba: updateOutlineRgbaWithUrl,
     importShareCode,
     resetCrosshair: resetCrosshairWithUrl,
+    shareCode,
+    updateField: updateFieldWithUrl,
+    updateOutlineRgba: updateOutlineRgbaWithUrl,
+    updateRgba: updateRgbaWithUrl,
   };
 }

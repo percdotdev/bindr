@@ -5,7 +5,7 @@ export function HomeTools() {
   return (
     <section className='flex flex-col gap-4'>
       <div className='flex items-baseline justify-between'>
-        <h2 className='font-medium text-sm'>Tools</h2>
+        <h2 className='text-sm font-medium'>Tools</h2>
         <p className='text-muted-foreground text-xs'>Everything client-side</p>
       </div>
       <div className='grid gap-4 sm:grid-cols-2 lg:grid-cols-4'>

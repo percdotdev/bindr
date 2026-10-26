@@ -1,24 +1,24 @@
 /** Hard limits enforced by the game (convar ranges, build 2000922). */
 export const CROSSHAIR_LIMITS = {
-  alpha: { min: 0, max: 255, step: 1 },
-  dynamicSpreadLimit: { min: 0, max: 255, step: 1 },
-  gap: { min: -3840, max: 3840, step: 1 },
-  innerSplitAlpha: { min: 0, max: 1, step: 0.01 },
-  length: { min: 0, max: 255, step: 1 },
-  outerSplitAlpha: { min: 0.3, max: 1, step: 0.01 },
-  outlineMode: { min: 0, max: 2, step: 1 },
-  scopeDotScale: { min: 0.1, max: 2, step: 0.01 },
-  screenHeight: { min: 240, max: 65_535, step: 1 },
-  splitDistance: { min: 0, max: 127, step: 1 },
-  splitSizeRatio: { min: 0, max: 1, step: 0.01 },
-  style: { min: 0, max: 9, step: 1 },
-  thickness: { min: 0, max: 32, step: 1 },
+  alpha: { max: 255, min: 0, step: 1 },
+  dynamicSpreadLimit: { max: 255, min: 0, step: 1 },
+  gap: { max: 3840, min: -3840, step: 1 },
+  innerSplitAlpha: { max: 1, min: 0, step: 0.01 },
+  length: { max: 255, min: 0, step: 1 },
+  outerSplitAlpha: { max: 1, min: 0.3, step: 0.01 },
+  outlineMode: { max: 2, min: 0, step: 1 },
+  scopeDotScale: { max: 2, min: 0.1, step: 0.01 },
+  screenHeight: { max: 65_535, min: 240, step: 1 },
+  splitDistance: { max: 127, min: 0, step: 1 },
+  splitSizeRatio: { max: 1, min: 0, step: 0.01 },
+  style: { max: 9, min: 0, step: 1 },
+  thickness: { max: 32, min: 0, step: 1 },
 } as const;
 
 /** Ranges the in-game settings menu exposes (narrower than the convars). */
 export const CROSSHAIR_MENU_LIMITS = {
-  classicGap: { min: -10, max: 128, step: 1 },
-  gap: { min: 0, max: 128, step: 1 },
+  classicGap: { max: 128, min: -10, step: 1 },
+  gap: { max: 128, min: 0, step: 1 },
 } as const;
 
 export const CROSSHAIR_SCREEN_HEIGHT_PRESETS = [

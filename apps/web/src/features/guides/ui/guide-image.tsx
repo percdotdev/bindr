@@ -13,7 +13,7 @@ export function GuideImage({ alt = '', className, src }: GuideImageProps) {
   }
 
   return (
-    <span className='my-6 block overflow-hidden border border-foreground/10 bg-muted/30'>
+    <span className='border-foreground/10 bg-muted/30 my-6 block overflow-hidden border'>
       <Image
         alt={alt}
         className={cn('h-auto w-full', className)}

@@ -55,7 +55,7 @@ export function CrosshairPreview({ crosshair }: CrosshairPreviewProps) {
   }
 
   return (
-    <div className='relative w-full overflow-hidden ring-1 ring-foreground/10'>
+    <div className='ring-foreground/10 relative w-full overflow-hidden ring-1'>
       <div
         className='relative w-full bg-black'
         style={{ aspectRatio: `${PREVIEW_MAP_WIDTH} / ${PREVIEW_MAP_HEIGHT}` }}

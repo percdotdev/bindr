@@ -9,25 +9,25 @@ import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 const HUD_COLOR_OPTIONS: ConfigSelectOption[] = [
-  { value: '0', label: 'Team color' },
-  { value: '1', label: 'White' },
-  { value: '2', label: 'Bright white' },
-  { value: '3', label: 'Light blue' },
-  { value: '4', label: 'Blue' },
-  { value: '5', label: 'Purple' },
-  { value: '6', label: 'Red' },
-  { value: '7', label: 'Orange' },
-  { value: '8', label: 'Yellow' },
-  { value: '9', label: 'Green' },
-  { value: '10', label: 'Aqua' },
-  { value: '11', label: 'Pink' },
-  { value: '12', label: 'Teammate color' },
+  { label: 'Team color', value: '0' },
+  { label: 'White', value: '1' },
+  { label: 'Bright white', value: '2' },
+  { label: 'Light blue', value: '3' },
+  { label: 'Blue', value: '4' },
+  { label: 'Purple', value: '5' },
+  { label: 'Red', value: '6' },
+  { label: 'Orange', value: '7' },
+  { label: 'Yellow', value: '8' },
+  { label: 'Green', value: '9' },
+  { label: 'Aqua', value: '10' },
+  { label: 'Pink', value: '11' },
+  { label: 'Teammate color', value: '12' },
 ];
 
 const TEAMMATE_COLOR_OPTIONS: ConfigSelectOption[] = [
-  { value: '0', label: 'Off' },
-  { value: '1', label: 'Colors' },
-  { value: '2', label: 'Colors + letters' },
+  { label: 'Off', value: '0' },
+  { label: 'Colors', value: '1' },
+  { label: 'Colors + letters', value: '2' },
 ];
 
 interface HudControlsProps {

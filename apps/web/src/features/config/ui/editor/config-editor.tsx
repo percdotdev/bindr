@@ -25,13 +25,13 @@ import { ConfigExportPanel } from '@/features/config/ui/export/config-export-pan
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
-  viewmodel: 'Weapon position, FOV and handedness.',
-  mouse: 'Sensitivity and scoped ratio. Raw input is always on in CS2.',
-  radar: 'Minimap zoom, rotation and icon sizing.',
-  network: 'Bandwidth and snapshot buffer ticks.',
   audio: 'Volume, voice and music levels.',
-  performance: 'FPS caps, tracers and help popups.',
   hud: 'HUD color, scale and on-screen elements.',
+  mouse: 'Sensitivity and scoped ratio. Raw input is always on in CS2.',
+  network: 'Bandwidth and snapshot buffer ticks.',
+  performance: 'FPS caps, tracers and help popups.',
+  radar: 'Minimap zoom, rotation and icon sizing.',
+  viewmodel: 'Weapon position, FOV and handedness.',
 };
 
 export function ConfigEditor() {
@@ -112,14 +112,14 @@ export function ConfigEditor() {
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
-          <h1 className='font-medium text-sm'>Game config</h1>
+          <h1 className='text-sm font-medium'>Game config</h1>
           <p className='text-muted-foreground text-xs'>
             Tune always-on cvars — viewmodel, mouse, radar, network, audio,
             performance and HUD — then copy or download a cfg snippet for CS2.
           </p>
         </div>
         <Link
-          className='w-fit text-muted-foreground text-xs underline-offset-4 hover:underline'
+          className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
           href='/config/recommended'
         >
           Browse recommended config →
@@ -140,7 +140,7 @@ export function ConfigEditor() {
           </ConfirmAlertDialog>
           <ConfigResetAlert onReset={resetConfig} />
         </div>
-        <div className='sticky top-0 z-10 -mx-6 border-b bg-background/80 px-6 py-2 backdrop-blur'>
+        <div className='bg-background/80 sticky top-0 z-10 -mx-6 border-b px-6 py-2 backdrop-blur'>
           <ConfigSectionNav />
         </div>
       </div>

@@ -22,37 +22,37 @@ interface NavLink {
 
 const EDITOR_LINKS: NavLink[] = [
   {
+    description: 'Decode share codes, preview, export console commands.',
     href: '/crosshair',
     label: 'Crosshair editor',
-    description: 'Decode share codes, preview, export console commands.',
   },
   {
+    description: 'Assign commands on a visual keyboard, export cfg.',
     href: '/binds',
     label: 'Bind generator',
-    description: 'Assign commands on a visual keyboard, export cfg.',
   },
   {
+    description: 'Viewmodel, mouse, radar, network, audio, HUD cvars.',
     href: '/config',
     label: 'Game config',
-    description: 'Viewmodel, mouse, radar, network, audio, HUD cvars.',
   },
   {
+    description: 'Merge crosshair, config and binds into one cfg.',
     href: '/autoexec',
     label: 'Autoexec composer',
-    description: 'Merge crosshair, config and binds into one cfg.',
   },
 ];
 
 const CATALOG_LINKS: NavLink[] = [
   {
+    description: 'MM-safe 2026 meta bind templates.',
     href: '/binds/recommended',
     label: 'Recommended binds',
-    description: 'MM-safe 2026 meta bind templates.',
   },
   {
+    description: 'Curated cvar bundles per section.',
     href: '/config/recommended',
     label: 'Recommended config',
-    description: 'Curated cvar bundles per section.',
   },
 ];
 
@@ -71,8 +71,8 @@ function NavMenuLink({
         onClick={onSelect}
         render={<Link href={href} />}
       >
-        <span className='font-medium text-foreground'>{label}</span>
-        <span className='text-[11px] text-muted-foreground leading-snug'>
+        <span className='text-foreground font-medium'>{label}</span>
+        <span className='text-muted-foreground text-[11px] leading-snug'>
           {description}
         </span>
       </NavigationMenuLink>
@@ -95,7 +95,7 @@ export function SiteNav() {
     >
       {onHome ? null : (
         <Link
-          className='font-mono text-foreground text-xs transition-colors hover:text-muted-foreground'
+          className='text-foreground hover:text-muted-foreground font-mono text-xs transition-colors'
           href='/'
         >
           bindr.lol
