@@ -50,9 +50,9 @@ export function RecommendedConfigPage() {
         <div className='flex flex-col gap-1'>
           <h1 className='font-medium text-sm'>Recommended config</h1>
           <p className='text-muted-foreground text-xs'>
-            Curated cvar bundles from csdb.gg and lineups.gg — add individually
-            or take the full competitive set. Viewmodel and radar presets
-            replace each other within their category.
+            Curated CS2 client cvars only — add individually or take the full
+            set. Viewmodel and radar presets replace each other within their
+            category. CS:GO leftovers are not included.
           </p>
         </div>
         <div className='flex flex-wrap items-center gap-2'>

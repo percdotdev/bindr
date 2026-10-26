@@ -41,57 +41,12 @@ export function PerformanceControls({
         value={performance.fpsMaxUi}
       />
       <ConfigSwitchRow
-        description='engine_low_latency_sleep_after_client_tick — lower input latency.'
+        description='engine_low_latency_sleep_after_client_tick — pair with a real fps_max, not 0.'
         enabled={performance.lowLatencySleep}
         id='perf-low-latency'
         label='Low-latency sleep'
         onChange={(enabled) => {
           onUpdate('lowLatencySleep', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='mat_queue_mode 2 — multicore rendering.'
-        enabled={performance.multicore}
-        id='perf-multicore'
-        label='Multicore rendering'
-        onChange={(enabled) => {
-          onUpdate('multicore', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='r_dynamic — dynamic lighting. Off boosts FPS.'
-        enabled={performance.dynamicLight}
-        id='perf-dynamic-light'
-        label='Dynamic lighting'
-        onChange={(enabled) => {
-          onUpdate('dynamicLight', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='mat_disable_bloom — turn off bloom/glow.'
-        enabled={performance.disableBloom}
-        id='perf-disable-bloom'
-        label='Disable bloom'
-        onChange={(enabled) => {
-          onUpdate('disableBloom', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='cl_forcepreload — preload assets at map load.'
-        enabled={performance.forcePreload}
-        id='perf-force-preload'
-        label='Force preload'
-        onChange={(enabled) => {
-          onUpdate('forcePreload', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='cl_animate_player_models — animate models in menus.'
-        enabled={performance.animatePlayerModels}
-        id='perf-animate-models'
-        label='Animate menu models'
-        onChange={(enabled) => {
-          onUpdate('animatePlayerModels', enabled);
         }}
       />
       <ConfigSwitchRow
@@ -104,30 +59,12 @@ export function PerformanceControls({
         }}
       />
       <ConfigSwitchRow
-        description='cl_disablefreezecam — skip the death freeze cam.'
-        enabled={performance.disableFreezeCam}
-        id='perf-freezecam'
-        label='Disable freeze cam'
-        onChange={(enabled) => {
-          onUpdate('disableFreezeCam', enabled);
-        }}
-      />
-      <ConfigSwitchRow
         description='cl_autohelp — automatic hint messages.'
         enabled={performance.autohelp}
         id='perf-autohelp'
         label='Auto-help'
         onChange={(enabled) => {
           onUpdate('autohelp', enabled);
-        }}
-      />
-      <ConfigSwitchRow
-        description='cl_showhelp — on-screen help tips.'
-        enabled={performance.showHelp}
-        id='perf-showhelp'
-        label='Show help'
-        onChange={(enabled) => {
-          onUpdate('showHelp', enabled);
         }}
       />
       <ConfigSwitchRow

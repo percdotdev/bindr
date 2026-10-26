@@ -8,8 +8,8 @@ import { RADAR_RECOMMENDATIONS } from '@workspace/cs2/config/recommended/radar';
 import { VIEWMODEL_RECOMMENDATIONS } from '@workspace/cs2/config/recommended/viewmodel';
 
 /**
- * Curated always-on cvars from csdb.gg (defaults + competitive bundles) and
- * lineups.gg CS2 autoexec guide (Mar 2026). MM-safe client cvars only.
+ * Curated always-on CS2 client cvars only. CS:GO leftovers
+ * (`cl_bob*`, `cl_righthand`, `cl_cmdrate`, `m_rawinput`, …) are not listed.
  */
 export const RECOMMENDED_CONFIG_TEMPLATES: RecommendedConfigTemplate[] = [
   ...VIEWMODEL_RECOMMENDATIONS,

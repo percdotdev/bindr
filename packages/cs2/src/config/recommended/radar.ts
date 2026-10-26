@@ -8,7 +8,7 @@ export const RADAR_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
       'Zoomed-out minimap with larger HUD element — common execute setup.',
     category: 'radar',
     mmSafe: true,
-    source: 'lineups.gg autoexec (Mar 2026)',
+    source: 'CS2 client cvar',
     commands: [
       'cl_radar_scale 0.4',
       'cl_hud_radar_scale 1.15',
@@ -24,12 +24,11 @@ export const RADAR_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   },
   {
     id: 'rec-radar-pro',
-    label: 'Pro radar (csdb)',
-    description:
-      'Tighter zoom (0.35) with icon scaling — csdb.gg pro radar bundle.',
+    label: 'Pro radar',
+    description: 'Tighter zoom (0.35) with icon scaling.',
     category: 'radar',
     mmSafe: true,
-    source: 'csdb.gg pro radar settings',
+    source: 'CS2 client cvar',
     commands: [
       'cl_radar_scale 0.35',
       'cl_radar_always_centered 0',

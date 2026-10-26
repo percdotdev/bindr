@@ -1,7 +1,6 @@
 'use client';
 
 import type { MouseSettings } from '@workspace/cs2/config/model/types';
-import { ConfigSwitchRow } from '@/features/config/ui/controls/config-switch-row';
 import { CrosshairControlSlider } from '@/features/crosshair/ui/controls/crosshair-control-slider';
 
 interface MouseControlsProps {
@@ -36,15 +35,6 @@ export function MouseControls({ mouse, onUpdate }: MouseControlsProps) {
         }}
         step={0.05}
         value={mouse.zoomSensitivityRatio}
-      />
-      <ConfigSwitchRow
-        description='m_rawinput — bypass OS mouse acceleration. Keep on.'
-        enabled={mouse.rawInput}
-        id='mouse-raw-input'
-        label='Raw input'
-        onChange={(enabled) => {
-          onUpdate('rawInput', enabled);
-        }}
       />
     </div>
   );

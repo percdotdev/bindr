@@ -11,18 +11,13 @@ const RATE_OPTIONS: ConfigSelectOption[] = [
   { value: '196608', label: '196608 (1.5 Mbps)' },
   { value: '262144', label: '262144 (2 Mbps)' },
   { value: '524288', label: '524288 (4 Mbps)' },
-  { value: '786432', label: '786432 (max)' },
-  { value: '1048576', label: '1048576 (LAN)' },
+  { value: '786432', label: '786432 (unrestricted)' },
 ];
 
-const TICK_OPTIONS: ConfigSelectOption[] = [
-  { value: '64', label: '64' },
-  { value: '128', label: '128' },
-];
-
-const RATIO_OPTIONS: ConfigSelectOption[] = [
-  { value: '1', label: '1 (stable connection)' },
-  { value: '2', label: '2 (default)' },
+const BUFFER_TICK_OPTIONS: ConfigSelectOption[] = [
+  { value: '0', label: '0 (default, lowest delay)' },
+  { value: '1', label: '1 (mild jitter)' },
+  { value: '2', label: '2 (lossy connection)' },
 ];
 
 interface NetworkControlsProps {
@@ -37,7 +32,7 @@ export function NetworkControls({ network, onUpdate }: NetworkControlsProps) {
   return (
     <div className='flex flex-col gap-6'>
       <ConfigSelectRow
-        description='rate — max bytes/sec from the server.'
+        description='rate — max bytes/sec from the server. 786432 is Unrestricted in the menu.'
         id='network-rate'
         label='Rate'
         onChange={(value) => {
@@ -47,45 +42,14 @@ export function NetworkControls({ network, onUpdate }: NetworkControlsProps) {
         value={String(network.rate)}
       />
       <ConfigSelectRow
-        description='cl_interp_ratio — interpolation ratio.'
-        id='network-interp-ratio'
-        label='Interp ratio'
+        description='cl_net_buffer_ticks — extra snapshot delay. This is what actually drives interp in CS2. Do not set cl_interp or cl_cmdrate.'
+        id='network-buffer-ticks'
+        label='Buffer ticks'
         onChange={(value) => {
-          onUpdate('interpRatio', Number(value));
+          onUpdate('bufferTicks', Number(value));
         }}
-        options={RATIO_OPTIONS}
-        value={String(network.interpRatio)}
-      />
-      <CrosshairControlSlider
-        id='network-interp'
-        label='Interp (0 = auto)'
-        max={0.05}
-        min={0}
-        onValueChange={(value) => {
-          onUpdate('interp', value);
-        }}
-        step={0.005}
-        value={network.interp}
-      />
-      <ConfigSelectRow
-        description='cl_cmdrate — packets sent to the server.'
-        id='network-cmdrate'
-        label='Cmd rate'
-        onChange={(value) => {
-          onUpdate('cmdrate', Number(value));
-        }}
-        options={TICK_OPTIONS}
-        value={String(network.cmdrate)}
-      />
-      <ConfigSelectRow
-        description='cl_updaterate — packets received from the server.'
-        id='network-updaterate'
-        label='Update rate'
-        onChange={(value) => {
-          onUpdate('updaterate', Number(value));
-        }}
-        options={TICK_OPTIONS}
-        value={String(network.updaterate)}
+        options={BUFFER_TICK_OPTIONS}
+        value={String(network.bufferTicks)}
       />
       <CrosshairControlSlider
         id='network-max-ping'

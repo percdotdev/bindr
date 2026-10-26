@@ -47,7 +47,7 @@ export function BindCommandForm({
           onChange={(event) => {
             setDraft(event.target.value);
           }}
-          placeholder='+jump;-attack'
+          placeholder='slot8'
           value={draft}
         />
       </div>
