@@ -16,6 +16,7 @@ import { CrosshairSplitControls } from '@/features/crosshair/ui/controls/crossha
 import { CrosshairStyleSelect } from '@/features/crosshair/ui/controls/crosshair-style-select';
 import { CrosshairResetAlert } from '@/features/crosshair/ui/editor/crosshair-reset-alert';
 import { ShareCodeImportDialog } from '@/features/crosshair/ui/editor/share-code-import-dialog';
+import { CrosshairExportPanel } from '@/features/crosshair/ui/export/crosshair-export-panel';
 import { CrosshairCopyMenu } from '@/features/crosshair/ui/preview/crosshair-copy-menu';
 import { CrosshairPreview } from '@/features/crosshair/ui/preview/crosshair-preview';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
@@ -38,8 +39,8 @@ export function CrosshairEditor() {
         <div className='flex flex-col gap-1'>
           <h1 className='text-sm font-medium'>Crosshair editor</h1>
           <p className='text-muted-foreground text-xs'>
-            Import a CS2 share code, tweak pixel-exact settings, and copy the
-            result back into the game.
+            Import a CS2 share code, tweak pixel-exact settings, then copy the
+            share code, console commands, or both back into the game.
           </p>
         </div>
         <div className='flex items-center gap-2'>
@@ -53,6 +54,14 @@ export function CrosshairEditor() {
       </div>
 
       <CrosshairPreview crosshair={crosshair} />
+
+      <CollapsibleSection
+        contentClassName='flex flex-col gap-4'
+        description='Share code for in-game settings, plus console commands for autoexec or the console.'
+        title='Export'
+      >
+        <CrosshairExportPanel crosshair={crosshair} shareCode={shareCode} />
+      </CollapsibleSection>
 
       <CollapsibleSection
         contentClassName='flex flex-col gap-6'
