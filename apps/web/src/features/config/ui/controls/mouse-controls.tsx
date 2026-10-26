@@ -22,7 +22,7 @@ export function MouseControls({ mouse, onUpdate }: MouseControlsProps) {
         onValueChange={(value) => {
           onUpdate('sensitivity', value);
         }}
-        step={0.05}
+        step={0.001}
         value={mouse.sensitivity}
       />
       <CrosshairControlSlider
@@ -33,7 +33,7 @@ export function MouseControls({ mouse, onUpdate }: MouseControlsProps) {
         onValueChange={(value) => {
           onUpdate('zoomSensitivityRatio', value);
         }}
-        step={0.05}
+        step={0.001}
         value={mouse.zoomSensitivityRatio}
       />
     </div>

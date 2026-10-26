@@ -38,7 +38,7 @@ const VIEWMODEL_FIELDS: {
     label: 'Offset X',
     max: 2.5,
     min: -2.5,
-    step: 0.1,
+    step: 0.01,
   },
   {
     field: 'offsetY',
@@ -46,7 +46,7 @@ const VIEWMODEL_FIELDS: {
     label: 'Offset Y',
     max: 2,
     min: -2,
-    step: 0.1,
+    step: 0.01,
   },
   {
     field: 'offsetZ',
@@ -54,7 +54,7 @@ const VIEWMODEL_FIELDS: {
     label: 'Offset Z',
     max: 2,
     min: -2,
-    step: 0.1,
+    step: 0.01,
   },
 ];
 

@@ -59,7 +59,7 @@ export function HudControls({ hud, onUpdate }: HudControlsProps) {
         onValueChange={(value) => {
           onUpdate('hudScaling', value);
         }}
-        step={0.05}
+        step={0.01}
         value={hud.hudScaling}
       />
       <ConfigSelectRow
@@ -80,7 +80,7 @@ export function HudControls({ hud, onUpdate }: HudControlsProps) {
         onValueChange={(value) => {
           onUpdate('teamidOverheadFadeNearCrosshair', value);
         }}
-        step={0.05}
+        step={0.01}
         value={hud.teamidOverheadFadeNearCrosshair}
       />
       <ConfigSwitchRow

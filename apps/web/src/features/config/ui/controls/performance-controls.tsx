@@ -26,7 +26,7 @@ export function PerformanceControls({
         onValueChange={(value) => {
           onUpdate('fpsMax', value);
         }}
-        step={10}
+        step={1}
         value={performance.fpsMax}
       />
       <CrosshairControlSlider
@@ -37,7 +37,7 @@ export function PerformanceControls({
         onValueChange={(value) => {
           onUpdate('fpsMaxUi', value);
         }}
-        step={10}
+        step={1}
         value={performance.fpsMaxUi}
       />
       <ConfigSwitchRow

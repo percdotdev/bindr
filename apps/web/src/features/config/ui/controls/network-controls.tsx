@@ -59,7 +59,7 @@ export function NetworkControls({ network, onUpdate }: NetworkControlsProps) {
         onValueChange={(value) => {
           onUpdate('maxPing', value);
         }}
-        step={5}
+        step={1}
         value={network.maxPing}
       />
     </div>

@@ -23,7 +23,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         onValueChange={(value) => {
           onUpdate('master', value);
         }}
-        step={0.05}
+        step={0.01}
         value={audio.master}
       />
       <CrosshairControlSlider
@@ -34,7 +34,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         onValueChange={(value) => {
           onUpdate('voipVolume', value);
         }}
-        step={0.05}
+        step={0.01}
         value={audio.voipVolume}
       />
       <CrosshairControlSlider
@@ -56,7 +56,7 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         onValueChange={(value) => {
           onUpdate('tenSecondWarning', value);
         }}
-        step={0.05}
+        step={0.01}
         value={audio.tenSecondWarning}
       />
       <ConfigSwitchRow

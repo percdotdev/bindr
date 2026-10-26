@@ -23,7 +23,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
         onValueChange={(value) => {
           onUpdate('scale', value);
         }}
-        step={0.05}
+        step={0.01}
         value={radar.scale}
       />
       <CrosshairControlSlider
@@ -34,7 +34,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
         onValueChange={(value) => {
           onUpdate('hudScale', value);
         }}
-        step={0.05}
+        step={0.01}
         value={radar.hudScale}
       />
       <CrosshairControlSlider
@@ -45,7 +45,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
         onValueChange={(value) => {
           onUpdate('iconScaleMin', value);
         }}
-        step={0.05}
+        step={0.01}
         value={radar.iconScaleMin}
       />
       <ConfigSwitchRow
