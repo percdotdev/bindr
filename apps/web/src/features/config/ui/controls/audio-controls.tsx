@@ -32,10 +32,10 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         max={1}
         min={0}
         onValueChange={(value) => {
-          onUpdate('voiceScale', value);
+          onUpdate('voipVolume', value);
         }}
         step={0.05}
-        value={audio.voiceScale}
+        value={audio.voipVolume}
       />
       <CrosshairControlSlider
         id='audio-music'

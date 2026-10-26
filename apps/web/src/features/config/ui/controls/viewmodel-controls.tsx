@@ -56,30 +56,6 @@ const VIEWMODEL_FIELDS: {
     max: 2,
     step: 0.1,
   },
-  {
-    id: 'viewmodel-bob-lat',
-    field: 'bobLat',
-    label: 'Bob lateral',
-    min: 0,
-    max: 1,
-    step: 0.05,
-  },
-  {
-    id: 'viewmodel-bob-vert',
-    field: 'bobVert',
-    label: 'Bob vertical',
-    min: 0,
-    max: 1,
-    step: 0.05,
-  },
-  {
-    id: 'viewmodel-bob-lower',
-    field: 'bobLowerAmt',
-    label: 'Run dip',
-    min: 0,
-    max: 30,
-    step: 1,
-  },
 ];
 
 function findMatchingPresetId(viewmodel: ViewmodelSettings) {
@@ -151,12 +127,12 @@ export function ViewmodelControls({
       ))}
 
       <ConfigSwitchRow
-        description='cl_righthand — switch the weapon to your left hand when off.'
-        enabled={viewmodel.rightHand}
-        id='viewmodel-right-hand'
-        label='Right-handed'
+        description='cl_prefer_lefthanded — CS2 replacement for removed cl_righthand. switchhands still toggles mid-round.'
+        enabled={viewmodel.preferLeftHanded}
+        id='viewmodel-left-hand'
+        label='Left-handed'
         onChange={(enabled) => {
-          onUpdate('rightHand', enabled);
+          onUpdate('preferLeftHanded', enabled);
         }}
       />
     </div>

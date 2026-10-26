@@ -3,36 +3,27 @@ import type { RecommendedConfigTemplate } from '@workspace/cs2/config/model/type
 export const NETWORK_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   {
     id: 'rec-network-competitive',
-    label: 'Competitive network rates',
+    label: 'Competitive network',
     description:
-      'Max rate, interp 0 + ratio 1, 128 tick cmd/update — standard MM bundle.',
+      'Unrestricted rate and zero extra buffer ticks — Valve’s low-latency default. `cl_cmdrate` / `cl_updaterate` / `cl_interp` do not exist as player settings in CS2.',
     category: 'network',
     mmSafe: true,
-    source: 'csdb.gg + lineups.gg autoexec',
-    commands: [
-      'rate 786432',
-      'cl_interp_ratio 1',
-      'cl_interp 0',
-      'cl_cmdrate 128',
-      'cl_updaterate 128',
-    ],
+    source: 'CS2 client cvar',
+    commands: ['rate 786432', 'cl_net_buffer_ticks 0'],
     patch: {
       network: {
         rate: 786_432,
-        interpRatio: 1,
-        interp: 0,
-        cmdrate: 128,
-        updaterate: 128,
+        bufferTicks: 0,
       },
     },
   },
   {
     id: 'rec-network-ping-cap',
     label: 'Matchmaking ping cap (80)',
-    description: 'Limits MM search to 80 ms — csdb competitive network preset.',
+    description: 'Limits MM search to 80 ms.',
     category: 'network',
     mmSafe: true,
-    source: 'csdb.gg competitive network',
+    source: 'CS2 client cvar',
     commands: ['mm_dedicated_search_maxping 80'],
     patch: {
       network: {

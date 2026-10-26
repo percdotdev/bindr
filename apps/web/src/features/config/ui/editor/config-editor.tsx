@@ -25,12 +25,12 @@ import { ConfigExportPanel } from '@/features/config/ui/export/config-export-pan
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
 const SECTION_DESCRIPTIONS: Record<ConfigCategory, string> = {
-  viewmodel: 'Weapon position, FOV, bob and handedness.',
-  mouse: 'Sensitivity, scoped ratio and raw input.',
+  viewmodel: 'Weapon position, FOV and handedness.',
+  mouse: 'Sensitivity and scoped ratio. Raw input is always on in CS2.',
   radar: 'Minimap zoom, rotation and icon sizing.',
-  network: 'Rates and interpolation for clean hitreg.',
+  network: 'Bandwidth and snapshot buffer ticks.',
   audio: 'Volume, voice and music levels.',
-  performance: 'FPS caps and visual cuts for higher frames.',
+  performance: 'FPS caps, tracers and help popups.',
   hud: 'HUD color, scale and on-screen elements.',
 };
 

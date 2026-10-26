@@ -6,26 +6,23 @@ export const VIEWMODEL_PRESETS: ViewmodelPreset[] = [
   {
     id: 'valve-default',
     label: 'Valve default',
-    description: 'Stock CS2 viewmodel from csdb.gg defaults.',
-    source: 'csdb.gg',
+    description: 'Stock CS2 desktop viewmodel (presetpos 1).',
+    source: 'CS2 client defaults',
     viewmodel: DEFAULT_VIEWMODEL,
   },
   {
     id: 'wide-competitive',
     label: 'Wide competitive',
     description:
-      'Max FOV with custom offsets — common in 2026 autoexec guides.',
-    source: 'lineups.gg autoexec (Mar 2026)',
+      'Max FOV with custom offsets — presetpos 0 so the offsets stick.',
+    source: 'common 2026 autoexecs',
     viewmodel: {
       fov: 68,
       offsetX: 2.5,
       offsetY: 0,
       offsetZ: -1.5,
       presetPos: 0,
-      rightHand: true,
-      bobLat: 0.1,
-      bobVert: 0.1,
-      bobLowerAmt: 5,
+      preferLeftHanded: false,
     },
   },
 ];

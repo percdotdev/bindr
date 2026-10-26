@@ -40,7 +40,7 @@ export function RadarControls({ onUpdate, radar }: RadarControlsProps) {
       <CrosshairControlSlider
         id='radar-icon-scale'
         label='Min icon size'
-        max={1}
+        max={1.25}
         min={0.4}
         onValueChange={(value) => {
           onUpdate('iconScaleMin', value);

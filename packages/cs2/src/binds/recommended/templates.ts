@@ -1,9 +1,9 @@
 import type { RecommendedBindTemplate } from '@workspace/cs2/binds/model/types';
 
 /**
- * Curated starter binds aligned with common 2026 autoexec guides (lineups.gg,
- * tradeit.gg). Grenades use CS2 slot numbers; lineup release uses a single
- * `-attack` key (Valve MM safe since the Aug 2024 multi-input bind ban).
+ * Curated starter binds for current CS2. Grenades use CS2 slot numbers;
+ * lineup release is a single `-attack` key (Valve MM safe since the Aug 2024
+ * multi-input bind ban). No CS:GO leftovers (`r_cleardecals`, `cl_righthand`).
  */
 export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
   {
@@ -66,8 +66,9 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
     id: 'rec-drop',
     key: 'g',
     command: 'drop',
-    label: 'Drop bomb',
-    description: 'Drop the C4 instantly during retakes or fake executes.',
+    label: 'Drop item',
+    description:
+      'Drops whatever you are holding. Select the bomb first to drop C4.',
     category: 'weapons',
     mmSafe: true,
   },
@@ -84,16 +85,16 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
   {
     id: 'rec-radar-zoom',
     key: 'f9',
-    command: 'incrementvar cl_radar_scale 0.30 1.00 0.10',
+    command: 'incrementvar cl_radar_scale 0.25 1.00 0.10',
     label: 'Radar zoom',
-    description: 'Cycle radar zoom to see more or less of the map.',
+    description: 'Cycle radar zoom (0.25–1.0) to see more or less of the map.',
     category: 'radar',
     mmSafe: true,
   },
   {
     id: 'rec-radar-hud',
     key: 'f10',
-    command: 'incrementvar cl_hud_radar_scale 1.0 1.3 0.05',
+    command: 'incrementvar cl_hud_radar_scale 0.80 1.30 0.05',
     label: 'Radar HUD size',
     description: 'Step minimap HUD scale during a match.',
     category: 'radar',
@@ -106,7 +107,7 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
       'buy vesthelm; buy ak47; buy m4a1; buy smokegrenade; buy flashbang; buy hegrenade; buy molotov; buy incgrenade; buy defuser',
     label: 'Full buy',
     description:
-      'Rifle, armor, full utility and defuser. Wrong-team weapons are ignored, so it works on T and CT.',
+      'Rifle, armor, full utility and defuser. Wrong-team weapons are ignored, so it works on T and CT. `buy m4a1` is the M4A4.',
     category: 'buy',
     mmSafe: true,
   },
@@ -167,16 +168,6 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
     mmSafe: true,
   },
   {
-    id: 'rec-clear-decals',
-    key: 'mouse1',
-    command: '+attack; r_cleardecals',
-    label: 'Clear decals on fire',
-    description:
-      'Wipes blood and bullet marks every time you shoot. One attack action — Valve MM safe.',
-    category: 'misc',
-    mmSafe: true,
-  },
-  {
     id: 'rec-fps-toggle',
     key: 'p',
     command: 'toggle cl_showfps 0 1',
@@ -191,17 +182,17 @@ export const RECOMMENDED_BIND_TEMPLATES: RecommendedBindTemplate[] = [
     command: 'toggle r_show_build_info 0 1',
     label: 'Toggle build info text',
     description:
-      'Hide or show the version/build watermark in the bottom-left corner. Default is on; Valve asks for it in bug clips, so keep a key to bring it back. Client cvar, no sv_cheats.',
+      'Hide or show the version/build watermark in the bottom-left corner. Default is on; Valve asks for it in bug clips, so keep a key to bring it back.',
     category: 'misc',
     mmSafe: true,
   },
   {
     id: 'rec-hand-toggle',
     key: 'h',
-    command: 'toggle cl_righthand 0 1',
+    command: 'switchhands',
     label: 'Swap weapon hand',
     description:
-      'Flip the viewmodel between right and left hand to clear sightlines.',
+      'CS2 hand swap. H is the default bind. Persistent preference is `cl_prefer_lefthanded` in config — `cl_righthand` is gone.',
     category: 'misc',
     mmSafe: true,
   },
