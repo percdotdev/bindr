@@ -1,6 +1,9 @@
 'use client';
 
-import { crosshairSettingsToConsoleCommands } from '@workspace/cs2/crosshair/export/crosshair-console-commands';
+import {
+  crosshairSettingsToCfgBlock,
+  crosshairSettingsToConsoleCommands,
+} from '@workspace/cs2/crosshair/export/crosshair-console-commands';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
 import { Button } from '@workspace/ui/components/button';
 import {
@@ -36,6 +39,10 @@ export function CrosshairCopyMenu({
     () => crosshairSettingsToConsoleCommands(crosshair),
     [crosshair]
   );
+  const cfgBlock = useMemo(
+    () => crosshairSettingsToCfgBlock(crosshair),
+    [crosshair]
+  );
 
   async function handleCopy(value: string, message: string) {
     await copyText(value, message);
@@ -56,7 +63,7 @@ export function CrosshairCopyMenu({
           </Button>
         }
       />
-      <PopoverContent align='start' className='w-44 p-1'>
+      <PopoverContent align='start' className='w-56 p-1'>
         <Button
           className='w-full justify-start'
           onClick={() => handleCopy(shareCode, 'Share code copied')}
@@ -74,6 +81,15 @@ export function CrosshairCopyMenu({
           variant='ghost'
         >
           Console commands
+        </Button>
+        <Button
+          className='w-full justify-start'
+          onClick={() => handleCopy(cfgBlock, 'Share code and commands copied')}
+          size='sm'
+          type='button'
+          variant='ghost'
+        >
+          Share code + commands
         </Button>
         <Button
           className='w-full justify-start'

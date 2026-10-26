@@ -19,7 +19,7 @@ export const HOME_TOOLS: HomeTool[] = [
   {
     cta: 'Open editor',
     description:
-      'Decode CS2 share codes (old CSGO- codes convert), tweak gap, color and style, preview on real maps, export console commands.',
+      'Decode CS2 share codes (old CSGO- codes convert), tweak gap, color and style, preview on real maps, export the share code and console commands.',
     href: '/crosshair',
     icon: Crosshair,
     index: '01',
@@ -77,7 +77,8 @@ export const HOME_STEPS: HomeStep[] = [
     title: 'Preview',
   },
   {
-    detail: 'Copy console commands or download a single autoexec.cfg.',
+    detail:
+      'Copy the share code and console commands, or download one autoexec.cfg.',
     step: '04',
     title: 'Export',
   },

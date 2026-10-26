@@ -3,9 +3,8 @@ import { formatBindBody } from '@workspace/cs2/binds/export/format-cfg';
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import { formatConfigBody } from '@workspace/cs2/config/export/format-config-cfg';
 import type { ConfigSettings } from '@workspace/cs2/config/model/types';
-import { crosshairSettingsToConsoleLines } from '@workspace/cs2/crosshair/export/crosshair-console-commands';
+import { crosshairSettingsToCfgLines } from '@workspace/cs2/crosshair/export/crosshair-console-commands';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
-import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 
 export type AutoexecSectionId = 'crosshair' | 'config' | 'binds';
 export type AutoexecToggleId = AutoexecSectionId | 'banner';
@@ -21,19 +20,10 @@ export type AutoexecInclude = Record<AutoexecToggleId, boolean>;
 const CFG_PATH =
   '// Drop in ...\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\cfg\\autoexec.cfg';
 
-function safeShareCode(crosshair: CrosshairSettings): string {
-  try {
-    return encodeShareCode(crosshair);
-  } catch {
-    return 'unavailable';
-  }
-}
-
 function crosshairSection(crosshair: CrosshairSettings): string[] {
   return [
     '// ===== crosshair =====',
-    ...crosshairSettingsToConsoleLines(crosshair),
-    `// share code: ${safeShareCode(crosshair)}`,
+    ...crosshairSettingsToCfgLines(crosshair),
     '',
   ];
 }

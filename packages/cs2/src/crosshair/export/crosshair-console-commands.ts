@@ -1,4 +1,5 @@
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
+import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 
 const HUNDREDTHS = 100;
 
@@ -14,15 +15,26 @@ function formatChannel(value: number): number {
   return Math.min(255, Math.max(0, Math.round(value)));
 }
 
+function encodeShareCodeOrNull(crosshair: CrosshairSettings): string | null {
+  try {
+    return encodeShareCode(crosshair);
+  } catch {
+    return null;
+  }
+}
+
 /**
- * Convars for CS2 build 2000922+. `cl_crosshair_screen_height` goes last:
- * the game rewrites it whenever the window size changes, and the pixel
- * sizes above only make sense relative to the height they were made for.
+ * Convars for CS2 build 2000922+. `cl_crosshaircode` is first so a console
+ * paste applies the share code; the pixel cvars follow and win if they
+ * disagree. `cl_crosshair_screen_height` stays last: the game rewrites it
+ * whenever the window size changes, and the pixel sizes above only make
+ * sense relative to the height they were made for.
  */
 export function crosshairSettingsToConsoleLines(
   crosshair: CrosshairSettings
 ): string[] {
-  return [
+  const shareCode = encodeShareCodeOrNull(crosshair);
+  const cvars = [
     `cl_crosshairstyle ${Math.round(crosshair.style)}`,
     `cl_crosshair_length ${Math.round(crosshair.length)}`,
     `cl_crosshair_thickness ${Math.round(crosshair.thickness)}`,
@@ -48,10 +60,33 @@ export function crosshairSettingsToConsoleLines(
     `cl_ironsight_dot_scale ${formatConsoleNumber(crosshair.scopeDotScale)}`,
     `cl_crosshair_screen_height ${Math.round(crosshair.screenHeight)}`,
   ];
+
+  return shareCode ? [`cl_crosshaircode ${shareCode}`, ...cvars] : cvars;
 }
 
+/** Semicolon-joined paste for the in-game console. */
 export function crosshairSettingsToConsoleCommands(
   crosshair: CrosshairSettings
 ): string {
   return crosshairSettingsToConsoleLines(crosshair).join('; ');
+}
+
+/** Share-code comment plus the same commands, for cfg / "copy both". */
+export function crosshairSettingsToCfgLines(
+  crosshair: CrosshairSettings
+): string[] {
+  const shareCode = encodeShareCodeOrNull(crosshair);
+  const commands = crosshairSettingsToConsoleLines(crosshair);
+
+  if (!shareCode) {
+    return commands;
+  }
+
+  return [`// share code: ${shareCode}`, ...commands];
+}
+
+export function crosshairSettingsToCfgBlock(
+  crosshair: CrosshairSettings
+): string {
+  return crosshairSettingsToCfgLines(crosshair).join('\n');
 }

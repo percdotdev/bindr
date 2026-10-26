@@ -22,7 +22,7 @@ interface NavLink {
 
 const EDITOR_LINKS: NavLink[] = [
   {
-    description: 'Decode share codes, preview, export console commands.',
+    description: 'Decode share codes, preview, export code and commands.',
     href: '/crosshair',
     label: 'Crosshair editor',
   },
