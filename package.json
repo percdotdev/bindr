@@ -7,13 +7,17 @@
     "packages/*"
   ],
   "scripts": {
+    "auth:generate": "turbo auth:generate",
     "build": "turbo build",
     "check": "ultracite check",
+    "db:generate": "turbo db:generate",
+    "db:migrate": "turbo db:migrate",
     "dependencies:update": "pnpm dlx taze -r -w -f",
     "dev": "turbo dev",
     "fix": "ultracite fix",
     "prepare": "husky",
     "release": "pnpm dlx bumpp -r",
+    "test": "turbo test",
     "typecheck": "turbo typecheck"
   },
   "devDependencies": {
