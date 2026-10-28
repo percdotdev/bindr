@@ -78,10 +78,8 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
   crosshair: DEFAULT_CROSSHAIR,
 
   hydrate: (codeParam) => {
-    if (get().hydrated) {
-      return;
-    }
-
+    // A `?code=` share link always wins, even after an earlier hydration
+    // (e.g. client-side navigation from /autoexec to /crosshair?code=…).
     if (codeParam) {
       try {
         set({
@@ -89,14 +87,20 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
           hydrated: true,
           importError: null,
         });
-        return;
       } catch {
         set({
+          crosshair: get().hydrated
+            ? get().crosshair
+            : (loadStoredCrosshair() ?? DEFAULT_CROSSHAIR),
           hydrated: true,
           importError: 'importErrorInvalidUrl',
         });
-        return;
       }
+      return;
+    }
+
+    if (get().hydrated) {
+      return;
     }
 
     const stored = loadStoredCrosshair();

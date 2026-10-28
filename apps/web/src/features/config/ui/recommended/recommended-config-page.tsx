@@ -1,6 +1,10 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
+import {
+  areAllRecommendedTemplatesApplied,
+  MAX_ACTIVE_RECOMMENDED_CONFIGS,
+} from '@workspace/cs2/config/recommended/apply';
 import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
@@ -41,8 +45,9 @@ export function RecommendedConfigPage() {
 
   const grouped = groupTemplatesByCategory();
   const addedCount = enabledRecommendations.length;
-  const allRecommendedAdded =
-    addedCount === RECOMMENDED_CONFIG_TEMPLATES.length;
+  const allRecommendedAdded = areAllRecommendedTemplatesApplied(
+    enabledRecommendations
+  );
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
@@ -64,13 +69,13 @@ export function RecommendedConfigPage() {
             trigger={<Button type='button' variant='outline' />}
           >
             {tCommon('addAllCount', {
-              count: RECOMMENDED_CONFIG_TEMPLATES.length,
+              count: MAX_ACTIVE_RECOMMENDED_CONFIGS,
             })}
           </ConfirmAlertDialog>
           <span className='text-muted-foreground text-xs'>
             {t('inConfigCount', {
               added: addedCount,
-              total: RECOMMENDED_CONFIG_TEMPLATES.length,
+              total: MAX_ACTIVE_RECOMMENDED_CONFIGS,
             })}
           </span>
           <Link
