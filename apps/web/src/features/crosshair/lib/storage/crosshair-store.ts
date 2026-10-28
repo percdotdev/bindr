@@ -81,6 +81,11 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
     // A `?code=` share link always wins, even after an earlier hydration
     // (e.g. client-side navigation from /autoexec to /crosshair?code=…).
     if (codeParam) {
+      // Already showing this exact code (e.g. our own URL sync): nothing to do.
+      if (get().hydrated && codeParam === encodeShareCode(get().crosshair)) {
+        return;
+      }
+
       try {
         set({
           crosshair: decodeShareCodeDetailed(codeParam).crosshair,

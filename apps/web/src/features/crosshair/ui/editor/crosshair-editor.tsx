@@ -16,6 +16,7 @@ import { CrosshairScopeDotControls } from '@/features/crosshair/ui/controls/cros
 import { CrosshairScreenHeightSelect } from '@/features/crosshair/ui/controls/crosshair-screen-height-select';
 import { CrosshairSplitControls } from '@/features/crosshair/ui/controls/crosshair-split-controls';
 import { CrosshairStyleSelect } from '@/features/crosshair/ui/controls/crosshair-style-select';
+import { CrosshairCodeSync } from '@/features/crosshair/ui/editor/crosshair-code-sync';
 import { CrosshairResetAlert } from '@/features/crosshair/ui/editor/crosshair-reset-alert';
 import { ShareCodeImportDialog } from '@/features/crosshair/ui/editor/share-code-import-dialog';
 import { CrosshairExportPanel } from '@/features/crosshair/ui/export/crosshair-export-panel';
@@ -26,6 +27,7 @@ import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 export function CrosshairEditor() {
   const t = useTranslations('crosshair');
   const {
+    codeParam,
     crosshair,
     shareCode,
     importError,
@@ -38,6 +40,7 @@ export function CrosshairEditor() {
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
+      <CrosshairCodeSync codeParam={codeParam} key={codeParam ?? ''} />
       <div className='flex flex-col gap-3'>
         <div className='flex flex-col gap-1'>
           <h1 className='text-sm font-medium'>{t('title')}</h1>

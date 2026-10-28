@@ -96,6 +96,8 @@ export const KEYBOARD_LAYOUT: KeyboardKey[] = [
   { bindKey: 'downarrow', col: 17, label: '↓', row: 5 },
   { bindKey: 'rightarrow', col: 18, label: '→', row: 5 },
 
+  // CS2 (Source 2) numpad names: kp_0-kp_9 replace CS:GO's kp_end/kp_ins/...,
+  // and numpad slash is kp_divide (CS2 rejects kp_slash as "isn't a valid key").
   { bindKey: 'numlock', col: 20, label: 'Num', row: 1 },
   { bindKey: 'kp_divide', col: 21, label: '/', row: 1 },
   { bindKey: 'kp_multiply', col: 22, label: '*', row: 1 },

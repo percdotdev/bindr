@@ -14,10 +14,15 @@ import {
 } from '@/features/crosshair/lib/storage/crosshair-store';
 import { useMountEffect } from '@/shared/hooks/use-mount-effect';
 
+// Last `?code=` value the editor wrote itself, so URL changes we caused are
+// not re-applied on top of newer edits.
+let lastWrittenShareCode: string | null = null;
+
 function updateShareCodeParam(
   setCodeParam: ReturnType<typeof useQueryState>[1],
   shareCode: string | null
 ) {
+  lastWrittenShareCode = shareCode;
   setCodeParam(shareCode).catch(() => undefined);
 }
 
@@ -40,6 +45,25 @@ function currentShareCode(): string {
   return getCrosshairShareCode(useCrosshairStore.getState().crosshair);
 }
 
+/**
+ * Applies a `?code=` value once on mount. Render it under `key={codeParam}` so
+ * every external URL change (link, back/forward) remounts it and re-applies.
+ */
+export function useApplyCrosshairCodeParam(codeParam: string | null) {
+  const hydrate = useCrosshairStore((state) => state.hydrate);
+
+  useMountEffect(() => {
+    if (
+      useCrosshairStore.getState().hydrated &&
+      codeParam === lastWrittenShareCode
+    ) {
+      return;
+    }
+
+    hydrate(codeParam);
+  });
+}
+
 export function useCrosshairEditor() {
   const [codeParam, setCodeParam] = useQueryState(
     'code',
@@ -51,17 +75,12 @@ export function useCrosshairEditor() {
 
   const crosshair = useCrosshairStore((state) => state.crosshair);
   const importError = useCrosshairStore((state) => state.importError);
-  const hydrate = useCrosshairStore((state) => state.hydrate);
   const updateField = useCrosshairStore((state) => state.updateField);
   const updateRgba = useCrosshairStore((state) => state.updateRgba);
   const updateOutlineRgba = useCrosshairStore(
     (state) => state.updateOutlineRgba
   );
   const resetCrosshair = useCrosshairStore((state) => state.resetCrosshair);
-
-  useMountEffect(() => {
-    hydrate(codeParam);
-  });
 
   const shareCode = useMemo(
     () => getCrosshairShareCode(crosshair),
@@ -113,6 +132,7 @@ export function useCrosshairEditor() {
   }, [resetCrosshair, setCodeParam]);
 
   return {
+    codeParam,
     crosshair,
     importError,
     importShareCode,
