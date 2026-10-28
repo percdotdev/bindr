@@ -4,6 +4,7 @@ export interface KeyboardKey {
   colSpan?: number;
   label: string;
   row: number;
+  rowSpan?: number;
 }
 
 export const KEYBOARD_LAYOUT: KeyboardKey[] = [
@@ -84,6 +85,35 @@ export const KEYBOARD_LAYOUT: KeyboardKey[] = [
   { bindKey: 'ralt', col: 10, colSpan: 2, label: 'Alt', row: 5 },
   { bindKey: 'rctrl', col: 12, colSpan: 2, label: 'Ctrl', row: 5 },
 
+  { bindKey: 'ins', col: 16, label: 'Ins', row: 1 },
+  { bindKey: 'home', col: 17, label: 'Home', row: 1 },
+  { bindKey: 'pgup', col: 18, label: 'PgUp', row: 1 },
+  { bindKey: 'del', col: 16, label: 'Del', row: 2 },
+  { bindKey: 'end', col: 17, label: 'End', row: 2 },
+  { bindKey: 'pgdn', col: 18, label: 'PgDn', row: 2 },
+  { bindKey: 'uparrow', col: 17, label: '↑', row: 4 },
+  { bindKey: 'leftarrow', col: 16, label: '←', row: 5 },
+  { bindKey: 'downarrow', col: 17, label: '↓', row: 5 },
+  { bindKey: 'rightarrow', col: 18, label: '→', row: 5 },
+
+  { bindKey: 'numlock', col: 20, label: 'Num', row: 1 },
+  { bindKey: 'kp_divide', col: 21, label: '/', row: 1 },
+  { bindKey: 'kp_multiply', col: 22, label: '*', row: 1 },
+  { bindKey: 'kp_minus', col: 23, label: '-', row: 1 },
+  { bindKey: 'kp_7', col: 20, label: '7', row: 2 },
+  { bindKey: 'kp_8', col: 21, label: '8', row: 2 },
+  { bindKey: 'kp_9', col: 22, label: '9', row: 2 },
+  { bindKey: 'kp_plus', col: 23, label: '+', row: 2, rowSpan: 2 },
+  { bindKey: 'kp_4', col: 20, label: '4', row: 3 },
+  { bindKey: 'kp_5', col: 21, label: '5', row: 3 },
+  { bindKey: 'kp_6', col: 22, label: '6', row: 3 },
+  { bindKey: 'kp_1', col: 20, label: '1', row: 4 },
+  { bindKey: 'kp_2', col: 21, label: '2', row: 4 },
+  { bindKey: 'kp_3', col: 22, label: '3', row: 4 },
+  { bindKey: 'kp_enter', col: 23, label: 'Enter', row: 4, rowSpan: 2 },
+  { bindKey: 'kp_0', col: 20, colSpan: 2, label: '0', row: 5 },
+  { bindKey: 'kp_del', col: 22, label: '.', row: 5 },
+
   { bindKey: 'mouse1', col: 0, label: 'M1', row: 6 },
   { bindKey: 'mouse2', col: 1, label: 'M2', row: 6 },
   { bindKey: 'mouse3', col: 2, label: 'M3', row: 6 },
@@ -94,4 +124,7 @@ export const KEYBOARD_LAYOUT: KeyboardKey[] = [
 ];
 
 export const KEYBOARD_ROW_COUNT = 7;
-export const KEYBOARD_COLUMN_COUNT = 15;
+export const KEYBOARD_COLUMN_COUNT = 24;
+
+/** Empty narrow columns between the main block, nav cluster and numpad. */
+export const KEYBOARD_SPACER_COLUMNS: readonly number[] = [15, 19];

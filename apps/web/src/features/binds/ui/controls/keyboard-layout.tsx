@@ -4,6 +4,7 @@ import {
   KEYBOARD_COLUMN_COUNT,
   KEYBOARD_LAYOUT,
   KEYBOARD_ROW_COUNT,
+  KEYBOARD_SPACER_COLUMNS,
 } from '@workspace/cs2/binds/model/keyboard-layout';
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import { Button } from '@workspace/ui/components/button';
@@ -11,6 +12,11 @@ import { cn } from '@workspace/ui/lib/utils';
 import { useTranslations } from 'next-intl';
 
 import { translateKeyLabel } from '@/shared/lib/translate-key-label';
+
+const GRID_TEMPLATE_COLUMNS = Array.from(
+  { length: KEYBOARD_COLUMN_COUNT },
+  (_, col) => (KEYBOARD_SPACER_COLUMNS.includes(col) ? '0.75rem' : '2.75rem')
+).join(' ');
 
 interface KeyboardLayoutProps {
   binds: BindEntry[];
@@ -34,7 +40,7 @@ export function KeyboardLayout({
           <div
             className='inline-grid gap-1'
             style={{
-              gridTemplateColumns: `repeat(${KEYBOARD_COLUMN_COUNT}, 2.75rem)`,
+              gridTemplateColumns: GRID_TEMPLATE_COLUMNS,
               gridTemplateRows: `repeat(${KEYBOARD_ROW_COUNT}, 2.5rem)`,
             }}
           >
@@ -57,7 +63,7 @@ export function KeyboardLayout({
                   size='sm'
                   style={{
                     gridColumn: `${key.col + 1} / span ${key.colSpan ?? 1}`,
-                    gridRow: key.row + 1,
+                    gridRow: `${key.row + 1} / span ${key.rowSpan ?? 1}`,
                   }}
                   type='button'
                   variant='outline'
