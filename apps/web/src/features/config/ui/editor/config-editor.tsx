@@ -1,8 +1,8 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
+import { areAllRecommendedTemplatesApplied } from '@workspace/cs2/config/recommended/apply';
 import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
-import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
 import { Button } from '@workspace/ui/components/button';
 import { SparklesIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
@@ -36,8 +36,9 @@ export function ConfigEditor() {
     updateViewmodelField,
   } = useConfigEditor();
 
-  const allRecommendedAdded =
-    enabledRecommendations.length === RECOMMENDED_CONFIG_TEMPLATES.length;
+  const allRecommendedAdded = areAllRecommendedTemplatesApplied(
+    enabledRecommendations
+  );
 
   const renderControls = (category: ConfigCategory) => {
     switch (category) {
