@@ -36,7 +36,7 @@ A web SaaS where players **import → customize → preview → export** everyth
 |-----------|---------|
 | **Browser-first** | Parse, preview, and export client-side. No `.exe`, no memory tools. |
 | **Trust** | MM-safe defaults, clear labels, no VAC-adjacent features. |
-| **Local-first → cloud** | `localStorage` until auth; Neon sync after sign-in. |
+| **Local-first → cloud** | `localStorage` stays the source of truth; Neon sync after sign-in is the next step. |
 | **Screaming architecture** | Folders named after product features, not technical layers. |
 
 ### Business model (later)
@@ -49,7 +49,7 @@ A web SaaS where players **import → customize → preview → export** everyth
 
 ## 2. Current product (shipped)
 
-**Phases 1.0–1.7 — complete.** No auth required.
+**Phases 1.0–1.8 complete; phase 2.0 started with Steam sign-in.** Every editor still works signed out; signing in only adds an account (cloud save is next).
 
 ```mermaid
 flowchart LR
@@ -77,6 +77,8 @@ flowchart LR
   Binds --> LS2[(localStorage)]
   Cfg --> LS3[(localStorage)]
   XH --> URL["?code= share URL"]
+  Home --> Steam[Sign in with Steam]
+  Steam --> Account[Account page]
 ```
 
 ### Site shell
@@ -88,6 +90,7 @@ flowchart LR
 | Theme toggle (`t` hotkey) | Shipped | `features/theme/` |
 | Metadata / branding `bindr.lol` | Shipped | `app/layout.tsx` |
 | Guides (MDX articles) | Shipped | `/guides`, `features/guides/` |
+| Steam sign-in (nav account button, `/account`) | Shipped | `features/auth/`, `@workspace/auth` |
 
 ### Crosshair editor — `/crosshair`
 
@@ -190,10 +193,18 @@ app/
     │   ├── page.tsx           # /config
     │   └── recommended/page.tsx  # /config/recommended
     ├── autoexec/page.tsx      # /autoexec
-    └── guides/
-        ├── page.tsx           # /guides
-        └── [slug]/page.tsx    # /guides/:slug (SSG)
+    ├── guides/
+    │   ├── page.tsx           # /guides
+    │   └── [slug]/page.tsx    # /guides/:slug (SSG)
+    └── account/page.tsx       # /account (dynamic, signed-in only)
+
+app/api/auth/[...all]/route.ts # Better Auth handler (dynamic)
 ```
+
+Pages live under `app/[locale]/` (next-intl, `en` default without prefix, `es`
+prefixed). Everything is static except `/api/auth/[...all]` and `/account`:
+the nav loads the session on the client, so sign-in never makes a page
+dynamic.
 
 | URL | Page | Nav label |
 |-----|------|-----------|
@@ -206,8 +217,9 @@ app/
 | `/autoexec` | Autoexec composer | autoexec |
 | `/guides` | Guides index | guides |
 | `/guides/:slug` | Guide article (MDX, SSG) | — (breadcrumb) |
+| `/account` | Steam name, avatar and SteamID64; signed-out visitors go home | account menu (avatar) |
 
-**Nav pattern:** `NavigationMenu` with grouped dropdowns — **editors** (crosshair, binds, config, autoexec) and **catalogs** (recommended binds/config) — plus a top-level **guides** link. Inner pages show a dynamic breadcrumb (`shared/ui/site-breadcrumb.tsx`); footer lists all tools + theme hint.
+**Nav pattern:** `NavigationMenu` with grouped dropdowns — **editors** (crosshair, binds, config, autoexec) and **catalogs** (recommended binds/config) — plus a top-level **guides** link. Inner pages show a dynamic breadcrumb (`shared/ui/site-breadcrumb.tsx`); footer lists all tools + theme hint. The nav ends with the account button: **Sign in with Steam** when signed out, the Steam avatar with an account/sign-out menu when signed in.
 
 ---
 
@@ -311,6 +323,25 @@ features/guides/
 Shipped article: *Share one config across every CS2 account* (the `USRLOCALCSGO`
 env-var trick), which links back to `/autoexec`.
 
+### 5.6 Auth (`features/auth/`) — 2.0 Steam sign-in
+
+```
+features/auth/
+├── hooks/   # use-auth-failure-toast (useMountEffect: toast + strip ?auth=failed)
+├── lib/     # handle-auth-request, get-server-session, auth-callback-urls
+└── ui/      # account-button, account-menu, sign-in-button, user-avatar, account-overview
+```
+
+- **Client-only session in the shell:** `AccountButton` uses
+  `authClient.useSession()`, so static pages stay static.
+- **Server session only where needed:** `account-overview.tsx` calls
+  `getServerSession()` (reads `headers()` first) and redirects signed-out
+  visitors home.
+- **Callbacks:** sign-in returns to the current page; a failure comes back
+  with `?auth=failed`, shows a toast, and the param is removed from the URL.
+- Strings live in the `auth` namespace (en/es), plus `pages.account` and
+  `breadcrumb.account`.
+
 ---
 
 ## 6. Tech stack
@@ -326,25 +357,31 @@ flowchart TB
 
 | Layer | Choice | Role |
 |-------|--------|------|
-| **Monorepo** | Turborepo + Bun | `apps/web`, `packages/cs2`, `packages/ui`, `packages/ts-config`, `packages/biome-config` |
+| **Monorepo** | Turborepo + Bun | `apps/web`, `packages/auth`, `packages/cs2`, `packages/db`, `packages/ui`, `packages/ts-config`, `packages/biome-config` |
 | **Frontend** | Next.js 16 App Router, React 19, Tailwind 4, TypeScript | RSC + client features |
 | **UI** | shadcn / `@workspace/ui` | Install components on demand via CLI |
 | **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL), localStorage | Persist in store mutators |
 | **Hosting** | **Vercel Pro** | Production; Fluid Compute for functions |
-| **Database** | **Neon** Postgres | Via Vercel Marketplace — **not Supabase** |
-| **Auth** | **Better Auth** + OAuth | See [§7.1](#71-authentication) |
+| **Database** | **Neon** Postgres + Drizzle ORM | Via Vercel Marketplace — **not Supabase**. `@workspace/db` (neon-http driver, drizzle-kit migrations) |
+| **Auth** | **Better Auth** 1.7.14 (pinned) + our Steam OpenID plugin | `@workspace/auth`, see [§7.1](#71-authentication) |
 | **Payments** | **Polar** | Subscriptions + creator payouts (Stripe-backed) |
 | **Lint/format** | Ultracite (Biome) | `bun x ultracite fix` |
+| **Tests** | `bun test` | `bun run test` (turbo); Steam is mocked |
 
 ### Environment variables (phase 2+)
 
 | Variable | Purpose |
 |----------|---------|
-| `DATABASE_URL` | Neon connection string |
-| `BETTER_AUTH_SECRET` | Session encryption (≥32 chars) |
-| `BETTER_AUTH_URL` | `https://bindr.lol` |
-| `BETTER_AUTH_*_CLIENT_*` | OAuth provider credentials |
-| `POLAR_*` | Webhook secret, access token |
+| `DATABASE_URL` | Neon connection string (pooled for the app; direct host in `packages/db/.env` for migrations) |
+| `BETTER_AUTH_SECRET` | Signs cookies and state (≥32 chars) |
+| `BETTER_AUTH_URL` | Public origin per environment (`https://bindr.lol`, `http://localhost:3000`); also the Steam OpenID realm |
+| `STEAM_API_KEY` | Steam Web API key (`GetPlayerSummaries`) from <https://steamcommunity.com/dev/apikey> |
+| `POLAR_*` | Webhook secret, access token (phase 3) |
+
+Validated by `packages/auth/src/server/env.ts` on first use (`getAuth()` is
+lazy, so `next build` needs none of them). Templates: `apps/web/.env.example`,
+`packages/db/.env.example`; real values go in the gitignored `.env.local` /
+`.env` and in Vercel project settings.
 
 ### Design system
 
@@ -368,20 +405,55 @@ Never lower opacity on text — faded `/50`–`/70` muted text fails AA.
 
 ### 7.1 Authentication
 
-**Target identity:** Steam (`SteamID64`, persona, avatar) — natural for CS2.
+**Identity:** Steam (`SteamID64`, persona, avatar) — the only sign-in method.
 
-**Constraint:** Better Auth has **no native Steam provider** (Steam uses OpenID 2.0, not OAuth2).
+Better Auth has **no native Steam provider** (Steam speaks OpenID 2.0, not
+OAuth2), so `@workspace/auth` ships its own `steam()` plugin, ported to the 1.7
+APIs from the MIT-licensed [better-auth-steam](https://github.com/ytsdv/better-auth-steam)
+(credited in the files and `packages/auth/README.md`).
 
-| Phase | Approach |
-|-------|----------|
-| **2.0 MVP** | Better Auth + one supported OAuth (Google, Discord, or GitHub — TBD). Cloud save works without Steam. |
-| **2.x** | Link Steam via custom OpenID plugin or when Better Auth adds support. `steam_id` nullable until then. |
+```mermaid
+sequenceDiagram
+  participant B as Browser
+  participant A as /api/auth
+  participant S as steamcommunity.com
+  B->>A: POST /sign-in/steam {callbackURL, errorCallbackURL}
+  A-->>B: {url} (signed state, return_to, realm)
+  B->>S: OpenID checkid_setup
+  S-->>B: 302 return_to?openid.*
+  B->>A: GET /callback/steam?state=…&openid.*
+  A->>S: check_authentication (10 s timeout, redirect: manual)
+  A->>S: GetPlayerSummaries (fallback profile on failure)
+  A-->>B: session cookie + 302 callbackURL
+```
+
+| Endpoint | Purpose |
+|----------|---------|
+| `POST /api/auth/sign-in/steam` | Returns the Steam login URL |
+| `GET /api/auth/callback/steam` | Verifies the assertion, signs in or links, redirects |
+| `POST /api/auth/link/steam` | Links Steam to the signed-in user |
+
+**Callback checks (all must pass):** no duplicated parameters; `op_endpoint`
+is Steam; `return_to` equals exactly what we sent (signed `state` included);
+`claimed_id === identity` over HTTPS; every security field is in
+`openid.signed`; `response_nonce` is under 10 minutes old and never seen
+before (stored in `verification`); Steam's `check_authentication` says
+`is_valid:true`. Callback URLs must pass `isTrustedOrigin`; the three Steam
+paths are rate-limited (10 / 60 s, database storage, production only).
+
+**Users:** `steamId` (unique), persona name + avatar, placeholder email
+`steam_<id>@steam.invalid` with `emailVerified: false`.
 
 **Rules:**
 
-- Verify session **inside** every Server Action and API route.
-- `trustedOrigins`: `bindr.lol`, Vercel preview URLs.
-- Route handler: `/api/auth/[...all]`.
+- Verify the session **inside** every Server Action and API route
+  (`getServerSession()` in `features/auth/lib/`).
+- Pages that only show signed-in UI in the shell read the session on the
+  client (`authClient.useSession()`) and stay static.
+- `BETTER_AUTH_URL` is the Steam realm: set it per environment. Steam only
+  returns to that origin, so Vercel preview URLs need their own
+  `BETTER_AUTH_URL` to sign in.
+- Route handler: `/api/auth/[...all]` (thin; `features/auth/lib/handle-auth-request.ts`).
 
 ### 7.2 Payments (Polar)
 
@@ -391,21 +463,27 @@ Never lower opacity on text — faded `/50`–`/70` muted text fails AA.
 
 ### 7.3 Database schema (Neon)
 
-**Better Auth tables** — generated via `@better-auth/cli migrate` (user, session, account, verification).
+**Better Auth tables** (shipped) — `user` (+ `steam_id` unique), `session`,
+`account`, `verification`, `rate_limit`. The Drizzle schema
+`packages/db/src/schema/auth.ts` is generated by the Better Auth CLI
+(`bun run auth:generate`, never hand-edited); `bun run db:generate` writes the
+SQL migration to `packages/db/migrations/` and `bun run db:migrate` applies
+it. All SQL lives in `@workspace/db` — none in `apps/web`.
+
+**Planned app tables** (not created yet):
 
 **App tables:**
 
 ```sql
--- Profile extension (or columns on BA user via plugin)
+-- Profile extension (steam_id already lives on user)
 user_profile
-  user_id          UUID PK → user.id
-  steam_id         TEXT UNIQUE NULL
+  user_id          TEXT PK → user.id
   polar_customer_id TEXT NULL
   subscription_status TEXT NULL  -- synced from Polar
 
 configs
   id               UUID PK
-  user_id          UUID → user.id
+  user_id          TEXT → user.id
   title            TEXT
   share_code       TEXT NULL
   crosshair_json   JSONB
@@ -431,7 +509,7 @@ configs
 
 ### Screaming architecture rules
 
-1. A directory contains **either files or subdirectories** — never both (`app/` route segments are the only exception: a `page.tsx` must sit beside nested segments).
+1. A directory contains **either files or subdirectories** — never both. Exceptions: `app/` route segments (a `page.tsx` must sit beside nested segments), package roots, and the generated `packages/db/migrations/` (drizzle-kit keeps `meta/` beside the SQL files).
 2. `app/` = thin route adapters only.
 3. **Pure CS2 domain logic** (model, share-code codec, cfg formatters, autoexec compose) lives in `@workspace/cs2` — zero React / Next / Zustand. The app depends on it one-way.
 4. App-layer state/UI (stores, hooks, ui, browser-coupled utils) lives in `features/{domain}/`.
@@ -444,10 +522,12 @@ configs
 bindr/
 ├── apps/web/src/
 │   ├── app/              # routes (route groups)
-│   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme, auth [planned]
+│   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme, auth
 │   │   └── {domain}/     # app layer only: hooks/, ui/, storage/ (Zustand + localStorage), rendering/
 │   └── shared/           # fonts, providers, ui shell, hooks
 ├── packages/
+│   ├── auth/             # Better Auth server + client, Steam OpenID plugin (+ bun tests)
+│   ├── db/               # Drizzle + Neon client, generated auth schema, migrations
 │   ├── cs2/              # pure CS2 domain core (model, share-code, export, recommended, autoexec compose)
 │   ├── ui/               # design system (shadcn)
 │   ├── ts-config/        # shared TS configs
@@ -555,16 +635,12 @@ gantt
 
 ### Phase 2.0 — Auth + cloud save
 
-- [ ] Neon ↔ Vercel integration, migrations
-- [ ] Better Auth + OAuth (interim provider)
-- [ ] `features/auth/` — sign-in, session in shell
+- [x] `@workspace/db` — Drizzle + Neon, generated Better Auth schema, migrations
+- [x] `@workspace/auth` — Better Auth 1.7.14 + own Steam OpenID plugin (sign-in, link, tests)
+- [x] `features/auth/` — nav account button (client session), `/account` page
+- [x] Steam avatar/name/SteamID64 in UI
+- [ ] Neon ↔ Vercel integration in production (env vars + migration)
 - [ ] Save/load configs to Neon
-- [ ] Optional `steam_id` column for future link
-
-### Phase 2.x — Steam identity
-
-- [ ] Steam OpenID sign-in or account linking
-- [ ] Steam avatar/name in UI
 
 ### Phase 3.0 — Premium (Polar)
 
@@ -610,4 +686,4 @@ gantt
 
 ---
 
-*Last updated: phases 1.0–1.8 shipped (crosshair, binds, config, autoexec, guides, domain extraction to `@workspace/cs2`) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
+*Last updated: phase 2.0 started — Steam sign-in (`@workspace/auth`, `@workspace/db`, `features/auth/`) on top of phases 1.0–1.8 · stack locked: Vercel Pro, Neon, Better Auth, Polar*
