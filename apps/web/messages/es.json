@@ -1,5 +1,6 @@
 {
   "breadcrumb": {
+    "account": "Cuenta",
     "autoexec": "Autoexec",
     "binds": "Binds",
     "config": "Config del juego",
@@ -126,6 +127,10 @@
     "localeAria": "Idioma"
   },
   "pages": {
+    "account": {
+      "description": "Tu cuenta de bindr.lol, con sesión iniciada mediante Steam.",
+      "title": "Cuenta"
+    },
     "autoexec": {
       "description": "Une tu mira, config y binds de CS2 en un solo autoexec.cfg con interruptores por sección y banner ASCII; luego cópialo o descárgalo.",
       "title": "Compositor de autoexec"
@@ -688,5 +693,20 @@
     },
     "subtitle": "Tutoriales para sacar el máximo a tu config de CS2 — cosas que el menú del juego no te cuenta.",
     "title": "Guías de setup y trucos"
+  },
+  "auth": {
+    "account": {
+      "heading": "Tu cuenta",
+      "name": "Nombre",
+      "steamId": "SteamID64",
+      "steamProfile": "Perfil de Steam"
+    },
+    "accountLink": "Cuenta",
+    "menuAria": "Menú de cuenta",
+    "redirecting": "Abriendo Steam…",
+    "signIn": "Iniciar sesión con Steam",
+    "signInFailed": "Falló el inicio de sesión con Steam. Inténtalo de nuevo.",
+    "signOut": "Cerrar sesión",
+    "signOutFailed": "No se pudo cerrar sesión. Inténtalo de nuevo."
   }
 }

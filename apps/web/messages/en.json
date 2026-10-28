@@ -1,5 +1,6 @@
 {
   "breadcrumb": {
+    "account": "Account",
     "autoexec": "Autoexec",
     "binds": "Binds",
     "config": "Game config",
@@ -126,6 +127,10 @@
     "localeAria": "Language"
   },
   "pages": {
+    "account": {
+      "description": "Your bindr.lol account, signed in with Steam.",
+      "title": "Account"
+    },
     "autoexec": {
       "description": "Merge your CS2 crosshair, config and binds into a single autoexec.cfg with per-section toggles and an ASCII banner, then copy or download it.",
       "title": "Autoexec composer"
@@ -688,5 +693,20 @@
     },
     "subtitle": "Walkthroughs for getting the most out of your CS2 config — things the in-game menu won't tell you.",
     "title": "Setup guides & tricks"
+  },
+  "auth": {
+    "account": {
+      "heading": "Your account",
+      "name": "Name",
+      "steamId": "SteamID64",
+      "steamProfile": "Steam profile"
+    },
+    "accountLink": "Account",
+    "menuAria": "Account menu",
+    "redirecting": "Opening Steam…",
+    "signIn": "Sign in with Steam",
+    "signInFailed": "Steam sign-in failed. Please try again.",
+    "signOut": "Sign out",
+    "signOutFailed": "Could not sign out. Please try again."
   }
 }

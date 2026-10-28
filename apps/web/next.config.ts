@@ -8,7 +8,12 @@ const nextConfig: NextConfig = {
     agentUpgrade: 'latest',
   },
   pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
-  transpilePackages: ['@workspace/ui', '@workspace/cs2'],
+  transpilePackages: [
+    '@workspace/auth',
+    '@workspace/cs2',
+    '@workspace/db',
+    '@workspace/ui',
+  ],
 };
 
 const withMDX = createMDX();
