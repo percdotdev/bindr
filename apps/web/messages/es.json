@@ -214,6 +214,7 @@
     "clearDescription": "Esto quita todos los binds de tu config. También se borran los guardados en local storage.",
     "clearTitle": "¿Borrar todos los binds?",
     "commandLabel": "Comando de consola",
+    "commandQuoteError": "Las comillas dobles (\") no están permitidas: los cfg de CS2 no pueden escaparlas dentro de un bind. Usa say gg en lugar de say \"gg\".",
     "copyCfg": "Copiar cfg",
     "copyLines": "Copiar líneas de bind",
     "downloadCfg": "Descargar cfg",

@@ -214,6 +214,7 @@
     "clearDescription": "This removes every bind from your config. Saved binds in local storage are cleared too.",
     "clearTitle": "Clear all binds?",
     "commandLabel": "Console command",
+    "commandQuoteError": "Double quotes (\") are not allowed: CS2 cfg files cannot escape them inside a bind. Use say gg instead of say \"gg\".",
     "copyCfg": "Copy cfg",
     "copyLines": "Copy bind lines",
     "downloadCfg": "Download cfg",

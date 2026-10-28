@@ -1,5 +1,6 @@
 'use client';
 
+import { sanitizeBindCommand } from '@workspace/cs2/binds/model/bind-command';
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
 import {
   createRecommendedBinds,
@@ -18,7 +19,7 @@ function createBindId() {
 }
 
 function upsertBindEntry(binds: BindEntry[], key: string, command: string) {
-  const trimmed = command.trim();
+  const trimmed = sanitizeBindCommand(command);
   const existing = binds.find((bind) => bind.key === key);
 
   if (!trimmed) {
