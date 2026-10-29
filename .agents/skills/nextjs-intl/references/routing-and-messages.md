@@ -33,24 +33,30 @@ Pass logical paths such as `href="/services"`, never locale-prefixed paths like 
 
 ## Message loading (`src/i18n/request.ts`)
 
+`app/[locale]/layout.tsx` must be the root layout (no pass-through `app/layout.tsx` above it) so `[locale]` is a `next/root-params` value. Do not call `setRequestLocale` or read `requestLocale`.
+
 ```typescript
-import { getRequestConfig } from 'next-intl/server';
+import { locale as rootLocale } from 'next/root-params';
+import { notFound } from 'next/navigation';
 import { hasLocale } from 'next-intl';
+import { getRequestConfig } from 'next-intl/server';
 import { routing } from './routing';
 
-export default getRequestConfig(async ({ requestLocale }) => {
-  let locale = await requestLocale;
+export default getRequestConfig(async ({ locale }) => {
+  const requested = locale ?? (await rootLocale());
 
-  if (!hasLocale(routing.locales, locale)) {
-    locale = routing.defaultLocale;
+  if (!hasLocale(routing.locales, requested)) {
+    notFound();
   }
 
   return {
-    locale,
-    messages: (await import(`../../messages/${locale}.json`)).default,
+    locale: requested,
+    messages: (await import(`../../messages/${requested}.json`)).default,
   };
 });
 ```
+
+`next/root-params` does not work in Route Handlers or Server Actions. Those call sites pass `{ locale }` into `getTranslations` (or the other async APIs); `getRequestConfig` receives that value as `locale` and skips the root param.
 
 ## next.config.ts plugin
 

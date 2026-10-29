@@ -1,16 +1,11 @@
-import { getTranslations, setRequestLocale } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { AccountOverview } from '@/features/auth/ui/account-overview';
-import { resolveLocale } from '@/i18n/locale';
 import { createPageMetadata } from '@/shared/lib/page-metadata';
 
-interface Props {
-  params: Promise<{ locale: string }>;
-}
-
-export async function generateMetadata({ params }: Props) {
-  const locale = resolveLocale((await params).locale);
-  const t = await getTranslations({ locale, namespace: 'pages.account' });
+export async function generateMetadata() {
+  const locale = await getLocale();
+  const t = await getTranslations('pages.account');
 
   return {
     ...createPageMetadata({
@@ -23,9 +18,6 @@ export async function generateMetadata({ params }: Props) {
   };
 }
 
-export default async function AccountPage({ params }: Props) {
-  const locale = resolveLocale((await params).locale);
-  setRequestLocale(locale);
-
-  return <AccountOverview locale={locale} />;
+export default function AccountPage() {
+  return <AccountOverview />;
 }

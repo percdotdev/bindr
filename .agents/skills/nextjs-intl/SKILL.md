@@ -21,7 +21,7 @@ metadata:
 - **Setup**: Installing and configuring next-intl in a Next.js 16 App Router project.
 - **Routing**: Configuring locale routing with `defineRouting`, localized pathnames, and `[locale]` segments.
 - **Translations**: Creating message files, using `useTranslations()`, and structuring translation namespaces.
-- **Static export**: Making next-intl work with `output: 'export'` — `setRequestLocale`, `generateStaticParams`, locale detection without proxy.
+- **Static export**: Making next-intl work with `output: 'export'` — `next/root-params` in `i18n/request.ts`, `generateStaticParams`, locale detection without proxy.
 - **Components**: Building locale switcher and locale-aware navigation via `@/i18n/navigation`.
 - **SEO**: Generating hreflang tags and locale-specific metadata from the routing config.
 
@@ -74,22 +74,23 @@ See the decision tree in [routing and messages](./references/routing-and-message
 ### Step 6 — Locale Layout with Provider
 
 1. Create `app/[locale]/layout.tsx` with `generateStaticParams` returning all locales.
-2. Validate locale with `hasLocale`; call `notFound()` if invalid.
-3. Call `setRequestLocale(locale)` before loading messages.
-4. Wrap children in `NextIntlClientProvider`.
+2. Unknown locales call `notFound()` in `i18n/request.ts`, not in the layout.
+3. Render `<html>` and `<body>` here. This file is the root layout — do not add `app/layout.tsx` above it.
+4. Read the locale with `getLocale()` (backed by `next/root-params` in `i18n/request.ts`). Do not call `setRequestLocale`.
+5. Wrap children in `NextIntlClientProvider`.
 
 ### Step 7 — Page Components with Translations
 
-1. Every server page calls `setRequestLocale(locale)` before `useTranslations` or `getTranslations`.
-2. Use async `params: Promise<{ locale: string }>` (Next.js 16).
-3. Client components use `useTranslations` without `setRequestLocale`.
+1. Server pages call `getTranslations` / `getLocale`. They do not read `params.locale` or call `setRequestLocale`.
+2. Use async `params` only for segments below `[locale]` (Next.js 16).
+3. Client components use `useTranslations`.
 4. Import `Link`, `useRouter`, `usePathname` only from `@/i18n/navigation`.
 
 See [page and switcher](./references/page-and-switcher.md).
 
-### Step 8 — setRequestLocale for Static Export
+### Step 8 — Root params for static rendering
 
-Critical for `output: 'export'`: every `page.tsx` and `layout.tsx` under `[locale]` must call `setRequestLocale(locale)` from `params` before any translation function. Missing calls cause build failures.
+`app/[locale]/layout.tsx` exports `generateStaticParams` for every locale. `i18n/request.ts` reads `locale` from `next/root-params`. Do not call `setRequestLocale`. A pass-through `app/layout.tsx` makes `[locale]` a normal param and static rendering fails.
 
 ### Step 9 — Locale Switcher Component
 
@@ -113,9 +114,9 @@ For build errors and proxy conflicts, see [static export gotchas](./references/s
 - [ ] `messages/` has a JSON file for every locale with identical keys
 - [ ] **Static export:** `src/proxy.ts` is absent; host/CDN handles `/` → default locale
 - [ ] **Dev-only:** `src/proxy.ts` exists if using middleware for local locale routing (not static-export-only workflow)
-- [ ] `app/[locale]/layout.tsx` has `NextIntlClientProvider`, `setRequestLocale`, `generateStaticParams`
-- [ ] Every page under `[locale]` calls `setRequestLocale(locale)` before translations
-- [ ] Every page uses async `params` pattern (Next.js 16)
+- [ ] `app/[locale]/layout.tsx` is the root layout (`<html>`, `<body>`, `NextIntlClientProvider`, `generateStaticParams`) and `app/layout.tsx` does not exist
+- [ ] `i18n/request.ts` reads `locale` from `next/root-params`; no `setRequestLocale` or `requestLocale` remains
+- [ ] Pages read nested segment params only (`slug`, not `locale`)
 - [ ] Locale switcher uses `useRouter` and `usePathname` from `@/i18n/navigation`
 - [ ] `Link` and navigation imports come from `@/i18n/navigation`, not `next/navigation`
 - [ ] `pnpm build` succeeds with all locales in `out/`

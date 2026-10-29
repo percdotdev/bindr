@@ -1,28 +1,21 @@
 import type { Metadata } from 'next';
-import {
-  getMessages,
-  getTranslations,
-  setRequestLocale,
-} from 'next-intl/server';
+import { getLocale, getMessages, getTranslations } from 'next-intl/server';
 import type { ReactNode } from 'react';
 
-import { resolveLocale } from '@/i18n/locale';
+import '@/i18n/global';
+import '@workspace/ui/globals.css';
 import { routing } from '@/i18n/routing';
-import { SITE } from '@/shared/lib/site';
+import { siteFontClassName } from '@/shared/fonts/site-fonts';
+import { SITE, SITE_IMAGE, socialImagePath } from '@/shared/lib/site';
 import { SiteShell } from '@/shared/ui/site-shell';
-
-interface Props {
-  children: ReactNode;
-  params: Promise<{ locale: string }>;
-}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const locale = resolveLocale((await params).locale);
-  const t = await getTranslations({ locale, namespace: 'site' });
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getLocale();
+  const t = await getTranslations('site');
   const defaultTitle = `${SITE.name} — ${t('tagline')}`;
   const languages = Object.fromEntries(
     routing.locales.map((loc) => [
@@ -48,6 +41,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     metadataBase: new URL(SITE.url),
     openGraph: {
       description: t('description'),
+      images: [
+        {
+          alt: SITE_IMAGE.alt,
+          height: SITE_IMAGE.height,
+          url: socialImagePath(locale),
+          width: SITE_IMAGE.width,
+        },
+      ],
       locale: SITE.ogLocales[locale],
       siteName: SITE.name,
       title: defaultTitle,
@@ -67,20 +68,27 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     twitter: {
       card: 'summary_large_image',
       description: t('description'),
+      images: [socialImagePath(locale)],
       title: defaultTitle,
     },
   };
 }
 
-export default async function LocaleLayout({ children, params }: Props) {
-  const locale = resolveLocale((await params).locale);
-
-  setRequestLocale(locale);
+export default async function LocaleLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const locale = await getLocale();
   const messages = await getMessages();
 
   return (
-    <SiteShell locale={locale} messages={messages}>
-      {children}
-    </SiteShell>
+    <html className={siteFontClassName} lang={locale} suppressHydrationWarning>
+      <body>
+        <SiteShell locale={locale} messages={messages}>
+          {children}
+        </SiteShell>
+      </body>
+    </html>
   );
 }

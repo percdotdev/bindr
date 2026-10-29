@@ -1,23 +1,22 @@
 import { Button } from '@workspace/ui/components/button';
 import { ExternalLinkIcon } from 'lucide-react';
-import { getTranslations } from 'next-intl/server';
+import { getLocale, getTranslations } from 'next-intl/server';
 
 import { getServerSession } from '@/features/auth/lib/get-server-session';
 import { UserAvatar } from '@/features/auth/ui/user-avatar';
 import { redirect } from '@/i18n/navigation';
-import type { AppLocale } from '@/i18n/routing';
 
-interface Props {
-  locale: AppLocale;
-}
+export async function AccountOverview() {
+  const [session, locale] = await Promise.all([
+    getServerSession(),
+    getLocale(),
+  ]);
 
-export async function AccountOverview({ locale }: Props) {
-  const session = await getServerSession();
   if (!session) {
     return redirect({ href: '/', locale });
   }
 
-  const t = await getTranslations({ locale, namespace: 'auth.account' });
+  const t = await getTranslations('auth.account');
   const { image, name, steamId } = session.user;
 
   return (

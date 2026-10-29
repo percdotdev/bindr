@@ -88,7 +88,7 @@ flowchart LR
 | Landing page (console hero, tool cards, value props) | Shipped | `/` |
 | Nav (grouped dropdowns) + breadcrumb + footer | Shipped | `shared/ui/site-nav.tsx`, `site-breadcrumb.tsx`, `site-footer.tsx` |
 | Theme toggle (`t` hotkey) | Shipped | `features/theme/` |
-| Metadata / branding `bindr.lol` | Shipped | `app/layout.tsx` |
+| Metadata / branding `bindr.lol` | Shipped | `app/[locale]/layout.tsx` |
 | Guides (MDX articles) | Shipped | `/guides`, `features/guides/` |
 | Steam sign-in (nav account button, `/account`) | Shipped | `features/auth/`, `@workspace/auth` |
 
@@ -181,22 +181,23 @@ Route **groups** organize code; **URLs stay flat**.
 
 ```
 app/
-├── layout.tsx                 # SiteShell, metadata
-├── (home)/
-│   └── page.tsx               # /
-└── (feat)/
-    ├── crosshair/page.tsx     # /crosshair
-    ├── binds/
-    │   ├── page.tsx           # /binds
-    │   └── recommended/page.tsx  # /binds/recommended
-    ├── config/
-    │   ├── page.tsx           # /config
-    │   └── recommended/page.tsx  # /config/recommended
-    ├── autoexec/page.tsx      # /autoexec
-    ├── guides/
-    │   ├── page.tsx           # /guides
-    │   └── [slug]/page.tsx    # /guides/:slug (SSG)
-    └── account/page.tsx       # /account (dynamic, signed-in only)
+├── [locale]/
+│   ├── layout.tsx             # root layout (html/body, SiteShell, metadata)
+│   ├── (home)/
+│   │   └── page.tsx           # /
+│   └── (feat)/
+│       ├── crosshair/page.tsx     # /crosshair
+│       ├── binds/
+│       │   ├── page.tsx           # /binds
+│       │   └── recommended/page.tsx  # /binds/recommended
+│       ├── config/
+│       │   ├── page.tsx           # /config
+│       │   └── recommended/page.tsx  # /config/recommended
+│       ├── autoexec/page.tsx      # /autoexec
+│       ├── guides/
+│       │   ├── page.tsx           # /guides
+│       │   └── [slug]/page.tsx    # /guides/:slug (SSG)
+│       └── account/page.tsx       # /account (dynamic, signed-in only)
 
 app/api/auth/[...all]/route.ts # Better Auth handler (dynamic)
 ```
