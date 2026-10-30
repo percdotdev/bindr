@@ -9,7 +9,7 @@ const BANNER_ART = [
 ];
 
 const BANNER_RULE = '===============================================';
-const BANNER_TAGLINE = '   bindr.lol  -  browser CS2 config studio';
+const BANNER_TAGLINE = '   bindr.lol  -  cs2 config';
 
 function echoLine(text: string): string {
   return `echo "${text.trimEnd()}"`;

@@ -1,12 +1,12 @@
-Counter-Strike 2 guarda tu configuración por cuenta de Steam, dentro de la carpeta `userdata` de Steam. Está bien hasta que añades una segunda cuenta o cambias de PC y de repente no están tus binds, tu mira ni tu sensibilidad.
+CS2 guarda una config distinta por cuenta de Steam, en la carpeta `userdata`. Una segunda cuenta, o un PC nuevo, empieza sin tus binds, tu mira ni tu sensibilidad.
 
-Hay un override integrado del que casi nadie habla: una sola variable de entorno que le dice a CS2 que lea y escriba su config desde una carpeta *tú* eliges. Configúrala una vez y todas las cuentas de esa máquina comparten el mismo `cfg` — incluido tu `autoexec.cfg`.
+`USRLOCALCSGO` le dice a CS2 que lea y escriba esa config en una carpeta que eliges tú. Todas las cuentas de ese equipo usan el mismo `cfg`, incluido `autoexec.cfg`.
 
-## Resumen rápido
+## Resumen
 
-Crea una variable de entorno de **sistema** llamada `USRLOCALCSGO` y apúntala a tu carpeta `cfg` de CS2. Reinicia. Eso es todo el truco.
+Crea una variable de entorno de **sistema** llamada `USRLOCALCSGO` y apúntala a tu carpeta `cfg` de CS2. Reinicia.
 
-## Cómo configurarlo en Windows
+## En Windows
 
 1. Abre el menú Inicio y busca **"Editar las variables de entorno del sistema"**, luego abre el resultado.
 2. En Propiedades del sistema, haz clic en **Variables de entorno…**
@@ -18,12 +18,12 @@ Crea una variable de entorno de **sistema** llamada `USRLOCALCSGO` y apúntala a
 
 ![El diálogo Nueva variable del sistema con USRLOCALCSGO apuntando a la ruta cfg de CS2](/guides/usrlocalcsgo-env-var.webp)
 
-## Qué pasa después
+## Después
 
-En el primer arranque tras el cambio, CS2 se verá "nuevo" — configura opciones de vídeo y teclas una vez. A partir de ahí, **todas las cuentas** que entren en este PC cargan esa misma config automáticamente.
+El primer arranque parece una instalación nueva. Configura vídeo y teclas una vez. A partir de ahí, todas las cuentas de este PC cargan esa config.
 
-## Haz que tu autoexec se quede
+## autoexec.cfg
 
-Como el juego ahora lee de una carpeta que controlas, un `autoexec.cfg` ahí se carga en cada arranque, en cada cuenta — sin volver a aplicarlo tras actualizaciones. Si aún no tienes uno, [móntalo con el compositor de autoexec](/autoexec) y guarda el archivo en esa carpeta exacta.
+Si dejas `autoexec.cfg` en esa carpeta, se ejecuta en cada arranque y en cada cuenta. [Hazlo aquí](/autoexec) y guarda el archivo en esa carpeta.
 
-> Apunta la variable a la carpeta `cfg` en sí, no a su padre. Si CS2 parece ignorarla, revisa la ruta y confirma que la creaste bajo **Variables del sistema**, luego reinicia otra vez.
+> Apunta la variable a la carpeta `cfg`, no a la de encima. Si CS2 la ignora, revisa la ruta, confirma que es una variable de **sistema** y reinicia otra vez.

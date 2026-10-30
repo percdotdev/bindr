@@ -1,10 +1,10 @@
-Counter-Strike 2 stores your settings per Steam account, tucked away inside Steam's `userdata` folder. That's fine until you add a second account or move to a new PC and suddenly none of your binds, crosshair, or sensitivity are there.
+CS2 keeps a separate config for each Steam account, under Steam's `userdata` folder. A second account, or a new PC, starts without your binds, crosshair, or sensitivity.
 
-There's a built-in override most people never mention: a single environment variable that tells CS2 to read and write its config from a folder *you* choose. Set it once and every account on that machine shares the same `cfg` — including your `autoexec.cfg`.
+`USRLOCALCSGO` tells CS2 to read and write that config from one folder you pick. Every account on the machine then uses the same `cfg`, including `autoexec.cfg`.
 
 ## The short version
 
-Create a **system** environment variable named `USRLOCALCSGO` and point it at your CS2 `cfg` directory. Reboot. That's the whole trick.
+Create a **system** environment variable named `USRLOCALCSGO` and point it at your CS2 `cfg` directory. Reboot.
 
 ## Set it up on Windows
 
@@ -20,10 +20,10 @@ Create a **system** environment variable named `USRLOCALCSGO` and point it at yo
 
 ## What happens next
 
-The first launch after the change, CS2 will look "fresh" — set your video options and keybinds once. From then on, **every account** that logs in on this PC loads that same config automatically.
+The first launch after the change looks like a fresh install. Set video and keys once. After that, every account on this PC loads that config.
 
-## Make your autoexec stick
+## autoexec.cfg
 
-Since the game now reads from a folder you control, an `autoexec.cfg` placed there loads on every launch, on every account — no more re-applying it after updates. If you don't have one yet, [build it with the autoexec composer](/autoexec) and save the file into that exact folder.
+Put `autoexec.cfg` in that folder and it runs on every launch, on every account. [Build it here](/autoexec) and save the file in that folder.
 
-> Point the variable at the `cfg` directory itself, not its parent. If CS2 seems to ignore it, double-check the path and confirm you created it under **System variables**, then reboot once more.
+> Point the variable at the `cfg` directory, not the folder above it. If CS2 ignores it, check the path, confirm it is a **system** variable, and reboot again.

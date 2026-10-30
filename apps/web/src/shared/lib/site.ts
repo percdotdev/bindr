@@ -42,7 +42,7 @@ export const SITE = {
 } as const;
 
 export const SITE_IMAGE = {
-  alt: `${SITE.name} — CS2 crosshair, binds & config tools`,
+  alt: `${SITE.name} — CS2 crosshair, binds and config`,
   height: 630,
   width: 1200,
 } as const;
