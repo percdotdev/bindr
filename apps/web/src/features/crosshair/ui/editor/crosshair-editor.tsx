@@ -23,6 +23,7 @@ import { CrosshairExportPanel } from '@/features/crosshair/ui/export/crosshair-e
 import { CrosshairCopyMenu } from '@/features/crosshair/ui/preview/crosshair-copy-menu';
 import { CrosshairPreview } from '@/features/crosshair/ui/preview/crosshair-preview';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 export function CrosshairEditor() {
   const t = useTranslations('crosshair');
@@ -40,6 +41,7 @@ export function CrosshairEditor() {
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
+      <StudioStepRail current='crosshair' />
       <CrosshairCodeSync codeParam={codeParam} key={codeParam ?? ''} />
       <div className='flex flex-col gap-3'>
         <div className='flex flex-col gap-1'>
@@ -129,6 +131,7 @@ export function CrosshairEditor() {
           screenHeight={crosshair.screenHeight}
         />
       </CollapsibleSection>
+      <StudioStepPager current='crosshair' />
     </div>
   );
 }

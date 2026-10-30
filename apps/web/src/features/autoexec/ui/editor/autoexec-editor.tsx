@@ -12,6 +12,7 @@ import { useAutoexec } from '@/features/autoexec/hooks/use-autoexec';
 import { AutoexecExportPanel } from '@/features/autoexec/ui/export/autoexec-export-panel';
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 const TOP_SLICES = [
   { href: '/crosshair' as const, id: 'crosshair' as const },
@@ -44,6 +45,7 @@ export function AutoexecEditor() {
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
+      <StudioStepRail current='autoexec' />
       <div className='flex flex-col gap-1'>
         <h1 className='text-sm font-medium'>{t('title')}</h1>
         <p className='text-muted-foreground text-xs'>
@@ -178,6 +180,7 @@ export function AutoexecEditor() {
           {cfg}
         </pre>
       </CollapsibleSection>
+      <StudioStepPager current='autoexec' />
     </div>
   );
 }

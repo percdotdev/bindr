@@ -4,6 +4,7 @@ import { buttonVariants } from '@workspace/ui/components/button';
 import { cn } from '@workspace/ui/lib/utils';
 import { useTranslations } from 'next-intl';
 import { HomeConsole } from '@/features/home/ui/home-console';
+import { Link } from '@/i18n/navigation';
 
 export function HomeHero() {
   const t = useTranslations('home');
@@ -28,9 +29,12 @@ export function HomeHero() {
           </p>
         </div>
         <div className='flex flex-wrap gap-2'>
-          <a className={cn(buttonVariants(), 'inline-flex')} href='#tools'>
+          <Link
+            className={cn(buttonVariants(), 'inline-flex')}
+            href='/crosshair'
+          >
             {t('ctaStart')}
-          </a>
+          </Link>
         </div>
       </div>
       <HomeConsole />

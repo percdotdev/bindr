@@ -8,6 +8,32 @@
     "recommended": "Recomendados",
     "share": "Config compartida"
   },
+  "studio": {
+    "back": "Atrás: {step}",
+    "finish": "Terminar",
+    "navAria": "Pasos",
+    "next": "Siguiente: {step}",
+    "recommended": "Recomendados",
+    "start": "Empezar",
+    "steps": {
+      "autoexec": {
+        "detail": "Un cfg con lo de arriba, y un enlace para compartirlo.",
+        "title": "Autoexec"
+      },
+      "binds": {
+        "detail": "Pulsa una tecla, o empieza por el set habitual.",
+        "title": "Binds"
+      },
+      "config": {
+        "detail": "Viewmodel, ratón, radar, red, audio y HUD.",
+        "title": "Ajustes"
+      },
+      "crosshair": {
+        "detail": "Pega un código, o edita la mira que hay en pantalla.",
+        "title": "Mira"
+      }
+    }
+  },
   "home": {
     "catalogs": {
       "binds": "Binds recomendados",
@@ -349,7 +375,7 @@
     "toastLines": "Líneas de bind copiadas",
     "keyboardHint": "Teclas de ratón, ANSI, navegación y numpad. Las resaltadas tienen bind.",
     "subtitleFull": "Pulsa una tecla, pon un comando, copia los binds.",
-    "browseRecommended": "Binds recomendados →",
+    "browseRecommended": "Recomendados",
     "addFromRecommended": "Añadir desde recomendados",
     "recommendedLead": "Añade uno, o coge el set.",
     "inConfigCount": "{added} de {total} en tu config",
@@ -406,10 +432,6 @@
     "valveMm": "Valve MM"
   },
   "config": {
-    "addAllDescription": "Sustituye los ajustes por el set recomendado.",
-    "addAllRecommendedDescription": "Sustituye todos los ajustes por el set recomendado.",
-    "addAllRecommendedTitle": "¿Añadir todos los ajustes recomendados?",
-    "addAllTitle": "¿Añadir todos los ajustes recomendados?",
     "addConfig": "Añadir config",
     "alwaysCentered": "Siempre centrado",
     "alwaysCenteredDescription": "cl_radar_always_centered — off muestra más mapa.",
@@ -582,12 +604,12 @@
     "voiceVolume": "Volumen de voz",
     "zoomSensitivity": "Ratio de sensibilidad con zoom",
     "subtitleFull": "Viewmodel, ratón, radar, red, audio, rendimiento y HUD.",
-    "browseRecommended": "Ajustes recomendados →",
-    "recommendedLead": "Añade uno, o coge el set. Los presets de viewmodel y de radar se sustituyen entre sí.",
-    "inConfigCount": "{added} de {total} en tu config",
+    "browseRecommended": "Recomendados",
+    "recommendedLead": "Elige los que quieras. Los presets de viewmodel y de radar se sustituyen entre sí.",
+    "inConfigCount": "{added} en tu config",
     "openEditor": "Abrir editor",
     "subtitleEditor": "Viewmodel, ratón, radar, red, audio, rendimiento y HUD.",
-    "recommendedLeadFull": "Añade uno, o coge el set. Los presets de viewmodel se sustituyen entre sí. Los de radar también.",
+    "recommendedLeadFull": "Elige los que quieras. Un preset de viewmodel sustituye al otro. Uno de radar también.",
     "resetDescriptionFull": "Restaura cada sección a los defaults de Valve.",
     "sectionDescriptions": {
       "audio": "Volumen, voz y niveles de música.",

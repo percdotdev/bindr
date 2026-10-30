@@ -1,7 +1,8 @@
 'use client';
 
 import { RECOMMENDED_BIND_TEMPLATES } from '@workspace/cs2/binds/recommended/templates';
-import { Button } from '@workspace/ui/components/button';
+import { Button, buttonVariants } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
 import { SparklesIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 
@@ -14,6 +15,7 @@ import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { BindExportPanel } from '@/features/binds/ui/export/bind-export-panel';
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 export function BindEditor() {
   const t = useTranslations('binds');
@@ -36,20 +38,24 @@ export function BindEditor() {
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
+      <StudioStepRail current='binds' />
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
           <h1 className='text-sm font-medium'>{t('title')}</h1>
           <p className='text-muted-foreground text-xs'>{t('subtitleFull')}</p>
         </div>
-        <Link
-          className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
-          href='/binds/recommended'
-        >
-          {t('browseRecommended')}
-        </Link>
         <div className='flex flex-wrap items-center gap-2'>
           <BindExportPanel binds={binds} />
+          <Link
+            className={cn(
+              buttonVariants({ size: 'sm', variant: 'outline' }),
+              'inline-flex'
+            )}
+            href='/binds/recommended'
+          >
+            {t('browseRecommended')}
+          </Link>
           <ConfirmAlertDialog
             confirmLabel={tCommon('addAll')}
             description={t('addAllDescription')}
@@ -101,17 +107,7 @@ export function BindEditor() {
         />
       </CollapsibleSection>
 
-      <CollapsibleSection
-        action={
-          <Link
-            className='text-muted-foreground text-xs underline-offset-4 hover:underline'
-            href='/binds/recommended'
-          >
-            {t('addFromRecommended')}
-          </Link>
-        }
-        title={t('sections.active')}
-      >
+      <CollapsibleSection title={t('sections.active')}>
         <BindList
           binds={binds}
           onRemove={removeBind}
@@ -119,6 +115,7 @@ export function BindEditor() {
           selectedKey={selectedKey}
         />
       </CollapsibleSection>
+      <StudioStepPager current='binds' />
     </div>
   );
 }

@@ -9,7 +9,6 @@ import type {
 } from '@workspace/cs2/config/model/types';
 import { getViewmodelPresetById } from '@workspace/cs2/config/model/viewmodel-presets';
 import {
-  applyAllRecommendedTemplates,
   applyRecommendedTemplate,
   removeRecommendedTemplate,
 } from '@workspace/cs2/config/recommended/apply';
@@ -21,7 +20,6 @@ interface ConfigStore {
   config: ConfigSettings;
   hydrate: () => void;
   hydrated: boolean;
-  loadAllRecommendedConfigs: () => void;
   removeRecommendedConfig: (templateId: string) => boolean;
   replaceConfig: (config: ConfigSettings) => void;
   resetConfig: () => void;
@@ -70,11 +68,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     set({ hydrated: true });
   },
   hydrated: false,
-
-  loadAllRecommendedConfigs: () => {
-    const next = applyAllRecommendedTemplates();
-    set({ config: next });
-  },
 
   removeRecommendedConfig: (templateId) => {
     const next = removeRecommendedTemplate(get().config, templateId);

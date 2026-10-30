@@ -12,6 +12,7 @@ import { BindsNav } from '@/features/binds/ui/editor/binds-nav';
 import { RecommendedBindCard } from '@/features/binds/ui/recommended/recommended-bind-card';
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 function groupTemplatesByCategory() {
   const groups = new Map<BindCategory, typeof RECOMMENDED_BIND_TEMPLATES>();
@@ -43,6 +44,7 @@ export function RecommendedBindsPage() {
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
+      <StudioStepRail current='binds' />
       <div className='flex flex-col gap-3'>
         <BindsNav />
         <div className='flex flex-col gap-1'>
@@ -107,6 +109,7 @@ export function RecommendedBindsPage() {
           </CollapsibleSection>
         );
       })}
+      <StudioStepPager current='binds' />
     </div>
   );
 }

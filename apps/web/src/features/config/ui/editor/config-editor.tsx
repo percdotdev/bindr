@@ -1,13 +1,10 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
-import { areAllRecommendedTemplatesApplied } from '@workspace/cs2/config/recommended/apply';
 import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
-import { Button } from '@workspace/ui/components/button';
-import { SparklesIcon } from 'lucide-react';
+import { buttonVariants } from '@workspace/ui/components/button';
+import { cn } from '@workspace/ui/lib/utils';
 import { useTranslations } from 'next-intl';
-
-import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { AudioControls } from '@/features/config/ui/controls/audio-controls';
 import { HudControls } from '@/features/config/ui/controls/hud-controls';
@@ -22,23 +19,17 @@ import { ConfigSectionNav } from '@/features/config/ui/editor/config-section-nav
 import { ConfigExportPanel } from '@/features/config/ui/export/config-export-panel';
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 export function ConfigEditor() {
   const t = useTranslations('config');
-  const tCommon = useTranslations('common');
   const {
     applyViewmodelPreset,
     config,
-    enabledRecommendations,
-    loadAllRecommendedConfigs,
     resetConfig,
     updateField,
     updateViewmodelField,
   } = useConfigEditor();
-
-  const allRecommendedAdded = areAllRecommendedTemplatesApplied(
-    enabledRecommendations
-  );
 
   const renderControls = (category: ConfigCategory) => {
     switch (category) {
@@ -101,32 +92,24 @@ export function ConfigEditor() {
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
+      <StudioStepRail current='config' />
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
           <h1 className='text-sm font-medium'>{t('title')}</h1>
           <p className='text-muted-foreground text-xs'>{t('subtitleEditor')}</p>
         </div>
-        <Link
-          className='text-muted-foreground w-fit text-xs underline-offset-4 hover:underline'
-          href='/config/recommended'
-        >
-          {t('browseRecommended')}
-        </Link>
         <div className='flex flex-wrap items-center gap-2'>
           <ConfigExportPanel config={config} />
-          <ConfirmAlertDialog
-            confirmLabel={tCommon('addAll')}
-            description={t('addAllDescription')}
-            destructive={false}
-            disabled={allRecommendedAdded}
-            onConfirm={loadAllRecommendedConfigs}
-            title={t('addAllTitle')}
-            trigger={<Button type='button' variant='outline' />}
+          <Link
+            className={cn(
+              buttonVariants({ size: 'sm', variant: 'outline' }),
+              'inline-flex'
+            )}
+            href='/config/recommended'
           >
-            <SparklesIcon data-icon='inline-start' />
-            {tCommon('addAll')}
-          </ConfirmAlertDialog>
+            {t('browseRecommended')}
+          </Link>
           <ConfigResetAlert onReset={resetConfig} />
         </div>
         <div className='bg-background/80 sticky top-0 z-10 -mx-6 border-b px-6 py-2 backdrop-blur'>
@@ -144,6 +127,7 @@ export function ConfigEditor() {
           {renderControls(category)}
         </CollapsibleSection>
       ))}
+      <StudioStepPager current='config' />
     </div>
   );
 }

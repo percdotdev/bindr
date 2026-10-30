@@ -58,19 +58,6 @@ export function SiteNav() {
     },
   ];
 
-  const catalogLinks: NavLink[] = [
-    {
-      description: t('bindsRecommended.description'),
-      href: '/binds/recommended',
-      label: t('bindsRecommended.label'),
-    },
-    {
-      description: t('configRecommended.description'),
-      href: '/config/recommended',
-      label: t('configRecommended.label'),
-    },
-  ];
-
   return (
     <header
       className={cn(
@@ -99,23 +86,6 @@ export function SiteNav() {
               <NavigationMenuContent>
                 <ul className='grid w-[280px] gap-0.5'>
                   {editorLinks.map((item) => (
-                    <NavMenuLink
-                      active={pathname === item.href}
-                      description={item.description}
-                      href={item.href}
-                      key={item.href}
-                      label={item.label}
-                      onSelect={closeMenu}
-                    />
-                  ))}
-                </ul>
-              </NavigationMenuContent>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuTrigger>{t('catalogs')}</NavigationMenuTrigger>
-              <NavigationMenuContent>
-                <ul className='grid w-[280px] gap-0.5'>
-                  {catalogLinks.map((item) => (
                     <NavMenuLink
                       active={pathname === item.href}
                       description={item.description}

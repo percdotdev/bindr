@@ -1,21 +1,15 @@
 'use client';
 
 import type { ConfigCategory } from '@workspace/cs2/config/model/types';
-import {
-  areAllRecommendedTemplatesApplied,
-  MAX_ACTIVE_RECOMMENDED_CONFIGS,
-} from '@workspace/cs2/config/recommended/apply';
 import { CONFIG_CATEGORY_ORDER } from '@workspace/cs2/config/recommended/categories';
 import { RECOMMENDED_CONFIG_TEMPLATES } from '@workspace/cs2/config/recommended/templates';
-import { Button } from '@workspace/ui/components/button';
 import { useTranslations } from 'next-intl';
-
-import { ConfirmAlertDialog } from '@/features/binds/ui/controls/confirm-alert-dialog';
 import { useConfigEditor } from '@/features/config/hooks/use-config-editor';
 import { ConfigNav } from '@/features/config/ui/editor/config-nav';
 import { RecommendedConfigCard } from '@/features/config/ui/recommended/recommended-config-card';
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
+import { StudioStepPager, StudioStepRail } from '@/shared/ui/studio-steps';
 
 function groupTemplatesByCategory() {
   const groups = new Map<ConfigCategory, typeof RECOMMENDED_CONFIG_TEMPLATES>();
@@ -35,22 +29,18 @@ function groupTemplatesByCategory() {
 
 export function RecommendedConfigPage() {
   const t = useTranslations('config');
-  const tCommon = useTranslations('common');
   const {
     addRecommendedConfig,
     enabledRecommendations,
-    loadAllRecommendedConfigs,
     removeRecommendedConfig,
   } = useConfigEditor();
 
   const grouped = groupTemplatesByCategory();
   const addedCount = enabledRecommendations.length;
-  const allRecommendedAdded = areAllRecommendedTemplatesApplied(
-    enabledRecommendations
-  );
 
   return (
     <div className='mx-auto flex w-full max-w-4xl flex-col gap-5 p-6'>
+      <StudioStepRail current='config' />
       <div className='flex flex-col gap-3'>
         <ConfigNav />
         <div className='flex flex-col gap-1'>
@@ -60,23 +50,8 @@ export function RecommendedConfigPage() {
           </p>
         </div>
         <div className='flex flex-wrap items-center gap-2'>
-          <ConfirmAlertDialog
-            confirmLabel={tCommon('addAll')}
-            description={t('addAllRecommendedDescription')}
-            disabled={allRecommendedAdded}
-            onConfirm={loadAllRecommendedConfigs}
-            title={t('addAllRecommendedTitle')}
-            trigger={<Button type='button' variant='outline' />}
-          >
-            {tCommon('addAllCount', {
-              count: MAX_ACTIVE_RECOMMENDED_CONFIGS,
-            })}
-          </ConfirmAlertDialog>
           <span className='text-muted-foreground text-xs'>
-            {t('inConfigCount', {
-              added: addedCount,
-              total: MAX_ACTIVE_RECOMMENDED_CONFIGS,
-            })}
+            {t('inConfigCount', { added: addedCount })}
           </span>
           <Link
             className='text-muted-foreground text-xs underline-offset-4 hover:underline'
@@ -115,6 +90,7 @@ export function RecommendedConfigPage() {
           </CollapsibleSection>
         );
       })}
+      <StudioStepPager current='config' />
     </div>
   );
 }
