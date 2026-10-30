@@ -1,9 +1,12 @@
 'use client';
 
 import { CONFIG_SHARE_SECTIONS } from '@workspace/cs2/share/studio-slices';
+import { Button } from '@workspace/ui/components/button';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
+import { CopyIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
+import { toast } from 'sonner';
 
 import { useAutoexec } from '@/features/autoexec/hooks/use-autoexec';
 import { AutoexecExportPanel } from '@/features/autoexec/ui/export/autoexec-export-panel';
@@ -17,6 +20,7 @@ const TOP_SLICES = [
 
 export function AutoexecEditor() {
   const t = useTranslations('autoexec');
+  const tCommon = useTranslations('common');
   const categories = useTranslations('config.categories');
   const {
     bindCount,
@@ -28,6 +32,15 @@ export function AutoexecEditor() {
     toggleConfigGroup,
     toggleSlice,
   } = useAutoexec();
+
+  async function copyCfg() {
+    try {
+      await navigator.clipboard.writeText(cfg);
+      toast.success(t('toastCopied'));
+    } catch {
+      toast.error(t('toastCopyFailed'));
+    }
+  }
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
@@ -141,6 +154,19 @@ export function AutoexecEditor() {
       </CollapsibleSection>
 
       <CollapsibleSection
+        action={
+          <Button
+            onClick={() => {
+              copyCfg().catch(() => undefined);
+            }}
+            size='sm'
+            type='button'
+            variant='outline'
+          >
+            <CopyIcon data-icon='inline-start' />
+            {tCommon('copy')}
+          </Button>
+        }
         description={t.rich('previewDescription', {
           code: (chunks) => (
             <code className='bg-muted rounded-none px-1 py-0.5'>{chunks}</code>

@@ -55,6 +55,7 @@ function initialSelection(share: StudioShare | null) {
 
 export function ShareImport({ share, status }: ShareImportProps) {
   const t = useTranslations('share');
+  const tCommon = useTranslations('common');
   const categories = useTranslations('config.categories');
   const [selection, setSelection] = useState(() => initialSelection(share));
 
@@ -244,7 +245,22 @@ export function ShareImport({ share, status }: ShareImportProps) {
         ) : null}
       </CollapsibleSection>
 
-      <CollapsibleSection title={t('preview')}>
+      <CollapsibleSection
+        action={
+          <Button
+            onClick={() => {
+              copyCfg().catch(() => undefined);
+            }}
+            size='sm'
+            type='button'
+            variant='outline'
+          >
+            <CopyIcon data-icon='inline-start' />
+            {tCommon('copy')}
+          </Button>
+        }
+        title={t('preview')}
+      >
         <pre className='bg-muted max-h-[28rem] overflow-auto rounded-none p-4 font-mono text-xs leading-relaxed'>
           {cfg}
         </pre>
