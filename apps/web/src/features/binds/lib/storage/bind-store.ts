@@ -8,11 +8,6 @@ import {
 } from '@workspace/cs2/binds/recommended/helpers';
 import { getRecommendedTemplateById } from '@workspace/cs2/binds/recommended/templates';
 import { create } from 'zustand';
-import {
-  clearStoredBinds,
-  loadStoredBinds,
-  saveStoredBinds,
-} from '@/features/binds/lib/storage/bind-storage';
 
 function createBindId() {
   return crypto.randomUUID();
@@ -50,6 +45,7 @@ interface BindStore {
   hydrated: boolean;
   loadRecommendedBinds: () => void;
   removeBind: (key: string) => void;
+  replaceBinds: (binds: BindEntry[]) => void;
   selectedKey: string | null;
   selectKey: (key: string) => void;
   upsertBind: (key: string, command: string) => void;
@@ -72,14 +68,12 @@ export const useBindStore = create<BindStore>((set, get) => ({
             index === existingIndex ? { ...entry, id: bind.id } : bind
           );
 
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds });
     return true;
   },
   binds: [],
 
   clearBinds: () => {
-    clearStoredBinds();
     set({ binds: [], selectedKey: null });
   },
 
@@ -88,26 +82,25 @@ export const useBindStore = create<BindStore>((set, get) => ({
       return;
     }
 
-    set({
-      binds: loadStoredBinds() ?? [],
-      hydrated: true,
-    });
+    set({ hydrated: true });
   },
   hydrated: false,
 
   loadRecommendedBinds: () => {
     const nextBinds = createRecommendedBinds();
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds, selectedKey: null });
   },
 
   removeBind: (key) => {
     const nextBinds = get().binds.filter((bind) => bind.key !== key);
-    saveStoredBinds(nextBinds);
     set((state) => ({
       binds: nextBinds,
       selectedKey: state.selectedKey === key ? null : state.selectedKey,
     }));
+  },
+
+  replaceBinds: (binds) => {
+    set({ binds, hydrated: true, selectedKey: null });
   },
   selectedKey: null,
 
@@ -119,7 +112,6 @@ export const useBindStore = create<BindStore>((set, get) => ({
 
   upsertBind: (key, command) => {
     const nextBinds = upsertBindEntry(get().binds, key, command);
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds });
   },
 }));

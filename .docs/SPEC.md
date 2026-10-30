@@ -12,7 +12,7 @@
 4. [Routes & navigation](#4-routes--navigation)
 5. [Feature reference](#5-feature-reference)
 6. [Tech stack](#6-tech-stack)
-7. [Data & auth](#7-data--auth)
+7. [Sharing](#7-sharing)
 8. [Codebase architecture](#8-codebase-architecture)
 9. [Client patterns](#9-client-patterns)
 10. [Roadmap](#10-roadmap)
@@ -28,7 +28,7 @@ CS2 players juggle share codes, bind lines, viewmodel cvars, and autoexec files 
 
 ### Solution
 
-A web SaaS where players **import → customize → preview → export** everything in one place, then optionally **save to cloud**, **go premium**, or **browse a creator marketplace**.
+A free browser tool where players **import → customize → preview → export**, then **share a link**. Whoever opens it chooses what to import or write into an autoexec.
 
 ### Principles
 
@@ -36,20 +36,18 @@ A web SaaS where players **import → customize → preview → export** everyth
 |-----------|---------|
 | **Browser-first** | Parse, preview, and export client-side. No `.exe`, no memory tools. |
 | **Trust** | MM-safe defaults, clear labels, no VAC-adjacent features. |
-| **Local-first → cloud** | `localStorage` until auth; Neon sync after sign-in. |
+| **Session-only** | Edits live in the tab. A share link keeps or sends them. No account, no localStorage. |
 | **Screaming architecture** | Folders named after product features, not technical layers. |
 
-### Business model (later)
+### Product
 
-- **Free:** editors + localStorage + basic export
-- **Premium (Polar):** cloud slots, private configs, early features
-- **Marketplace (Polar):** public creator configs, revenue share
+Free. No subscriptions, no ads, no accounts required to share. A link is the whole distribution.
 
 ---
 
 ## 2. Current product (shipped)
 
-**Phases 1.0–1.7 — complete.** No auth required.
+**Phases 1.0–1.8 complete. Phase 2.0 is a share link:** the autoexec page encodes the checked crosshair, config sections, and binds into `/share?d=`. The recipient picks what to import into the editor or what to put in an autoexec. There is no account and nothing is written to localStorage.
 
 ```mermaid
 flowchart LR
@@ -73,9 +71,6 @@ flowchart LR
   Cfg --> AE
   Binds --> AE
   Guides --> AE
-  XH --> LS1[(localStorage)]
-  Binds --> LS2[(localStorage)]
-  Cfg --> LS3[(localStorage)]
   XH --> URL["?code= share URL"]
 ```
 
@@ -86,7 +81,7 @@ flowchart LR
 | Landing page (console hero, tool cards, value props) | Shipped | `/` |
 | Nav (grouped dropdowns) + breadcrumb + footer | Shipped | `shared/ui/site-nav.tsx`, `site-breadcrumb.tsx`, `site-footer.tsx` |
 | Theme toggle (`t` hotkey) | Shipped | `features/theme/` |
-| Metadata / branding `bindr.lol` | Shipped | `app/layout.tsx` |
+| Metadata / branding `bindr.lol` | Shipped | `app/[locale]/layout.tsx` |
 | Guides (MDX articles) | Shipped | `/guides`, `features/guides/` |
 
 ### Crosshair editor — `/crosshair`
@@ -100,8 +95,7 @@ flowchart LR
 | Controls | Style, length/thickness/gap, RGBA color, outline mode + color, dynamic (recoil, spread limit), split (style 2), quadrant size (style 9), scope dot, screen height |
 | Import | Paste share code dialog; toast explains lossy conversions |
 | Export | Console commands (screen height emitted last), share code, copy menu |
-| Persistence | `bindr:crosshair:v2` in localStorage (`v1` is migrated on first load, then removed) |
-| URL sync | `?code=CS…` (debounced, case-sensitive) |
+| URL sync | `?code=CS…` (debounced, case-sensitive). Refresh drops unsaved edits unless the URL or a share link still has them. |
 
 **State:** Zustand store (`crosshair-store.ts`) for cross-route reads (autoexec composer). URL sync stays in `use-crosshair-editor.ts` via nuqs.
 
@@ -116,7 +110,7 @@ flowchart LR
 | Confirm dialogs | **Clear all** and **Add all** require confirmation |
 | Disabled states | Clear all when empty; Add all when catalog fully added |
 
-**State:** Zustand store (`bind-store.ts`) shared across editor and recommended pages. Saves to `bindr:binds:v1` on every mutation.
+**State:** Zustand store (`bind-store.ts`) shared across editor and recommended pages for the current tab. A refresh clears it.
 
 ### Recommended binds — `/binds/recommended`
 
@@ -178,22 +172,26 @@ Route **groups** organize code; **URLs stay flat**.
 
 ```
 app/
-├── layout.tsx                 # SiteShell, metadata
-├── (home)/
-│   └── page.tsx               # /
-└── (feat)/
-    ├── crosshair/page.tsx     # /crosshair
-    ├── binds/
-    │   ├── page.tsx           # /binds
-    │   └── recommended/page.tsx  # /binds/recommended
-    ├── config/
-    │   ├── page.tsx           # /config
-    │   └── recommended/page.tsx  # /config/recommended
-    ├── autoexec/page.tsx      # /autoexec
-    └── guides/
-        ├── page.tsx           # /guides
-        └── [slug]/page.tsx    # /guides/:slug (SSG)
+├── [locale]/
+│   ├── layout.tsx             # root layout (html/body, SiteShell, metadata)
+│   ├── (home)/
+│   │   └── page.tsx           # /
+│   └── (feat)/
+│       ├── crosshair/page.tsx     # /crosshair
+│       ├── binds/
+│       │   ├── page.tsx           # /binds
+│       │   └── recommended/page.tsx  # /binds/recommended
+│       ├── config/
+│       │   ├── page.tsx           # /config
+│       │   └── recommended/page.tsx  # /config/recommended
+│       ├── autoexec/page.tsx      # /autoexec
+│       └── guides/
+│           ├── page.tsx           # /guides
+│           └── [slug]/page.tsx    # /guides/:slug (SSG)
 ```
+
+Pages live under `app/[locale]/` (next-intl, `en` default without prefix, `es`
+prefixed). Routes are static. There is no `/api/auth` and no `/account`.
 
 | URL | Page | Nav label |
 |-----|------|-----------|
@@ -207,7 +205,7 @@ app/
 | `/guides` | Guides index | guides |
 | `/guides/:slug` | Guide article (MDX, SSG) | — (breadcrumb) |
 
-**Nav pattern:** `NavigationMenu` with grouped dropdowns — **editors** (crosshair, binds, config, autoexec) and **catalogs** (recommended binds/config) — plus a top-level **guides** link. Inner pages show a dynamic breadcrumb (`shared/ui/site-breadcrumb.tsx`); footer lists all tools + theme hint.
+**Nav pattern:** `NavigationMenu` with grouped dropdowns — **editors** (crosshair, binds, config, autoexec) and **catalogs** (recommended binds/config) — plus a top-level **guides** link and the locale switcher. Inner pages show a dynamic breadcrumb (`shared/ui/site-breadcrumb.tsx`); footer lists all tools + theme hint. There is no account button.
 
 ---
 
@@ -265,7 +263,6 @@ features/binds/
 | Performance | fps caps, tracers, dynamic light, multicore | Toggles + sliders |
 | HUD | color, scale, teammate colors, loadout, sniper inaccuracy overlay | Selects + toggles |
 
-- Persist: `bindr:config:v1`
 - Export: `// config` block (per-section `// viewmodel` … `// hud` headers)
 - Editor has sticky section nav, **Add all recommended**, reset; `/config/recommended` catalog
 - MM-safe only; flag tournament-sensitive options
@@ -311,6 +308,8 @@ features/guides/
 Shipped article: *Share one config across every CS2 account* (the `USRLOCALCSGO`
 env-var trick), which links back to `/autoexec`.
 
+Do not add accounts, sign-in, Better Auth, or a database. Configs are not persisted on the device.
+
 ---
 
 ## 6. Tech stack
@@ -318,10 +317,6 @@ env-var trick), which links back to `/autoexec`.
 ```mermaid
 flowchart TB
   User[Browser] --> Vercel[Vercel Pro — Next.js 16]
-  Vercel --> Neon[(Neon Postgres)]
-  Vercel --> BA[Better Auth]
-  Vercel --> Polar[Polar billing]
-  User --> LS[localStorage — phase 1]
 ```
 
 | Layer | Choice | Role |
@@ -329,22 +324,12 @@ flowchart TB
 | **Monorepo** | Turborepo + Bun | `apps/web`, `packages/cs2`, `packages/ui`, `packages/ts-config`, `packages/biome-config` |
 | **Frontend** | Next.js 16 App Router, React 19, Tailwind 4, TypeScript | RSC + client features |
 | **UI** | shadcn / `@workspace/ui` | Install components on demand via CLI |
-| **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL), localStorage | Persist in store mutators |
-| **Hosting** | **Vercel Pro** | Production; Fluid Compute for functions |
-| **Database** | **Neon** Postgres | Via Vercel Marketplace — **not Supabase** |
-| **Auth** | **Better Auth** + OAuth | See [§7.1](#71-authentication) |
-| **Payments** | **Polar** | Subscriptions + creator payouts (Stripe-backed) |
+| **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL) | In-memory for the tab. A refresh clears it. |
+| **Hosting** | **Vercel Pro** | Production |
 | **Lint/format** | Ultracite (Biome) | `bun x ultracite fix` |
+| **Tests** | `bun test` | `bun run test` (turbo) |
 
-### Environment variables (phase 2+)
-
-| Variable | Purpose |
-|----------|---------|
-| `DATABASE_URL` | Neon connection string |
-| `BETTER_AUTH_SECRET` | Session encryption (≥32 chars) |
-| `BETTER_AUTH_URL` | `https://bindr.lol` |
-| `BETTER_AUTH_*_CLIENT_*` | OAuth provider credentials |
-| `POLAR_*` | Webhook secret, access token |
+No environment variables. No database. Theme mode is the only `localStorage` use (`next-themes`).
 
 ### Design system
 
@@ -364,66 +349,11 @@ Never lower opacity on text — faded `/50`–`/70` muted text fails AA.
 
 ---
 
-## 7. Data & auth
+## 7. Sharing
 
-### 7.1 Authentication
+No account and no database. `/autoexec` copies a link to `/share?d=<token>`. The token is a deflate-raw payload of the checked slices (crosshair, binds, and each config section). `/share` lets the recipient turn slices on or off, then import those into the in-memory editor or download them as `autoexec.cfg`. A refresh drops anything that is not in the URL or a share link.
 
-**Target identity:** Steam (`SteamID64`, persona, avatar) — natural for CS2.
-
-**Constraint:** Better Auth has **no native Steam provider** (Steam uses OpenID 2.0, not OAuth2).
-
-| Phase | Approach |
-|-------|----------|
-| **2.0 MVP** | Better Auth + one supported OAuth (Google, Discord, or GitHub — TBD). Cloud save works without Steam. |
-| **2.x** | Link Steam via custom OpenID plugin or when Better Auth adds support. `steam_id` nullable until then. |
-
-**Rules:**
-
-- Verify session **inside** every Server Action and API route.
-- `trustedOrigins`: `bindr.lol`, Vercel preview URLs.
-- Route handler: `/api/auth/[...all]`.
-
-### 7.2 Payments (Polar)
-
-- Checkout + customer portal via Polar — do not integrate Stripe directly unless Polar gaps require it.
-- Webhook route: subscription lifecycle → update entitlements in Neon.
-- Store `polar_customer_id` on user profile.
-
-### 7.3 Database schema (Neon)
-
-**Better Auth tables** — generated via `@better-auth/cli migrate` (user, session, account, verification).
-
-**App tables:**
-
-```sql
--- Profile extension (or columns on BA user via plugin)
-user_profile
-  user_id          UUID PK → user.id
-  steam_id         TEXT UNIQUE NULL
-  polar_customer_id TEXT NULL
-  subscription_status TEXT NULL  -- synced from Polar
-
-configs
-  id               UUID PK
-  user_id          UUID → user.id
-  title            TEXT
-  share_code       TEXT NULL
-  crosshair_json   JSONB
-  binds_json       JSONB          -- structured binds (not just text)
-  config_json      JSONB NULL     -- viewmodel/radar/network
-  autoexec_text    TEXT NULL      -- cached composed export
-  is_public        BOOLEAN DEFAULT false
-  created_at       TIMESTAMPTZ
-  updated_at       TIMESTAMPTZ
-```
-
-**Phase 1 localStorage keys (current):**
-
-| Key | Content |
-|-----|---------|
-| `bindr:crosshair:v2` | `CrosshairSettings` JSON (pixel units; `v1` auto-migrated) |
-| `bindr:binds:v1` | `BindEntry[]` JSON |
-| `bindr:config:v1` | `ConfigSettings` JSON |
+Do not add Better Auth, Steam sign-in, Neon, or editor `localStorage`.
 
 ---
 
@@ -431,7 +361,7 @@ configs
 
 ### Screaming architecture rules
 
-1. A directory contains **either files or subdirectories** — never both (`app/` route segments are the only exception: a `page.tsx` must sit beside nested segments).
+1. A directory contains **either files or subdirectories** — never both. Exceptions: `app/` route segments (a `page.tsx` must sit beside nested segments) and package roots.
 2. `app/` = thin route adapters only.
 3. **Pure CS2 domain logic** (model, share-code codec, cfg formatters, autoexec compose) lives in `@workspace/cs2` — zero React / Next / Zustand. The app depends on it one-way.
 4. App-layer state/UI (stores, hooks, ui, browser-coupled utils) lives in `features/{domain}/`.
@@ -444,8 +374,8 @@ configs
 bindr/
 ├── apps/web/src/
 │   ├── app/              # routes (route groups)
-│   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme, auth [planned]
-│   │   └── {domain}/     # app layer only: hooks/, ui/, storage/ (Zustand + localStorage), rendering/
+│   ├── features/         # crosshair, binds, config, autoexec, guides, home, theme
+│   │   └── {domain}/     # app layer only: hooks/, ui/, storage/ (Zustand), rendering/
 │   └── shared/           # fonts, providers, ui shell, hooks
 ├── packages/
 │   ├── cs2/              # pure CS2 domain core (model, share-code, export, recommended, autoexec compose)
@@ -510,15 +440,12 @@ gantt
   Autoexec composer             :done, p16, 2026-04, 2026-05
   Guides (MDX)                  :done, p17, 2026-05, 2026-06
   section Next
-  Auth + Neon                   :active, p20, 2026-06, 2026-07
-  section Later
-  Premium + Polar               :p30, 2026-07, 2026-09
-  Marketplace                   :p31, 2026-09, 2026-11
+  Share link                    :active, p20, 2026-10, 2026-11
 ```
 
 ### Phase 1.0 — Core value loop ✅
 
-- [x] Crosshair editor (codec, preview, export, localStorage, URL sync)
+- [x] Crosshair editor (codec, preview, export, URL sync)
 - [x] Bind generator (keyboard, list, cfg export)
 - [x] Recommended binds catalog
 - [x] Landing, nav, footer, confirm dialogs, Zustand binds store
@@ -530,7 +457,7 @@ gantt
 - [x] Viewmodel section (FOV, offsets, presets, handedness, bob)
 - [x] Mouse, radar, network, audio, performance, HUD sections
 - [x] Recommended catalog (`/config/recommended`) + Add all
-- [x] localStorage + cfg export block
+- [x] cfg export block
 
 ### Phase 1.6 — Autoexec composer ✅
 
@@ -553,30 +480,10 @@ gantt
 - [x] Split `home-page` into `home/lib` data + per-section `home/ui` components
 - [x] App wired via `transpilePackages` + tsconfig paths; `tsc` + `next build` green
 
-### Phase 2.0 — Auth + cloud save
+### Phase 2.0 — Share link
 
-- [ ] Neon ↔ Vercel integration, migrations
-- [ ] Better Auth + OAuth (interim provider)
-- [ ] `features/auth/` — sign-in, session in shell
-- [ ] Save/load configs to Neon
-- [ ] Optional `steam_id` column for future link
-
-### Phase 2.x — Steam identity
-
-- [ ] Steam OpenID sign-in or account linking
-- [ ] Steam avatar/name in UI
-
-### Phase 3.0 — Premium (Polar)
-
-- [ ] Subscription products, checkout, portal
-- [ ] Webhook → entitlements
-- [ ] Extra cloud slots, private configs
-
-### Phase 3.1 — Marketplace
-
-- [ ] Public config listings (`is_public`)
-- [ ] Creator payouts via Polar
-- [ ] Browse / import community configs
+- [x] Share link from `/autoexec` (`/share?d=`) covering crosshair, config sections, and binds
+- [x] `/share` picker: import the chosen slices into the editor, or copy/download that slice as `autoexec.cfg`
 
 ---
 
@@ -585,8 +492,8 @@ gantt
 ### In scope
 
 - Web UI, client-side parsing/preview/export
-- localStorage, Neon CRUD, Better Auth sessions
-- Polar webhooks, MM-safe binds and cvars
+- Share links
+- MM-safe binds and cvars
 
 ### Out of scope — never implement
 
@@ -596,18 +503,20 @@ gantt
 | Demo parsing (`demoinfocs-golang`) | Vercel function timeouts |
 | VAC bypass / anti-cheat evasion | ToS + trust |
 | `csgo-sharecode` npm dependency | Versions < 7 emit the dead `CSGO-` format; 7.x matches our bytes but has no CS:GO → pixel conversion. Use it only as an offline reference when verifying the in-repo codec. |
+| Payments, subscriptions, ads, payouts | Product is free. No Polar, Stripe, or premium tier. |
+| Accounts, Better Auth, Steam sign-in, Neon | Sharing is a link. Do not add them back. |
+| Editor localStorage | A refresh clears the tab. Persist with a share link. |
 
 ### Implementation checklist (new features)
 
 1. Pure CS2 logic (model/codec/formatters) → `@workspace/cs2`; app state/UI → `features/{name}/` with `hooks/`, `ui/`, `storage/` subdirs only.
 2. Add thin route in `app/(feat)/`.
 3. Link from nav/footer if user-facing.
-4. localStorage key: `bindr:{feature}:v1`.
-5. Export block with clear `// section` headers for autoexec composition.
-6. No `useEffect` in components — hook or `useMountEffect` only.
-7. Destructive actions → confirm dialog.
-8. Run `bun x ultracite fix` before commit.
+4. Export block with clear `// section` headers for autoexec composition.
+5. No `useEffect` in components — hook or `useMountEffect` only.
+6. Destructive actions → confirm dialog.
+7. Run `bun x ultracite fix` before commit.
 
 ---
 
-*Last updated: phases 1.0–1.8 shipped (crosshair, binds, config, autoexec, guides, domain extraction to `@workspace/cs2`) · stack locked: Vercel Pro, Neon, Better Auth, Polar*
+*Last updated: no accounts, no database, no editor localStorage. A share link is the only way a config leaves the tab.*

@@ -1,12 +1,15 @@
 'use client';
 
 import { Button } from '@workspace/ui/components/button';
-import { CopyIcon, DownloadIcon } from 'lucide-react';
+import { CopyIcon, DownloadIcon, LinkIcon } from 'lucide-react';
 import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
+import type { ShareLinkResult } from '@/features/autoexec/hooks/use-autoexec';
+
 interface AutoexecExportPanelProps {
   cfg: string;
+  createShareLink: () => Promise<ShareLinkResult>;
 }
 
 function downloadCfg(text: string) {
@@ -19,7 +22,10 @@ function downloadCfg(text: string) {
   URL.revokeObjectURL(url);
 }
 
-export function AutoexecExportPanel({ cfg }: AutoexecExportPanelProps) {
+export function AutoexecExportPanel({
+  cfg,
+  createShareLink,
+}: AutoexecExportPanelProps) {
   const t = useTranslations('autoexec');
 
   async function copyText(text: string) {
@@ -31,8 +37,36 @@ export function AutoexecExportPanel({ cfg }: AutoexecExportPanelProps) {
     }
   }
 
+  async function copyShareLink() {
+    try {
+      const result = await createShareLink();
+      if (result.status === 'empty') {
+        toast.error(t('toastNothingSelected'));
+        return;
+      }
+      if (result.status === 'too-long') {
+        toast.error(t('toastLinkTooLong'));
+        return;
+      }
+      await navigator.clipboard.writeText(result.url);
+      toast.success(t('toastLinkCopied'));
+    } catch {
+      toast.error(t('toastLinkFailed'));
+    }
+  }
+
   return (
     <div className='flex flex-wrap gap-2'>
+      <Button
+        onClick={() => {
+          copyShareLink();
+        }}
+        type='button'
+        variant='outline'
+      >
+        <LinkIcon data-icon='inline-start' />
+        {t('copyLink')}
+      </Button>
       <Button
         onClick={() => {
           copyText(cfg);

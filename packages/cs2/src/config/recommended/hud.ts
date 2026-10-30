@@ -18,7 +18,7 @@ export const HUD_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   },
   {
     category: 'hud',
-    commands: ['r_show_build_info false'],
+    commands: ['r_show_build_info 0'],
     description:
       'Removes the version/debug overlay in the corner — cleaner competitive HUD.',
     id: 'rec-hud-hide-build-info',

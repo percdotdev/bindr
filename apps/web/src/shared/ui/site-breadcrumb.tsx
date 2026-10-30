@@ -20,6 +20,7 @@ const SEGMENT_KEYS = new Set([
   'crosshair',
   'guides',
   'recommended',
+  'share',
 ]);
 
 const DASH_RE = /-/gu;
@@ -50,6 +51,7 @@ export function SiteBreadcrumb() {
             | 'crosshair'
             | 'guides'
             | 'recommended'
+            | 'share'
         )
       : humanize(segment),
   }));

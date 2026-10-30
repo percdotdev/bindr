@@ -13,11 +13,6 @@ import {
 } from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
 import { create } from 'zustand';
-import {
-  clearStoredCrosshair,
-  loadStoredCrosshair,
-  saveStoredCrosshair,
-} from '@/features/crosshair/lib/storage/crosshair-storage';
 
 export type CrosshairRgba = CrosshairRgb & { alpha: number };
 
@@ -55,16 +50,13 @@ function applyFieldUpdate<K extends CrosshairField>(
   return next;
 }
 
-function persistCrosshair(crosshair: CrosshairSettings) {
-  saveStoredCrosshair(crosshair);
-}
-
 interface CrosshairStore {
   crosshair: CrosshairSettings;
   hydrate: (codeParam: string | null) => void;
   hydrated: boolean;
   importError: CrosshairImportErrorKey | null;
   importShareCode: (code: string) => ShareCodeSource | null;
+  replaceCrosshair: (crosshair: CrosshairSettings) => void;
   resetCrosshair: () => void;
   updateField: <K extends CrosshairField>(
     field: K,
@@ -94,9 +86,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
         });
       } catch {
         set({
-          crosshair: get().hydrated
-            ? get().crosshair
-            : (loadStoredCrosshair() ?? DEFAULT_CROSSHAIR),
+          crosshair: get().hydrated ? get().crosshair : DEFAULT_CROSSHAIR,
           hydrated: true,
           importError: 'importErrorInvalidUrl',
         });
@@ -108,12 +98,7 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       return;
     }
 
-    const stored = loadStoredCrosshair();
-    set({
-      crosshair: stored ?? DEFAULT_CROSSHAIR,
-      hydrated: true,
-      importError: null,
-    });
+    set({ hydrated: true, importError: null });
   },
   hydrated: false,
   importError: null,
@@ -121,7 +106,6 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
   importShareCode: (code) => {
     try {
       const { crosshair, source } = decodeShareCodeDetailed(code);
-      persistCrosshair(crosshair);
       set({ crosshair, importError: null });
       return source;
     } catch (error) {
@@ -132,14 +116,16 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
     }
   },
 
+  replaceCrosshair: (crosshair) => {
+    set({ crosshair, hydrated: true, importError: null });
+  },
+
   resetCrosshair: () => {
-    clearStoredCrosshair();
     set({ crosshair: DEFAULT_CROSSHAIR, importError: null });
   },
 
   updateField: (field, value) => {
     const next = applyFieldUpdate(get().crosshair, field, value);
-    persistCrosshair(next);
     set({ crosshair: next, importError: null });
   },
 
@@ -151,13 +137,11 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       outlineGreen: green,
       outlineRed: red,
     };
-    persistCrosshair(next);
     set({ crosshair: next, importError: null });
   },
 
   updateRgba: (rgba) => {
     const next = { ...get().crosshair, ...rgba };
-    persistCrosshair(next);
     set({ crosshair: next, importError: null });
   },
 }));

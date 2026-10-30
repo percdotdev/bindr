@@ -2,7 +2,7 @@
 
 ## "Unable to find next-intl locale" build error
 
-The component is missing `setRequestLocale(locale)` before calling `useTranslations`. Add it to every page and layout under `[locale]`.
+`i18n/request.ts` is not reading `locale` from `next/root-params`, or a pass-through `app/layout.tsx` is sitting above `app/[locale]/layout.tsx` so `[locale]` is not a root param. Remove that layout and resolve the locale in `getRequestConfig`. Do not add `setRequestLocale`.
 
 ## Proxy not working in production static export
 

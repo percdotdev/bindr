@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 
 import type { AppLocale } from '@/i18n/routing';
 import { routing } from '@/i18n/routing';
-import { SITE } from '@/shared/lib/site';
+import { SITE, SITE_IMAGE, socialImagePath } from '@/shared/lib/site';
 
 interface PageMetadataInput {
   description: string;
@@ -40,6 +40,14 @@ export function createPageMetadata({
     description,
     openGraph: {
       description,
+      images: [
+        {
+          alt: SITE_IMAGE.alt,
+          height: SITE_IMAGE.height,
+          url: socialImagePath(locale),
+          width: SITE_IMAGE.width,
+        },
+      ],
       locale: SITE.ogLocales[locale],
       siteName: SITE.name,
       title: fullTitle,
@@ -50,6 +58,7 @@ export function createPageMetadata({
     twitter: {
       card: 'summary_large_image',
       description,
+      images: [socialImagePath(locale)],
       title: fullTitle,
     },
   };

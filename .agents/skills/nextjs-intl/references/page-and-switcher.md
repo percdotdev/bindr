@@ -2,36 +2,29 @@
 
 ## Locale layout (`src/app/[locale]/layout.tsx`)
 
+This file is the root layout. It renders `<html>` and `<body>`. Do not add `app/layout.tsx` above it — that stops `[locale]` from being a root param. Unknown locales are rejected in `i18n/request.ts`.
+
 ```typescript
 import { NextIntlClientProvider } from 'next-intl';
-import { hasLocale } from 'next-intl';
-import { notFound } from 'next/navigation';
-import { setRequestLocale, getMessages } from 'next-intl/server';
+import { getLocale, getMessages } from 'next-intl/server';
 import { routing } from '@/i18n/routing';
-
-type Props = {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-};
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-export default async function LocaleLayout({ children, params }: Props) {
-  const { locale } = await params;
-
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
-
-  setRequestLocale(locale);
+export default async function LocaleLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const locale = await getLocale();
   const messages = await getMessages();
 
   return (
     <html lang={locale}>
       <body>
-        <NextIntlClientProvider messages={messages}>
+        <NextIntlClientProvider locale={locale} messages={messages}>
           {children}
         </NextIntlClientProvider>
       </body>
@@ -42,15 +35,13 @@ export default async function LocaleLayout({ children, params }: Props) {
 
 ## Server page pattern
 
+Read the locale with `getLocale()` / `getTranslations()`. Do not take it from `params` and do not call `setRequestLocale`.
+
 ```typescript
-import { useTranslations } from 'next-intl';
-import { setRequestLocale } from 'next-intl/server';
+import { getTranslations } from 'next-intl/server';
 
-export default async function HomePage({ params }: Props) {
-  const { locale } = await params;
-  setRequestLocale(locale);
-
-  const t = useTranslations('home');
+export default async function HomePage() {
+  const t = await getTranslations('home');
 
   return (
     <main>
@@ -89,13 +80,9 @@ t.rich('terms', {
 });
 ```
 
-## setRequestLocale (required for static export)
+## Locale for static rendering
 
-Every page and layout under `[locale]` that uses translations in a server component MUST call `setRequestLocale(locale)` before any `useTranslations`, `getTranslations`, or `getMessages`:
-
-- Locale must come from `params`, not a hardcoded string
-- Call in every `page.tsx` and `layout.tsx` under `[locale]`
-- Without this, static generation fails with "Unable to find next-intl locale"
+`generateStaticParams` on `app/[locale]/layout.tsx` is still required. Static rendering comes from `next/root-params` inside `i18n/request.ts`, not from `setRequestLocale`. Pages do not read `params.locale`.
 
 ## Locale switcher
 

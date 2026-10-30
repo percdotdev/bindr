@@ -9,7 +9,7 @@ export function HomeTools() {
   const t = useTranslations('home');
 
   return (
-    <section className='flex flex-col gap-4'>
+    <section className='flex scroll-mt-8 flex-col gap-4' id='tools'>
       <div className='flex items-baseline justify-between'>
         <h2 className='text-sm font-medium'>{t('toolsTitle')}</h2>
         <p className='text-muted-foreground text-xs'>{t('toolsSubtitle')}</p>

@@ -47,7 +47,7 @@ export const PERFORMANCE_RECOMMENDATIONS: RecommendedConfigTemplate[] = [
   },
   {
     category: 'performance',
-    commands: ['engine_low_latency_sleep_after_client_tick true'],
+    commands: ['engine_low_latency_sleep_after_client_tick 1'],
     description:
       'Moves the Reflex/low-latency sleep after client sim. Pair with a real `fps_max`, not 0.',
     id: 'rec-perf-low-latency',

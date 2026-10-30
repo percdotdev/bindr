@@ -2,82 +2,82 @@
   "breadcrumb": {
     "autoexec": "Autoexec",
     "binds": "Binds",
-    "config": "Game config",
+    "config": "Settings",
     "crosshair": "Crosshair",
     "guides": "Guides",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "share": "Shared config"
   },
   "home": {
     "catalogs": {
       "binds": "Recommended binds",
-      "config": "Recommended config"
+      "config": "Recommended settings"
     },
-    "catalogsSubtitle": "Start from MM-safe 2026 meta presets and keep only what you want.",
-    "catalogsTitle": "Curated catalogs",
+    "catalogsSubtitle": "Common binds and cvars. Add the ones you want.",
+    "catalogsTitle": "Recommended",
     "console": {
       "loaded": "bindr.lol autoexec loaded",
-      "tagline": "   bindr.lol  -  browser CS2 config studio"
+      "tagline": "   bindr.lol  -  cs2 config"
     },
-    "ctaAutoexec": "Compose autoexec",
-    "ctaCrosshair": "Start with crosshair",
-    "eyebrow": "Counter-Strike 2 config studio",
-    "leadAfter": "into your game folder. No downloads, no cheats.",
-    "leadBefore": "Build your crosshair, binds and game cvars in the browser, then copy console commands or drop one",
+    "ctaStart": "Get started",
+    "eyebrow": "CS2 config",
+    "leadAfter": "in your cfg folder.",
+    "leadBefore": "Crosshair, binds and settings. Copy the commands, or drop one",
     "steps": {
       "customize": {
-        "detail": "Sliders, toggles and a visual keyboard — no syntax to memorize.",
-        "title": "Customize"
+        "detail": "Change the values. The cfg changes with them.",
+        "title": "Edit"
       },
       "export": {
-        "detail": "Copy the share code and console commands, or download one autoexec.cfg.",
+        "detail": "Copy a link, or download autoexec.cfg.",
         "title": "Export"
       },
       "import": {
-        "detail": "Paste a share code or start from MM-safe 2026 presets.",
-        "title": "Import"
+        "detail": "Paste a share code, or start from the recommended sets.",
+        "title": "Start"
       },
       "preview": {
-        "detail": "Crosshairs render on real maps; cfg output updates live.",
+        "detail": "The crosshair is drawn on a map.",
         "title": "Preview"
       }
     },
     "stepsTitle": "How it works",
     "tools": {
       "autoexec": {
-        "cta": "Compose cfg",
-        "description": "Merge crosshair, config and binds into one autoexec.cfg with per-section toggles.",
-        "title": "Autoexec composer"
+        "cta": "Open",
+        "description": "One cfg from the crosshair, settings and binds you already made.",
+        "title": "Autoexec"
       },
       "binds": {
-        "cta": "Build binds",
-        "description": "Assign commands on a visual keyboard and export grouped bind lines or a ready-to-paste cfg.",
-        "title": "Bind generator"
+        "cta": "Open",
+        "description": "Click a key, set a command, copy the binds.",
+        "title": "Binds"
       },
       "config": {
-        "cta": "Tune cvars",
-        "description": "Dial in viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders.",
-        "title": "Game config"
+        "cta": "Open",
+        "description": "Viewmodel, mouse, radar, network, audio and HUD.",
+        "title": "Settings"
       },
       "crosshair": {
-        "cta": "Open editor",
-        "description": "Decode CS2 share codes (old CSGO- codes convert), tweak gap, color and style, preview on real maps, export the share code and console commands.",
-        "title": "Crosshair editor"
+        "cta": "Open",
+        "description": "Paste a share code, edit the crosshair, copy it back.",
+        "title": "Crosshair"
       }
     },
-    "toolsSubtitle": "Everything client-side",
+    "toolsSubtitle": "Crosshair, binds, settings, autoexec.",
     "toolsTitle": "Tools",
     "values": {
       "browser": {
-        "detail": "Parse, preview and export without installing anything.",
-        "label": "Browser-only"
+        "detail": "No install. It runs in the tab.",
+        "label": "Browser"
       },
       "local": {
-        "detail": "Edits persist in your browser until cloud save ships.",
-        "label": "Local-first"
+        "detail": "A refresh clears the editors. Copy a share link to keep a config.",
+        "label": "Not saved"
       },
       "mmSafe": {
-        "detail": "Binds and cvars follow current Valve rules — no banned scripts.",
-        "label": "MM-safe defaults"
+        "detail": "Current CS2 commands. No jumpthrow aliases.",
+        "label": "Matchmaking"
       }
     }
   },
@@ -87,29 +87,29 @@
   },
   "nav": {
     "autoexec": {
-      "description": "Merge crosshair, config and binds into one cfg.",
-      "label": "Autoexec composer"
+      "description": "One cfg from the crosshair, settings and binds.",
+      "label": "Autoexec"
     },
     "binds": {
-      "description": "Assign commands on a visual keyboard, export cfg.",
-      "label": "Bind generator"
+      "description": "Click a key, set a command, copy the binds.",
+      "label": "Binds"
     },
     "bindsRecommended": {
-      "description": "MM-safe 2026 meta bind templates.",
+      "description": "Common binds. Add the ones you want.",
       "label": "Recommended binds"
     },
     "catalogs": "catalogs",
     "config": {
-      "description": "Viewmodel, mouse, radar, network, audio, HUD cvars.",
-      "label": "Game config"
+      "description": "Viewmodel, mouse, radar, network, audio and HUD.",
+      "label": "Settings"
     },
     "configRecommended": {
-      "description": "Curated cvar bundles per section.",
-      "label": "Recommended config"
+      "description": "Common cvars, grouped by section.",
+      "label": "Recommended settings"
     },
     "crosshair": {
-      "description": "Decode share codes, preview, export code and commands.",
-      "label": "Crosshair editor"
+      "description": "Paste a share code, edit the crosshair, copy it back.",
+      "label": "Crosshair"
     },
     "editors": "editors",
     "footer": {
@@ -127,42 +127,46 @@
   },
   "pages": {
     "autoexec": {
-      "description": "Merge your CS2 crosshair, config and binds into a single autoexec.cfg with per-section toggles and an ASCII banner, then copy or download it.",
-      "title": "Autoexec composer"
+      "description": "Build one autoexec.cfg from the crosshair, settings and binds, or copy a link to them.",
+      "title": "Autoexec"
+    },
+    "share": {
+      "description": "Open a bindr.lol link and choose what to import or write to an autoexec.cfg.",
+      "title": "Shared config"
     },
     "binds": {
-      "description": "Build CS2 bind configs on a visual keyboard layout, then export grouped bind lines or a ready-to-paste cfg snippet.",
-      "title": "Bind generator"
+      "description": "Set CS2 binds on the keyboard and copy them as a cfg.",
+      "title": "Binds"
     },
     "bindsRecommended": {
-      "description": "Curated MM-safe CS2 bind templates — grenade slots, knife, drop, lineup release, buy binds and radar toggles. Add individually or take the full set.",
+      "description": "Common CS2 binds: grenades, knife, drop, buy scripts and radar. Add one, or take the set.",
       "title": "Recommended binds"
     },
     "config": {
-      "description": "Tune CS2 viewmodel, mouse, radar, network, audio, performance and HUD cvars with sliders, then copy or download a cfg snippet.",
-      "title": "Game config editor"
+      "description": "Viewmodel, mouse, radar, network, audio, performance and HUD. Copy the result as a cfg.",
+      "title": "Settings"
     },
     "configRecommended": {
-      "description": "Curated CS2 client cvar bundles — viewmodel, mouse, radar, network, audio, performance and HUD. CS:GO leftovers stripped.",
-      "title": "Recommended config"
+      "description": "Common CS2 cvars for viewmodel, mouse, radar, network, audio, performance and HUD.",
+      "title": "Recommended settings"
     },
     "crosshair": {
-      "description": "Import CS2 crosshair share codes, tweak gap, color and style, preview on real map backgrounds, and export the share code plus console commands.",
-      "title": "Crosshair editor"
+      "description": "Import a CS2 crosshair code, edit it, and copy the code or the console commands.",
+      "title": "Crosshair"
     },
     "guides": {
-      "description": "Setup guides and tricks for getting the most out of your Counter-Strike 2 config, crosshair, binds and autoexec.",
+      "description": "How to point CS2 at one cfg folder so the autoexec follows every account.",
       "title": "Guides"
     },
     "home": {
-      "description": "Free browser tools for Counter-Strike 2: edit crosshairs, generate binds, tune cvars and build one autoexec.cfg. MM-safe, no download.",
-      "title": "CS2 crosshair, binds & config tools"
+      "description": "CS2 crosshair, binds, settings and autoexec.cfg.",
+      "title": "CS2 crosshair, binds and config"
     }
   },
   "site": {
-    "description": "Free browser tools for Counter-Strike 2: edit crosshairs, generate binds, tune cvars and build one autoexec.cfg. MM-safe, no download.",
+    "description": "CS2 crosshair, binds, settings and autoexec.cfg.",
     "disclaimer": "Not affiliated with Valve Corporation.",
-    "tagline": "CS2 crosshair, binds & config tools",
+    "tagline": "CS2 crosshair, binds and config",
     "themeHint": "Press <kbd>t</kbd> for theme"
   },
   "autoexec": {
@@ -170,34 +174,62 @@
     "copy": "Copy autoexec.cfg",
     "download": "Download autoexec.cfg",
     "include": "Include",
-    "includeDescription": "Pick which feature slices go into the file. Edit each one in its own tool.",
+    "includeDescription": "Checked parts go into the cfg and the share link.",
     "preview": "Preview",
     "slices": {
       "binds": {
-        "description": "Key to command bindings, grouped by category.",
+        "description": "The binds you set.",
         "label": "Binds"
       },
       "config": {
         "description": "Viewmodel, mouse, radar, network, audio, performance, HUD.",
-        "label": "Game config"
+        "label": "Settings"
       },
       "crosshair": {
-        "description": "Console commands and the CS2 share code.",
+        "description": "The share code and the commands.",
         "label": "Crosshair"
       }
     },
-    "subtitle": "Merge crosshair, config and binds into one autoexec.cfg with an optional console banner.",
-    "title": "Autoexec composer",
+    "subtitle": "Crosshair, settings and binds, written to one autoexec.cfg.",
+    "title": "Autoexec",
     "toastCopied": "autoexec.cfg copied",
     "toastCopyFailed": "Could not copy autoexec.cfg",
-    "subtitleFull": "Merge your crosshair, config and binds into a single <code>autoexec.cfg</code>. Toggle sections below, then copy or download.",
-    "bannerDescription": "Echo a bindr.lol ASCII wordmark when the cfg loads.",
+    "subtitleFull": "Choose what goes into <code>autoexec.cfg</code>, or copy a link to this setup.",
+    "bannerDescription": "Prints a bindr.lol banner in console when the cfg runs.",
     "editLink": "Edit →",
     "bindCount": "{count, plural, one {# bind} other {# binds}}",
-    "previewDescription": "Run once in console with <code>exec autoexec</code> after dropping the file in your cfg folder."
+    "previewDescription": "Put the file in your cfg folder, then run <code>exec autoexec</code>.",
+    "copyLink": "Copy share link",
+    "toastLinkCopied": "Share link copied",
+    "toastLinkFailed": "Could not copy the share link",
+    "toastLinkTooLong": "That config is too big for a link. Turn off some sections.",
+    "toastNothingSelected": "Turn on at least one section"
+  },
+  "share": {
+    "bindCount": "{count, plural, one {# bind} other {# binds}}",
+    "binds": "Binds",
+    "config": "Settings",
+    "copy": "Copy autoexec.cfg",
+    "createLink": "Create a share link",
+    "crosshair": "Crosshair",
+    "download": "Download autoexec.cfg",
+    "emptyBody": "Make a config, then copy a link from Autoexec.",
+    "emptyTitle": "Nothing to import",
+    "import": "Import selected",
+    "imported": "Imported into the editor",
+    "include": "Import",
+    "includeDescription": "Only checked parts are written. The rest of the editor stays as it is.",
+    "invalidBody": "This link is incomplete or broken.",
+    "invalidTitle": "Link is not valid",
+    "nothingSelected": "Turn on at least one part",
+    "preview": "Autoexec of the selection",
+    "subtitle": "Import the parts you want, or write them to an autoexec.cfg.",
+    "title": "Shared config",
+    "toastCopied": "autoexec.cfg copied",
+    "toastCopyFailed": "Could not copy autoexec.cfg"
   },
   "binds": {
-    "addAllDescription": "This replaces your entire bind config with the full recommended set. Any custom binds are removed.",
+    "addAllDescription": "Replaces every bind with the recommended set.",
     "addAllTitle": "Add all recommended binds?",
     "addBind": "Add bind",
     "assign": "Assign bind",
@@ -211,98 +243,98 @@
       "utility": "Grenades & utility",
       "weapons": "Weapons"
     },
-    "clearDescription": "This removes every bind from your config. Saved binds in local storage are cleared too.",
+    "clearDescription": "Removes every bind.",
     "clearTitle": "Clear all binds?",
     "commandLabel": "Console command",
-    "commandQuoteError": "Double quotes (\") are not allowed: CS2 cfg files cannot escape them inside a bind. Use say gg instead of say \"gg\".",
+    "commandQuoteError": "A bind cannot contain double quotes. Use say gg, not say \"gg\".",
     "copyCfg": "Copy cfg",
     "copyLines": "Copy bind lines",
     "downloadCfg": "Download cfg",
-    "empty": "No binds yet. Click a key and assign a command.",
+    "empty": "No binds. Click a key.",
     "items": {
       "rec-build-info-toggle": {
-        "description": "Hide or show the version/build watermark in the bottom-left corner. Default is on; Valve asks for it in bug clips, so keep a key to bring it back.",
+        "description": "Hides or shows the build text in the corner. Leave a key for it. Valve wants it in bug clips.",
         "label": "Toggle build info text"
       },
       "rec-buy-awp": {
-        "description": "AWP with armor and a couple of nades.",
+        "description": "AWP, armor, smoke and flash.",
         "label": "AWP buy"
       },
       "rec-buy-force": {
-        "description": "Light armor, cheap rifle and two nades for eco breaks.",
+        "description": "Light armor, a cheap rifle, flash and smoke.",
         "label": "Force buy"
       },
       "rec-buy-full": {
-        "description": "Rifle, armor, full utility and defuser. Wrong-team weapons are ignored, so it works on T and CT. `buy m4a1` is the M4A4.",
+        "description": "Rifle, armor, nades and a defuser. The wrong rifle for the side is ignored. buy m4a1 buys the M4A4.",
         "label": "Full buy"
       },
       "rec-buy-pistol": {
-        "description": "Deagle, full armor and a flash for anti-eco rounds.",
+        "description": "Deagle, armor and a flash.",
         "label": "Pistol + armor"
       },
       "rec-decoy": {
-        "description": "Decoy grenade. CS2 slot 9.",
+        "description": "Decoy. Slot 9.",
         "label": "Decoy"
       },
       "rec-drop": {
-        "description": "Drops whatever you are holding. Select the bomb first to drop C4.",
+        "description": "Drops the weapon you are holding. Select the bomb first to drop it.",
         "label": "Drop item"
       },
       "rec-flash": {
-        "description": "Instant flash. CS2 slot 7 — sits under WASD on Z/X/C row.",
+        "description": "Flash. Slot 7.",
         "label": "Flashbang"
       },
       "rec-fps-toggle": {
-        "description": "Show or hide the FPS overlay on demand.",
+        "description": "Shows or hides the FPS counter.",
         "label": "Toggle FPS counter"
       },
       "rec-hand-toggle": {
-        "description": "CS2 hand swap. H is the default bind. Persistent preference is `cl_prefer_lefthanded` in config — `cl_righthand` is gone.",
+        "description": "Swaps hands. The saved side is cl_prefer_lefthanded, under Settings.",
         "label": "Swap weapon hand"
       },
       "rec-he": {
-        "description": "Instant HE. CS2 slot 6.",
+        "description": "HE. Slot 6.",
         "label": "HE grenade"
       },
       "rec-inspect": {
-        "description": "Hold to inspect the equipped weapon or knife.",
+        "description": "Hold to inspect the weapon.",
         "label": "Inspect weapon"
       },
       "rec-knife": {
-        "description": "Fast knife for movement and bhops without scrolling.",
+        "description": "Knife, without scrolling.",
         "label": "Quick knife"
       },
       "rec-lineup-release": {
-        "description": "Press with Space at jump peak for consistent smoke lineups. Single-action bind — safe on Valve MM.",
+        "description": "Releases the smoke at the top of a jump. Hold space, then press this key. One action, so it works on Valve servers.",
         "label": "Lineup release"
       },
       "rec-molotov": {
-        "description": "Fire grenade on one key. Slot 10 (T molotov / CT incendiary).",
+        "description": "Molotov on T, incendiary on CT. Slot 10.",
         "label": "Molotov / Incendiary"
       },
       "rec-mwheel-jump": {
-        "description": "Bind jump to scroll for more consistent bunny hops. Single action — Valve MM safe.",
+        "description": "Jump on mouse wheel. One action, so it works on Valve servers.",
         "label": "Mouse-wheel jump"
       },
       "rec-ptt": {
-        "description": "Hold to talk on team voice without toggling open mic.",
+        "description": "Hold to talk.",
         "label": "Push-to-talk"
       },
       "rec-radar-hud": {
-        "description": "Step minimap HUD scale during a match.",
+        "description": "Steps the radar size on the HUD.",
         "label": "Radar HUD size"
       },
       "rec-radar-zoom": {
-        "description": "Cycle radar zoom (0.25–1.0) to see more or less of the map.",
+        "description": "Cycles radar zoom from 0.25 to 1.",
         "label": "Radar zoom"
       },
       "rec-smoke": {
-        "description": "Instant smoke without the scroll wheel. CS2 slot 8 — most-used execute bind.",
+        "description": "Smoke. Slot 8.",
         "label": "Smoke"
       }
     },
-    "navAria": "Bind generator sections",
-    "recommendedSubtitle": "MM-safe starter set. Add one at a time or replace your whole bind config.",
+    "navAria": "Binds",
+    "recommendedSubtitle": "Add one, or replace every bind.",
     "recommendedTitle": "Recommended binds",
     "sections": {
       "active": "Active binds",
@@ -311,24 +343,24 @@
       "keyboard": "Keyboard"
     },
     "selectKey": "Select a key on the keyboard first.",
-    "subtitle": "Click a key, type a console command, and export bind lines or a cfg snippet.",
-    "title": "Bind generator",
+    "subtitle": "Click a key, set a command, copy the binds.",
+    "title": "Binds",
     "toastCfg": "CFG snippet copied",
     "toastLines": "Bind lines copied",
-    "keyboardHint": "Mouse keys, ANSI layout, nav cluster and numpad. Highlighted keys have a bind assigned.",
-    "subtitleFull": "Build your config from scratch or pull binds from the recommended catalog, then export bind lines or a cfg snippet.",
-    "browseRecommended": "Browse recommended binds →",
+    "keyboardHint": "Mouse keys, ANSI, nav and numpad. Highlighted keys have a bind.",
+    "subtitleFull": "Click a key, set a command, copy the binds.",
+    "browseRecommended": "Recommended binds →",
     "addFromRecommended": "Add from recommended",
-    "recommendedLead": "Pick only the binds you want. Each one is Valve MM safe and uses 2026 meta keys — add individually or take the full set.",
+    "recommendedLead": "Add one, or take the set.",
     "inConfigCount": "{added} of {total} in your config",
     "openEditor": "Open editor",
     "keyLabel": "Key",
     "saveBind": "Save bind",
     "removeBind": "Remove bind",
     "selectKeyHint": "Select a key on the keyboard to add or edit a bind.",
-    "emptyList": "No binds yet. <link>Pick from recommended binds</link> or click a key on the keyboard.",
+    "emptyList": "No binds. <link>Recommended</link>, or click a key.",
     "customCategory": "Custom",
-    "recommendedLeadFull": "Pick only the binds you want. Each one is Valve MM safe and uses 2026 meta keys — add individually or take the full set.",
+    "recommendedLeadFull": "Add one, or take the set.",
     "selected": "selected"
   },
   "common": {
@@ -374,10 +406,10 @@
     "valveMm": "Valve MM"
   },
   "config": {
-    "addAllDescription": "This applies the full recommended cvar set and replaces conflicting values. You can still tweak anything afterward.",
-    "addAllRecommendedDescription": "This replaces your entire config with the full recommended set. Custom values and manual edits are removed.",
-    "addAllRecommendedTitle": "Add all recommended config?",
-    "addAllTitle": "Add all recommended config?",
+    "addAllDescription": "Replaces the settings with the recommended set.",
+    "addAllRecommendedDescription": "Replaces every setting with the recommended set.",
+    "addAllRecommendedTitle": "Add all recommended settings?",
+    "addAllTitle": "Add all recommended settings?",
     "addConfig": "Add config",
     "alwaysCentered": "Always centered",
     "alwaysCenteredDescription": "cl_radar_always_centered — off shows more of the map.",
@@ -390,7 +422,7 @@
     "buffer1": "1 (mild jitter)",
     "buffer2": "2 (lossy connection)",
     "bufferTicks": "Buffer ticks",
-    "bufferTicksDescription": "cl_net_buffer_ticks — extra snapshot delay. This is what actually drives interp in CS2. Do not set cl_interp or cl_cmdrate.",
+    "bufferTicksDescription": "cl_net_buffer_ticks. Extra snapshot delay. 0 is the lowest.",
     "buildInfo": "Show build info",
     "buildInfoDescription": "r_show_build_info — version/debug overlay in the corner.",
     "categories": {
@@ -427,31 +459,31 @@
     "instructorDescription": "gameinstructor_enable — tutorial popups.",
     "items": {
       "rec-audio-clean": {
-        "description": "Silences round/menu/MVP music, keeps the bomb timer beep, and tames teammate voice volume. Voice uses `snd_voipvolume` — `voice_scale` is gone.",
+        "description": "Turns off round, menu and MVP music. Keeps the bomb beep. Lowers teammate voice. Voice is snd_voipvolume.",
         "label": "Mute music, lower voice"
       },
       "rec-hud-classic-sniper-scope": {
-        "description": "Hides the Oct 2025 inaccuracy circle on AWP and SSG 08 — restores the old static overlay. Settings → Game → Sniper Sights → Show Scoped Sniper Rifle Inaccuracy → No.",
+        "description": "Hides the moving spread circle on the AWP and SSG 08. Same as Settings → Game → Sniper Sights → Show Scoped Sniper Rifle Inaccuracy → No.",
         "label": "Classic AWP/Scout scope"
       },
       "rec-hud-hide-build-info": {
-        "description": "Removes the version/debug overlay in the corner — cleaner competitive HUD.",
+        "description": "Hides the version text in the corner. Leave a key to turn it back on. Valve wants it in bug clips.",
         "label": "Hide build info text"
       },
       "rec-hud-readable": {
-        "description": "Green accent, slightly smaller HUD, and teammate colors with letters.",
+        "description": "Green HUD, slightly smaller, teammate colors with letters.",
         "label": "Readable competitive HUD"
       },
       "rec-hud-teamid-fade": {
-        "description": "Max fade (1.0) when your crosshair is on a teammate — less name clutter in fights. 0 disables fade.",
+        "description": "Names fade when the crosshair is on a teammate. 0 turns the fade off.",
         "label": "Fade teammate names at crosshair"
       },
       "rec-mouse-raw": {
-        "description": "Keep scoped sensitivity 1:1 with hip-fire. Raw input is always on in CS2 — `m_rawinput` is gone.",
+        "description": "Scoped sensitivity matches hip-fire. Raw input is always on.",
         "label": "1.0 zoom sensitivity ratio"
       },
       "rec-network-competitive": {
-        "description": "Unrestricted rate and zero extra buffer ticks — Valve’s low-latency default. `cl_cmdrate` / `cl_updaterate` / `cl_interp` do not exist as player settings in CS2.",
+        "description": "Unrestricted rate, no extra buffer. Interp is not a setting you can change.",
         "label": "Competitive network"
       },
       "rec-network-ping-cap": {
@@ -471,11 +503,11 @@
         "label": "Disable help popups"
       },
       "rec-perf-no-tracers": {
-        "description": "Less visual noise when spraying — common FPS tweak.",
+        "description": "Hides your own tracers.",
         "label": "Hide first-person tracers"
       },
       "rec-radar-lineups": {
-        "description": "Zoomed-out minimap with larger HUD element — common execute setup.",
+        "description": "Zoomed-out radar, larger on the HUD.",
         "label": "Competitive radar (lineups)"
       },
       "rec-radar-pro": {
@@ -483,16 +515,16 @@
         "label": "Pro radar"
       },
       "rec-vm-valve": {
-        "description": "Stock viewmodel FOV and offsets — baseline before tweaking.",
+        "description": "Stock FOV and offsets. presetpos 1.",
         "label": "Valve default viewmodel"
       },
       "rec-vm-wide": {
-        "description": "Max FOV (68) with custom offsets. presetpos 0 unlocks the offsets — 1/2/3 override them.",
+        "description": "FOV 68, offsets 2.5 / 2 / -2. presetpos has to be 0 or the offsets are ignored.",
         "label": "Wide competitive viewmodel"
       }
     },
     "leftHanded": "Left-handed",
-    "leftHandedDescription": "cl_prefer_lefthanded — CS2 replacement for removed cl_righthand. switchhands still toggles mid-round.",
+    "leftHandedDescription": "cl_prefer_lefthanded. switchhands still swaps mid-round.",
     "lowLatency": "Low-latency sleep",
     "lowLatencyDescription": "engine_low_latency_sleep_after_client_tick — pair with a real fps_max, not 0.",
     "masterVolume": "Master volume",
@@ -501,7 +533,7 @@
     "musicVolume": "Music volume (round/menu/MVP)",
     "muteAltTab": "Mute when alt-tabbed",
     "muteAltTabDescription": "snd_mute_losefocus — mute the game when alt-tabbed.",
-    "navAria": "Config sections",
+    "navAria": "Settings",
     "offsetX": "Offset X",
     "offsetY": "Offset Y",
     "offsetZ": "Offset Z",
@@ -513,7 +545,7 @@
         "label": "Valve default"
       },
       "wide-competitive": {
-        "description": "Max FOV with custom offsets — presetpos 0 so the offsets stick.",
+        "description": "FOV 68, offsets 2.5 / 2 / -2. presetpos 0 so the offsets stick.",
         "label": "Wide competitive"
       }
     },
@@ -524,43 +556,43 @@
     "rate524288": "524288 (4 Mbps)",
     "rate786432": "786432 (unrestricted)",
     "rateDescription": "rate — max bytes/sec from the server. 786432 is Unrestricted in the menu.",
-    "recommendedSubtitle": "Curated cvar bundles. Add one at a time or apply the full set.",
-    "recommendedTitle": "Recommended config",
-    "resetDescription": "This restores default cvars. Recommended patches and manual edits are cleared.",
+    "recommendedSubtitle": "Add one, or take the set.",
+    "recommendedTitle": "Recommended settings",
+    "resetDescription": "Restores every section to Valve defaults.",
     "resetTitle": "Reset config?",
     "rotateRadar": "Rotate radar",
     "rotateRadarDescription": "cl_radar_rotate — rotate the radar with your view.",
-    "sectionNavAria": "Config sections",
+    "sectionNavAria": "Settings",
     "sensitivity": "Sensitivity",
     "sniperInaccuracy": "Show scoped sniper inaccuracy",
     "sniperInaccuracyDescription": "cl_sniper_show_inaccuracy — moving spread circle on AWP/SSG 08. Off restores the classic overlay.",
     "squareScoreboard": "Square with scoreboard",
     "squareScoreboardDescription": "cl_radar_square_with_scoreboard — square radar on scoreboard.",
-    "subtitle": "Tune viewmodel, mouse, radar, network, audio, performance and HUD, then export a cfg snippet.",
+    "subtitle": "Viewmodel, mouse, radar, network, audio, performance and HUD.",
     "teammateColors": "Teammate colors",
     "teammateColorsDescription": "cl_teammate_colors_show — teammate identification.",
     "teammateColorsLetters": "Colors + letters",
     "teammateColorsOnly": "Colors",
     "teammateFade": "Teammate name fade at crosshair",
     "teammateOff": "Off",
-    "title": "Game config",
+    "title": "Settings",
     "toastCopied": "Config cfg copied",
     "tracers": "First-person tracers",
     "tracersDescription": "r_drawtracers_firstperson — first-person bullet tracers.",
     "voiceVolume": "Voice volume",
     "zoomSensitivity": "Zoom sensitivity ratio",
-    "subtitleFull": "Tune viewmodel, mouse, radar, network, audio, performance and HUD, then export a cfg snippet.",
-    "browseRecommended": "Browse recommended config →",
-    "recommendedLead": "Curated cvar bundles. Add one at a time or apply the full set.",
+    "subtitleFull": "Viewmodel, mouse, radar, network, audio, performance and HUD.",
+    "browseRecommended": "Recommended settings →",
+    "recommendedLead": "Add one, or take the set. Viewmodel and radar presets replace each other.",
     "inConfigCount": "{added} of {total} in your config",
     "openEditor": "Open editor",
-    "subtitleEditor": "Tune always-on cvars — viewmodel, mouse, radar, network, audio, performance and HUD — then copy or download a cfg snippet for CS2.",
-    "recommendedLeadFull": "Curated CS2 client cvars only — add individually or take the full set. Viewmodel and radar presets replace each other within their category. CS:GO leftovers are not included.",
-    "resetDescriptionFull": "This restores every section to Valve defaults and clears your saved draft.",
+    "subtitleEditor": "Viewmodel, mouse, radar, network, audio, performance and HUD.",
+    "recommendedLeadFull": "Add one, or take the set. Viewmodel presets replace each other. Radar presets replace each other.",
+    "resetDescriptionFull": "Restores every section to Valve defaults.",
     "sectionDescriptions": {
       "audio": "Volume, voice and music levels.",
       "hud": "HUD color, scale, on-screen elements and sniper overlay.",
-      "mouse": "Sensitivity and scoped ratio. Raw input is always on in CS2.",
+      "mouse": "Sensitivity and scoped ratio.",
       "network": "Bandwidth and snapshot buffer ticks.",
       "performance": "FPS caps, tracers and help popups.",
       "radar": "Minimap zoom, rotation and icon sizing.",
@@ -594,14 +626,14 @@
     "outlineOff": "Off",
     "previewAria": "Crosshair preview",
     "quadrantSize": "Quadrant size",
-    "resetDescription": "This restores the default crosshair and clears your saved draft.",
+    "resetDescription": "Restores the default crosshair.",
     "resetTitle": "Reset crosshair?",
     "screenHeight": "Made for screen height",
     "sections": {
       "crosshair": "Crosshair",
       "dynamic": "Dynamic",
       "export": "Export",
-      "exportDescription": "Share code for in-game settings, plus console commands for autoexec or the console.",
+      "exportDescription": "Share code for the settings menu. Commands for the console or a cfg.",
       "outline": "Outline",
       "quadrant": "Quadrant",
       "resolution": "Resolution",
@@ -632,7 +664,7 @@
         "label": "Static Circle"
       },
       "4": {
-        "description": "Fixed cross. Most common in pro configs.",
+        "description": "Fixed cross.",
         "label": "Static Cross"
       },
       "5": {
@@ -656,17 +688,16 @@
         "label": "Static Quadrant"
       }
     },
-    "subtitle": "Import a CS2 share code, tweak pixel-exact settings, then copy the share code, console commands, or both back into the game.",
+    "subtitle": "Paste a share code, edit the crosshair, copy it back.",
     "thickness": "Thickness (px)",
-    "title": "Crosshair editor",
+    "title": "Crosshair",
     "toastBothCopied": "Share code and commands copied",
     "toastCommandsCopied": "Console commands copied",
     "toastLinkCopied": "Share link copied",
     "toastShareCopied": "Share code copied",
     "tStyle": "T-style",
     "useCrosshairColor": "Use crosshair color",
-    "exportHintBefore": "Paste into CS2 Settings → Crosshair, or run",
-    "exportHintAfter": "in console.",
+    "exportHint": "Paste the code into CS2 Settings → Crosshair. The block below is the same crosshair as cvars.",
     "importDialogDescription": "Paste a <code>CS…</code> code from CS2 settings. Older <code>CSGO-…</code> codes are converted automatically.",
     "importToastConverted": "CS:GO-era code converted to pixels",
     "importToastConvertedDesc": "Old codes used resolution-relative units. Sizes were converted for 1080p and may be off by a pixel.",
@@ -686,7 +717,7 @@
       "description": "Point CS2 at one cfg folder so your binds, crosshair and autoexec follow every Steam account.",
       "title": "Share one config across every CS2 account"
     },
-    "subtitle": "Walkthroughs for getting the most out of your CS2 config — things the in-game menu won't tell you.",
-    "title": "Setup guides & tricks"
+    "subtitle": "How to point CS2 at one cfg folder.",
+    "title": "Guides"
   }
 }

@@ -14,11 +14,6 @@ import {
   removeRecommendedTemplate,
 } from '@workspace/cs2/config/recommended/apply';
 import { create } from 'zustand';
-import {
-  clearStoredConfig,
-  loadStoredConfig,
-  saveStoredConfig,
-} from '@/features/config/lib/storage/config-storage';
 
 interface ConfigStore {
   addRecommendedConfig: (templateId: string) => boolean;
@@ -28,6 +23,7 @@ interface ConfigStore {
   hydrated: boolean;
   loadAllRecommendedConfigs: () => void;
   removeRecommendedConfig: (templateId: string) => boolean;
+  replaceConfig: (config: ConfigSettings) => void;
   resetConfig: () => void;
   updateField: <S extends ConfigSectionKey, K extends keyof ConfigSettings[S]>(
     section: S,
@@ -40,10 +36,6 @@ interface ConfigStore {
   ) => void;
 }
 
-function persistConfig(config: ConfigSettings) {
-  saveStoredConfig(config);
-}
-
 export const useConfigStore = create<ConfigStore>((set, get) => ({
   addRecommendedConfig: (templateId) => {
     const next = applyRecommendedTemplate(get().config, templateId);
@@ -51,7 +43,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       return false;
     }
 
-    persistConfig(next);
     set({ config: next });
     return true;
   },
@@ -66,7 +57,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       ...get().config,
       viewmodel: { ...preset.viewmodel },
     };
-    persistConfig(next);
     set({ config: next });
     return true;
   },
@@ -77,16 +67,12 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       return;
     }
 
-    set({
-      config: loadStoredConfig() ?? DEFAULT_CONFIG,
-      hydrated: true,
-    });
+    set({ hydrated: true });
   },
   hydrated: false,
 
   loadAllRecommendedConfigs: () => {
     const next = applyAllRecommendedTemplates();
-    persistConfig(next);
     set({ config: next });
   },
 
@@ -96,13 +82,15 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       return false;
     }
 
-    persistConfig(next);
     set({ config: next });
     return true;
   },
 
+  replaceConfig: (config) => {
+    set({ config, hydrated: true });
+  },
+
   resetConfig: () => {
-    clearStoredConfig();
     set({ config: DEFAULT_CONFIG });
   },
 
@@ -115,7 +103,6 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
         [field]: value,
       },
     };
-    persistConfig(next);
     set({ config: next });
   },
 
