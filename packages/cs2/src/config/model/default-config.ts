@@ -65,6 +65,7 @@ export const DEFAULT_HUD: HudSettings = {
   sniperShowInaccuracy: true,
   teamidOverheadFadeNearCrosshair: 0.5,
   teammateColors: 1,
+  weaponRarityGlow: false,
 };
 
 export const DEFAULT_CONFIG: ConfigSettings = {

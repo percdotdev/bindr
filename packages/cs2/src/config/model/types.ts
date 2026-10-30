@@ -39,7 +39,10 @@ export interface AudioSettings {
   master: number;
   /** applies to round start/end, MVP, menu and death-cam music (0–1) */
   musicVolume: number;
-  /** `snd_mute_losefocus` — mute when alt-tabbed */
+  /**
+   * `snd_mute_losefocus`. True mutes when CS2 loses focus.
+   * The settings switch is the inverse: play game audio in the background.
+   */
   muteOnFocusLoss: boolean;
   /** `snd_tensecondwarning_volume` — bomb timer beep (0–1) */
   tenSecondWarning: number;
@@ -78,6 +81,11 @@ export interface HudSettings {
   teamidOverheadFadeNearCrosshair: number;
   /** `cl_teammate_colors_show` — 0 off, 1 colors, 2 colors + letters */
   teammateColors: number;
+  /**
+   * `cl_weapon_selection_rarity_color` — weapon slot glow uses skin rarity.
+   * Off by default.
+   */
+  weaponRarityGlow: boolean;
 }
 
 export interface ConfigSettings {

@@ -64,12 +64,12 @@ export function AudioControls({ audio, onUpdate }: AudioControlsProps) {
         value={audio.tenSecondWarning}
       />
       <ConfigSwitchRow
-        description={t('muteAltTabDescription')}
-        enabled={audio.muteOnFocusLoss}
-        id='audio-mute-focus'
-        label={t('muteAltTab')}
+        description={t('playAudioBackgroundDescription')}
+        enabled={!audio.muteOnFocusLoss}
+        id='audio-play-background'
+        label={t('playAudioBackground')}
         onChange={(enabled) => {
-          onUpdate('muteOnFocusLoss', enabled);
+          onUpdate('muteOnFocusLoss', !enabled);
         }}
       />
     </div>

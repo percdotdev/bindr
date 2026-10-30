@@ -114,6 +114,15 @@ export function HudControls({ hud, onUpdate }: HudControlsProps) {
           onUpdate('showBuildInfo', enabled);
         }}
       />
+      <ConfigSwitchRow
+        description={t('weaponRarityGlowDescription')}
+        enabled={hud.weaponRarityGlow}
+        id='hud-weapon-rarity-glow'
+        label={t('weaponRarityGlow')}
+        onChange={(enabled) => {
+          onUpdate('weaponRarityGlow', enabled);
+        }}
+      />
     </div>
   );
 }
