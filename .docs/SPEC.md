@@ -36,7 +36,7 @@ A free browser tool where players **import → customize → preview → export*
 |-----------|---------|
 | **Browser-first** | Parse, preview, and export client-side. No `.exe`, no memory tools. |
 | **Trust** | MM-safe defaults, clear labels, no VAC-adjacent features. |
-| **Session-only** | Edits live in the tab. A share link keeps or sends them. No account, no localStorage. |
+| **Saved here** | Edits stay in this browser. A share link sends them. No account. |
 | **Screaming architecture** | Folders named after product features, not technical layers. |
 
 ### Product
@@ -47,7 +47,7 @@ Free. No subscriptions, no ads, no accounts required to share. A link is the who
 
 ## 2. Current product (shipped)
 
-**Phases 1.0–1.8 complete. Phase 2.0 is a share link:** the autoexec page encodes the checked crosshair, config sections, and binds into `/share?d=`. The recipient picks what to import into the editor or what to put in an autoexec. There is no account and nothing is written to localStorage.
+**Phases 1.0–1.8 complete. Phase 2.0 is a share link:** the autoexec page encodes the checked crosshair, config sections, and binds into `/share?d=`. The recipient picks what to import into the editor or what to put in an autoexec. There is no account. The editor draft is `localStorage` in this browser.
 
 ```mermaid
 flowchart LR
@@ -110,7 +110,7 @@ flowchart LR
 | Confirm dialogs | **Clear all** and **Add all** require confirmation |
 | Disabled states | Clear all when empty; Add all when catalog fully added |
 
-**State:** Zustand store (`bind-store.ts`) shared across editor and recommended pages for the current tab. A refresh clears it.
+**State:** Zustand store (`bind-store.ts`) shared across editor and recommended pages. The draft stays in this browser.
 
 ### Recommended binds — `/binds/recommended`
 
@@ -324,12 +324,12 @@ flowchart TB
 | **Monorepo** | Turborepo + Bun | `apps/web`, `packages/cs2`, `packages/ui`, `packages/ts-config`, `packages/biome-config` |
 | **Frontend** | Next.js 16 App Router, React 19, Tailwind 4, TypeScript | RSC + client features |
 | **UI** | shadcn / `@workspace/ui` | Install components on demand via CLI |
-| **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL) | In-memory for the tab. A refresh clears it. |
+| **State** | Zustand (crosshair, binds, config), nuqs (crosshair URL) | Draft in `localStorage` for this browser. |
 | **Hosting** | **Vercel Pro** | Production |
 | **Lint/format** | Ultracite (Biome) | `bun x ultracite fix` |
 | **Tests** | `bun test` | `bun run test` (turbo) |
 
-No environment variables. No database. Theme mode is the only `localStorage` use (`next-themes`).
+No environment variables. No database. `localStorage` is the theme (`next-themes`) and the editor draft (`bindr-studio:v1:*`).
 
 ### Design system
 
@@ -351,9 +351,9 @@ Never lower opacity on text — faded `/50`–`/70` muted text fails AA.
 
 ## 7. Sharing
 
-No account and no database. `/autoexec` copies a link to `/share?d=<token>`. The token is a deflate-raw payload of the checked slices (crosshair, binds, and each config section). `/share` lets the recipient turn slices on or off, then import those into the in-memory editor or download them as `autoexec.cfg`. A refresh drops anything that is not in the URL or a share link.
+No account and no database. `/autoexec` copies a link to `/share?d=<token>`. The token is a deflate-raw payload of the checked slices (crosshair, binds, and each config section). `/share` lets the recipient turn slices on or off, then import those into the editor or download them as `autoexec.cfg`. The editor also keeps its own draft in this browser.
 
-Do not add Better Auth, Steam sign-in, Neon, or editor `localStorage`.
+Do not add Better Auth, Steam sign-in, or Neon.
 
 ---
 
@@ -505,7 +505,6 @@ gantt
 | `csgo-sharecode` npm dependency | Versions < 7 emit the dead `CSGO-` format; 7.x matches our bytes but has no CS:GO → pixel conversion. Use it only as an offline reference when verifying the in-repo codec. |
 | Payments, subscriptions, ads, payouts | Product is free. No Polar, Stripe, or premium tier. |
 | Accounts, Better Auth, Steam sign-in, Neon | Sharing is a link. Do not add them back. |
-| Editor localStorage | A refresh clears the tab. Persist with a share link. |
 
 ### Implementation checklist (new features)
 
@@ -519,4 +518,4 @@ gantt
 
 ---
 
-*Last updated: no accounts, no database, no editor localStorage. A share link is the only way a config leaves the tab.*
+*Last updated: no accounts, no database. The editor draft stays in this browser. A share link sends a config.*

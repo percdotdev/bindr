@@ -364,6 +364,103 @@ export function parseStudioShare(value: unknown): StudioShare | null {
   return share;
 }
 
+const RECOMMENDATION_ID = /^rec-[a-z0-9-]{1,80}$/u;
+
+/** A saved crosshair. Unknown fields are dropped; missing ones stay at defaults. */
+export function parseStoredCrosshair(value: unknown): CrosshairSettings | null {
+  return expandFields(value, DEFAULT_CROSSHAIR);
+}
+
+/** A saved bind list. Bad rows are skipped. Duplicate keys keep the last row. */
+export function parseStoredBinds(value: unknown): BindEntry[] | null {
+  if (!Array.isArray(value)) {
+    return null;
+  }
+
+  const byKey = new Map<string, BindEntry>();
+  for (const item of value) {
+    const bind = parseBind(item);
+    if (!bind) {
+      continue;
+    }
+    if (!byKey.has(bind.key) && byKey.size >= MAX_BINDS) {
+      continue;
+    }
+    byKey.set(bind.key, bind);
+  }
+
+  return [...byKey.values()];
+}
+
+/** A saved config. A broken section rejects the whole blob. */
+export function parseStoredConfig(value: unknown): ConfigSettings | null {
+  if (!isRecord(value)) {
+    return null;
+  }
+
+  const config: ConfigSettings = {
+    audio: { ...DEFAULT_CONFIG.audio },
+    enabledRecommendations: [],
+    hud: { ...DEFAULT_CONFIG.hud },
+    mouse: { ...DEFAULT_CONFIG.mouse },
+    network: { ...DEFAULT_CONFIG.network },
+    performance: { ...DEFAULT_CONFIG.performance },
+    radar: { ...DEFAULT_CONFIG.radar },
+    viewmodel: { ...DEFAULT_CONFIG.viewmodel },
+  };
+
+  for (const section of CONFIG_SHARE_SECTIONS) {
+    if (!(section in value)) {
+      continue;
+    }
+    const expanded = expandFields(value[section], DEFAULT_CONFIG[section]);
+    if (!expanded) {
+      return null;
+    }
+    writeStoredSection(config, section, expanded);
+  }
+
+  if (Array.isArray(value.enabledRecommendations)) {
+    config.enabledRecommendations = value.enabledRecommendations.flatMap(
+      (id) => (typeof id === 'string' && RECOMMENDATION_ID.test(id) ? [id] : [])
+    );
+  }
+
+  return config;
+}
+
+function writeStoredSection(
+  config: ConfigSettings,
+  section: ConfigShareSection,
+  value: ConfigSettings[ConfigShareSection]
+): void {
+  switch (section) {
+    case 'audio':
+      config.audio = value as ConfigSettings['audio'];
+      return;
+    case 'hud':
+      config.hud = value as ConfigSettings['hud'];
+      return;
+    case 'mouse':
+      config.mouse = value as ConfigSettings['mouse'];
+      return;
+    case 'network':
+      config.network = value as ConfigSettings['network'];
+      return;
+    case 'performance':
+      config.performance = value as ConfigSettings['performance'];
+      return;
+    case 'radar':
+      config.radar = value as ConfigSettings['radar'];
+      return;
+    case 'viewmodel':
+      config.viewmodel = value as ConfigSettings['viewmodel'];
+      return;
+    default:
+      return;
+  }
+}
+
 export function slicesInShare(share: StudioShare): StudioSlice[] {
   const slices: StudioSlice[] = [];
   if (share.crosshair) {

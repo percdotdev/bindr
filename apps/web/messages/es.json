@@ -98,8 +98,8 @@
         "label": "Navegador"
       },
       "local": {
-        "detail": "Si recargas, se borra. Copia un enlace para quedarte la config.",
-        "label": "No se guarda"
+        "detail": "Se queda en este navegador. Un enlace la manda.",
+        "label": "Se guarda aquí"
       },
       "mmSafe": {
         "detail": "Comandos actuales de CS2. Sin alias de jumpthrow.",

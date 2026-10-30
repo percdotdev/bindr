@@ -12,7 +12,10 @@ import {
   applyRecommendedTemplate,
   removeRecommendedTemplate,
 } from '@workspace/cs2/config/recommended/apply';
+import { parseStoredConfig } from '@workspace/cs2/share/studio-share';
 import { create } from 'zustand';
+
+import { readStudioDraft, writeStudioDraft } from '@/shared/lib/studio-draft';
 
 interface ConfigStore {
   addRecommendedConfig: (templateId: string) => boolean;
@@ -65,7 +68,11 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
       return;
     }
 
-    set({ hydrated: true });
+    const stored = readStudioDraft('config', parseStoredConfig);
+    set({
+      config: stored ?? get().config,
+      hydrated: true,
+    });
   },
   hydrated: false,
 
@@ -103,3 +110,10 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     get().updateField('viewmodel', field, value);
   },
 }));
+
+useConfigStore.subscribe((state, previous) => {
+  if (!(state.hydrated && state.config !== previous.config)) {
+    return;
+  }
+  writeStudioDraft('config', state.config);
+});

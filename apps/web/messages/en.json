@@ -98,8 +98,8 @@
         "label": "Browser"
       },
       "local": {
-        "detail": "A refresh clears the editors. Copy a share link to keep a config.",
-        "label": "Not saved"
+        "detail": "Stays in this browser. A share link sends it.",
+        "label": "Saved here"
       },
       "mmSafe": {
         "detail": "Current CS2 commands. No jumpthrow aliases.",

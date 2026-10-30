@@ -7,7 +7,10 @@ import {
   templateToBindEntry,
 } from '@workspace/cs2/binds/recommended/helpers';
 import { getRecommendedTemplateById } from '@workspace/cs2/binds/recommended/templates';
+import { parseStoredBinds } from '@workspace/cs2/share/studio-share';
 import { create } from 'zustand';
+
+import { readStudioDraft, writeStudioDraft } from '@/shared/lib/studio-draft';
 
 function createBindId() {
   return crypto.randomUUID();
@@ -82,7 +85,11 @@ export const useBindStore = create<BindStore>((set, get) => ({
       return;
     }
 
-    set({ hydrated: true });
+    const stored = readStudioDraft('binds', parseStoredBinds);
+    set({
+      binds: stored ?? get().binds,
+      hydrated: true,
+    });
   },
   hydrated: false,
 
@@ -115,3 +122,10 @@ export const useBindStore = create<BindStore>((set, get) => ({
     set({ binds: nextBinds });
   },
 }));
+
+useBindStore.subscribe((state, previous) => {
+  if (!(state.hydrated && state.binds !== previous.binds)) {
+    return;
+  }
+  writeStudioDraft('binds', state.binds);
+});

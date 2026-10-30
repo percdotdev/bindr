@@ -12,7 +12,10 @@ import {
   type ShareCodeSource,
 } from '@workspace/cs2/crosshair/share-code/decode-share-code';
 import { encodeShareCode } from '@workspace/cs2/crosshair/share-code/encode-share-code';
+import { parseStoredCrosshair } from '@workspace/cs2/share/studio-share';
 import { create } from 'zustand';
+
+import { readStudioDraft, writeStudioDraft } from '@/shared/lib/studio-draft';
 
 export type CrosshairRgba = CrosshairRgb & { alpha: number };
 
@@ -86,7 +89,10 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
         });
       } catch {
         set({
-          crosshair: get().hydrated ? get().crosshair : DEFAULT_CROSSHAIR,
+          crosshair: get().hydrated
+            ? get().crosshair
+            : (readStudioDraft('crosshair', parseStoredCrosshair) ??
+              DEFAULT_CROSSHAIR),
           hydrated: true,
           importError: 'importErrorInvalidUrl',
         });
@@ -98,7 +104,12 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       return;
     }
 
-    set({ hydrated: true, importError: null });
+    set({
+      crosshair:
+        readStudioDraft('crosshair', parseStoredCrosshair) ?? get().crosshair,
+      hydrated: true,
+      importError: null,
+    });
   },
   hydrated: false,
   importError: null,
@@ -145,6 +156,13 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
     set({ crosshair: next, importError: null });
   },
 }));
+
+useCrosshairStore.subscribe((state, previous) => {
+  if (!(state.hydrated && state.crosshair !== previous.crosshair)) {
+    return;
+  }
+  writeStudioDraft('crosshair', state.crosshair);
+});
 
 export function getCrosshairShareCode(crosshair: CrosshairSettings) {
   return encodeShareCode(crosshair);

@@ -5,6 +5,9 @@ import { DEFAULT_CONFIG } from '@workspace/cs2/config/model/default-config';
 import { DEFAULT_CROSSHAIR } from '@workspace/cs2/crosshair/model/default-crosshair';
 import {
   applyStudioShare,
+  parseStoredBinds,
+  parseStoredConfig,
+  parseStoredCrosshair,
   parseStudioShare,
   pickStudioShare,
   type StudioSnapshot,
@@ -90,5 +93,31 @@ describe('studio share', () => {
   test('a broken token does not decode', async () => {
     expect(await decodeStudioShare('not-a-real-token')).toBeNull();
     expect(parseStudioShare({ v: 2 })).toBeNull();
+  });
+
+  test('stored slices fill defaults and drop bad rows', () => {
+    expect(parseStoredCrosshair({ gap: 3 })?.gap).toBe(3);
+    expect(parseStoredCrosshair({ gap: 3 })?.length).toBe(
+      DEFAULT_CROSSHAIR.length
+    );
+    expect(parseStoredCrosshair({ gap: 'nope' })).toBeNull();
+    expect(
+      parseStoredConfig({ mouse: { sensitivity: 1.495 } })?.mouse.sensitivity
+    ).toBe(1.495);
+    expect(
+      parseStoredConfig({ mouse: { sensitivity: 1.495 } })?.viewmodel.fov
+    ).toBe(DEFAULT_CONFIG.viewmodel.fov);
+    expect(parseStoredConfig({ mouse: { sensitivity: 'fast' } })).toBeNull();
+    expect(
+      parseStoredConfig({ enabledRecommendations: ['rec-vm-wide', 'nope', 1] })
+        ?.enabledRecommendations
+    ).toEqual(['rec-vm-wide']);
+    expect(
+      parseStoredBinds([
+        { command: 'slot1', id: 'a', key: '1' },
+        { command: '', key: '2' },
+        { command: '+jump', key: 'space' },
+      ])?.map((bind) => bind.key)
+    ).toEqual(['1', 'space']);
   });
 });
