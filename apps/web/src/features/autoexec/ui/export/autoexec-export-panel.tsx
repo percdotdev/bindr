@@ -6,6 +6,7 @@ import { useTranslations } from 'next-intl';
 import { toast } from 'sonner';
 
 import type { ShareLinkResult } from '@/features/autoexec/hooks/use-autoexec';
+import { AutoexecImportButton } from '@/features/autoexec/ui/import/autoexec-import-button';
 
 interface AutoexecExportPanelProps {
   cfg: string;
@@ -57,6 +58,7 @@ export function AutoexecExportPanel({
 
   return (
     <div className='flex flex-wrap gap-2'>
+      <AutoexecImportButton />
       <Button
         onClick={() => {
           copyShareLink();
