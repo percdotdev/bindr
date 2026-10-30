@@ -56,13 +56,7 @@ export function CrosshairExportPanel({
           readOnly
           value={shareCode}
         />
-        <p className='text-muted-foreground text-xs'>
-          {t('exportHintBefore')}{' '}
-          <code className='bg-muted rounded-none px-1 py-0.5'>
-            cl_crosshaircode
-          </code>{' '}
-          {t('exportHintAfter')}
-        </p>
+        <p className='text-muted-foreground text-xs'>{t('exportHint')}</p>
       </div>
 
       <div className='flex flex-col gap-2'>

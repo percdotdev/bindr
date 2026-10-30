@@ -15,11 +15,8 @@ export function formatViewmodelLines(viewmodel: ConfigSettings['viewmodel']) {
     `viewmodel_offset_y ${formatNumber(viewmodel.offsetY)}`,
     `viewmodel_offset_z ${formatNumber(viewmodel.offsetZ)}`,
     `cl_prefer_lefthanded ${formatBool(viewmodel.preferLeftHanded)}`,
+    `viewmodel_presetpos ${viewmodel.presetPos}`,
   ];
-
-  if (viewmodel.presetPos === 0) {
-    lines.push(`viewmodel_presetpos ${viewmodel.presetPos}`);
-  }
 
   return lines;
 }
@@ -76,7 +73,7 @@ export function formatPerformanceLines(
   ];
 
   if (performance.lowLatencySleep) {
-    lines.push('engine_low_latency_sleep_after_client_tick true');
+    lines.push('engine_low_latency_sleep_after_client_tick 1');
   }
 
   return lines;
@@ -90,7 +87,7 @@ export function formatHudLines(hud: ConfigSettings['hud']) {
     `cl_showloadout ${formatBool(hud.showLoadout)}`,
     `cl_sniper_show_inaccuracy ${formatBool(hud.sniperShowInaccuracy)}`,
     `cl_teamid_overhead_fade_near_crosshair ${formatNumber(hud.teamidOverheadFadeNearCrosshair)}`,
-    `r_show_build_info ${hud.showBuildInfo}`,
+    `r_show_build_info ${formatBool(hud.showBuildInfo)}`,
   ];
 }
 

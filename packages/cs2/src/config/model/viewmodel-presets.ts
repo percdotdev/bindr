@@ -12,15 +12,15 @@ export const VIEWMODEL_PRESETS: ViewmodelPreset[] = [
   },
   {
     description:
-      'Max FOV with custom offsets — presetpos 0 so the offsets stick.',
+      'FOV 68, offsets 2.5 / 2 / -2. presetpos 0 so the offsets stick.',
     id: 'wide-competitive',
     label: 'Wide competitive',
-    source: 'common 2026 autoexecs',
+    source: 'CS2 competitive viewmodel',
     viewmodel: {
       fov: 68,
       offsetX: 2.5,
-      offsetY: 0,
-      offsetZ: -1.5,
+      offsetY: 2,
+      offsetZ: -2,
       preferLeftHanded: false,
       presetPos: 0,
     },

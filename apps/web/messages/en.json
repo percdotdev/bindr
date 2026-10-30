@@ -1,6 +1,5 @@
 {
   "breadcrumb": {
-    "account": "Account",
     "autoexec": "Autoexec",
     "binds": "Binds",
     "config": "Game config",
@@ -14,32 +13,32 @@
       "binds": "Recommended binds",
       "config": "Recommended config"
     },
-    "catalogsSubtitle": "Start from MM-safe 2026 meta presets and keep only what you want.",
-    "catalogsTitle": "Curated catalogs",
+    "catalogsSubtitle": "Common binds and cvars. Add the ones you want.",
+    "catalogsTitle": "Recommended",
     "console": {
       "loaded": "bindr.lol autoexec loaded",
-      "tagline": "   bindr.lol  -  browser CS2 config studio"
+      "tagline": "   bindr.lol  -  cs2 config"
     },
-    "ctaAutoexec": "Compose autoexec",
-    "ctaCrosshair": "Start with crosshair",
-    "eyebrow": "Counter-Strike 2 config studio",
-    "leadAfter": "into your game folder. No downloads, no cheats.",
-    "leadBefore": "Build your crosshair, binds and game cvars in the browser, then copy console commands or drop one",
+    "ctaAutoexec": "Autoexec",
+    "ctaCrosshair": "Crosshair",
+    "eyebrow": "CS2 config",
+    "leadAfter": "in your cfg folder.",
+    "leadBefore": "Crosshair, binds and settings. Copy the commands, or drop one",
     "steps": {
       "customize": {
-        "detail": "Sliders, toggles and a visual keyboard — no syntax to memorize.",
-        "title": "Customize"
+        "detail": "Change the values. The cfg changes with them.",
+        "title": "Edit"
       },
       "export": {
-        "detail": "Copy a share link, or download one autoexec.cfg.",
+        "detail": "Copy a link, or download autoexec.cfg.",
         "title": "Export"
       },
       "import": {
-        "detail": "Paste a share code or start from MM-safe 2026 presets.",
-        "title": "Import"
+        "detail": "Paste a share code, or start from the recommended sets.",
+        "title": "Start"
       },
       "preview": {
-        "detail": "Crosshairs render on real maps; cfg output updates live.",
+        "detail": "The crosshair is drawn on a map.",
         "title": "Preview"
       }
     },
@@ -74,8 +73,8 @@
         "label": "Browser-only"
       },
       "local": {
-        "detail": "Edits stay in this browser. Share a link so someone else can import the parts they want.",
-        "label": "Local-first"
+        "detail": "Nothing is saved on this device. A share link is how you keep a config or send it.",
+        "label": "No account"
       },
       "mmSafe": {
         "detail": "Binds and cvars follow current Valve rules — no banned scripts.",
@@ -128,10 +127,6 @@
     "localeAria": "Language"
   },
   "pages": {
-    "account": {
-      "description": "Your bindr.lol account, signed in with Steam.",
-      "title": "Account"
-    },
     "autoexec": {
       "description": "Merge your CS2 crosshair, config and binds into a single autoexec.cfg with per-section toggles and an ASCII banner, then copy or download it.",
       "title": "Autoexec composer"
@@ -222,14 +217,14 @@
     "emptyBody": "Build your config, then copy a share link from the autoexec composer.",
     "emptyTitle": "Nothing to import",
     "import": "Import selected",
-    "imported": "Imported into this browser",
+    "imported": "Imported into the editor",
     "include": "Import",
-    "includeDescription": "Only checked parts are written. The rest of your local config stays as it is.",
+    "includeDescription": "Only checked parts are written. The rest of the editor stays as it is.",
     "invalidBody": "This link is empty, cut off, or damaged.",
     "invalidTitle": "Link is not valid",
     "nothingSelected": "Turn on at least one part",
     "preview": "Autoexec of the selection",
-    "subtitle": "Choose what to import into this browser, or what to put in an autoexec.cfg.",
+    "subtitle": "Choose what to import into the editor, or what to put in an autoexec.cfg.",
     "title": "Shared config",
     "toastCopied": "autoexec.cfg copied",
     "toastCopyFailed": "Could not copy autoexec.cfg"
@@ -525,7 +520,7 @@
         "label": "Valve default viewmodel"
       },
       "rec-vm-wide": {
-        "description": "Max FOV (68) with custom offsets. presetpos 0 unlocks the offsets — 1/2/3 override them.",
+        "description": "FOV 68, offsets 2.5 / 2 / -2. presetpos 0 so the offsets stick — 1/2/3 override them.",
         "label": "Wide competitive viewmodel"
       }
     },
@@ -551,7 +546,7 @@
         "label": "Valve default"
       },
       "wide-competitive": {
-        "description": "Max FOV with custom offsets — presetpos 0 so the offsets stick.",
+        "description": "FOV 68, offsets 2.5 / 2 / -2. presetpos 0 so the offsets stick.",
         "label": "Wide competitive"
       }
     },
@@ -703,8 +698,7 @@
     "toastShareCopied": "Share code copied",
     "tStyle": "T-style",
     "useCrosshairColor": "Use crosshair color",
-    "exportHintBefore": "Paste into CS2 Settings → Crosshair, or run",
-    "exportHintAfter": "in console.",
+    "exportHint": "Paste the code into CS2 Settings → Crosshair. The block below is the same crosshair as cvars.",
     "importDialogDescription": "Paste a <code>CS…</code> code from CS2 settings. Older <code>CSGO-…</code> codes are converted automatically.",
     "importToastConverted": "CS:GO-era code converted to pixels",
     "importToastConvertedDesc": "Old codes used resolution-relative units. Sizes were converted for 1080p and may be off by a pixel.",
@@ -726,20 +720,5 @@
     },
     "subtitle": "Walkthroughs for getting the most out of your CS2 config — things the in-game menu won't tell you.",
     "title": "Setup guides & tricks"
-  },
-  "auth": {
-    "account": {
-      "heading": "Your account",
-      "name": "Name",
-      "steamId": "SteamID64",
-      "steamProfile": "Steam profile"
-    },
-    "accountLink": "Account",
-    "menuAria": "Account menu",
-    "redirecting": "Opening Steam…",
-    "signIn": "Sign in with Steam",
-    "signInFailed": "Steam sign-in failed. Please try again.",
-    "signOut": "Sign out",
-    "signOutFailed": "Could not sign out. Please try again."
   }
 }

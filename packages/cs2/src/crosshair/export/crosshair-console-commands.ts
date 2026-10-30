@@ -24,17 +24,15 @@ function encodeShareCodeOrNull(crosshair: CrosshairSettings): string | null {
 }
 
 /**
- * Convars for CS2 build 2000922+. `cl_crosshaircode` is first so a console
- * paste applies the share code; the pixel cvars follow and win if they
- * disagree. `cl_crosshair_screen_height` stays last: the game rewrites it
- * whenever the window size changes, and the pixel sizes above only make
- * sense relative to the height they were made for.
+ * Convars for current CS2. The share code is a settings-menu paste only —
+ * `cl_crosshaircode` is not a command. `cl_crosshair_screen_height` stays
+ * last: the game rewrites it whenever the window size changes, and the pixel
+ * sizes above only make sense relative to the height they were made for.
  */
 export function crosshairSettingsToConsoleLines(
   crosshair: CrosshairSettings
 ): string[] {
-  const shareCode = encodeShareCodeOrNull(crosshair);
-  const cvars = [
+  return [
     `cl_crosshairstyle ${Math.round(crosshair.style)}`,
     `cl_crosshair_length ${Math.round(crosshair.length)}`,
     `cl_crosshair_thickness ${Math.round(crosshair.thickness)}`,
@@ -60,8 +58,6 @@ export function crosshairSettingsToConsoleLines(
     `cl_ironsight_dot_scale ${formatConsoleNumber(crosshair.scopeDotScale)}`,
     `cl_crosshair_screen_height ${Math.round(crosshair.screenHeight)}`,
   ];
-
-  return shareCode ? [`cl_crosshaircode ${shareCode}`, ...cvars] : cvars;
 }
 
 /** Semicolon-joined paste for the in-game console. */

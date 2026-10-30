@@ -13,7 +13,6 @@ import { cn } from '@workspace/ui/lib/utils';
 import { useTranslations } from 'next-intl';
 import { useState } from 'react';
 
-import { AccountButton } from '@/features/auth/ui/account-button';
 import { Link, usePathname } from '@/i18n/navigation';
 import { LocaleSwitcher } from '@/shared/ui/locale-switcher';
 
@@ -142,7 +141,6 @@ export function SiteNav() {
           </NavigationMenuList>
         </NavigationMenu>
         <LocaleSwitcher />
-        <AccountButton />
       </div>
     </header>
   );

@@ -14,7 +14,6 @@ import { Fragment } from 'react';
 import { Link, usePathname } from '@/i18n/navigation';
 
 const SEGMENT_KEYS = new Set([
-  'account',
   'autoexec',
   'binds',
   'config',
@@ -46,7 +45,6 @@ export function SiteBreadcrumb() {
     label: SEGMENT_KEYS.has(segment)
       ? t(
           segment as
-            | 'account'
             | 'autoexec'
             | 'binds'
             | 'config'

@@ -8,11 +8,6 @@ import {
 } from '@workspace/cs2/binds/recommended/helpers';
 import { getRecommendedTemplateById } from '@workspace/cs2/binds/recommended/templates';
 import { create } from 'zustand';
-import {
-  clearStoredBinds,
-  loadStoredBinds,
-  saveStoredBinds,
-} from '@/features/binds/lib/storage/bind-storage';
 
 function createBindId() {
   return crypto.randomUUID();
@@ -73,14 +68,12 @@ export const useBindStore = create<BindStore>((set, get) => ({
             index === existingIndex ? { ...entry, id: bind.id } : bind
           );
 
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds });
     return true;
   },
   binds: [],
 
   clearBinds: () => {
-    clearStoredBinds();
     set({ binds: [], selectedKey: null });
   },
 
@@ -89,22 +82,17 @@ export const useBindStore = create<BindStore>((set, get) => ({
       return;
     }
 
-    set({
-      binds: loadStoredBinds() ?? [],
-      hydrated: true,
-    });
+    set({ hydrated: true });
   },
   hydrated: false,
 
   loadRecommendedBinds: () => {
     const nextBinds = createRecommendedBinds();
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds, selectedKey: null });
   },
 
   removeBind: (key) => {
     const nextBinds = get().binds.filter((bind) => bind.key !== key);
-    saveStoredBinds(nextBinds);
     set((state) => ({
       binds: nextBinds,
       selectedKey: state.selectedKey === key ? null : state.selectedKey,
@@ -112,7 +100,6 @@ export const useBindStore = create<BindStore>((set, get) => ({
   },
 
   replaceBinds: (binds) => {
-    saveStoredBinds(binds);
     set({ binds, hydrated: true, selectedKey: null });
   },
   selectedKey: null,
@@ -125,7 +112,6 @@ export const useBindStore = create<BindStore>((set, get) => ({
 
   upsertBind: (key, command) => {
     const nextBinds = upsertBindEntry(get().binds, key, command);
-    saveStoredBinds(nextBinds);
     set({ binds: nextBinds });
   },
 }));
