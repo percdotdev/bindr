@@ -19,8 +19,7 @@
       "loaded": "bindr.lol autoexec loaded",
       "tagline": "   bindr.lol  -  cs2 config"
     },
-    "ctaAutoexec": "Autoexec",
-    "ctaCrosshair": "Crosshair",
+    "ctaStart": "Get started",
     "eyebrow": "CS2 config",
     "leadAfter": "in your cfg folder.",
     "leadBefore": "Crosshair, binds and settings. Copy the commands, or drop one",

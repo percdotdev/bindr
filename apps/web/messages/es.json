@@ -19,8 +19,7 @@
       "loaded": "autoexec de bindr.lol cargado",
       "tagline": "   bindr.lol  -  config de cs2"
     },
-    "ctaAutoexec": "Autoexec",
-    "ctaCrosshair": "Mira",
+    "ctaStart": "Empezar",
     "eyebrow": "Config de CS2",
     "leadAfter": "en tu carpeta cfg.",
     "leadBefore": "Mira, binds y ajustes. Copia los comandos, o deja un",
