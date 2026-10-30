@@ -6,7 +6,8 @@
     "config": "Config del juego",
     "crosshair": "Mira",
     "guides": "Guías",
-    "recommended": "Recomendados"
+    "recommended": "Recomendados",
+    "share": "Config compartida"
   },
   "home": {
     "catalogs": {
@@ -30,7 +31,7 @@
         "title": "Personalizar"
       },
       "export": {
-        "detail": "Copia el share code y los comandos, o descarga un autoexec.cfg.",
+        "detail": "Copia un enlace para compartir, o descarga un autoexec.cfg.",
         "title": "Exportar"
       },
       "import": {
@@ -73,7 +74,7 @@
         "label": "Solo navegador"
       },
       "local": {
-        "detail": "Los cambios se guardan en tu navegador hasta que llegue el guardado en la nube.",
+        "detail": "Los cambios se quedan en este navegador. Comparte un enlace para que otra persona importe las partes que quiera.",
         "label": "Local primero"
       },
       "mmSafe": {
@@ -135,6 +136,10 @@
       "description": "Une tu mira, config y binds de CS2 en un solo autoexec.cfg con interruptores por sección y banner ASCII; luego cópialo o descárgalo.",
       "title": "Compositor de autoexec"
     },
+    "share": {
+      "description": "Abre un enlace de bindr.lol y elige qué partes de la mira, la config y los binds importar o meter en un autoexec.cfg.",
+      "title": "Config compartida"
+    },
     "binds": {
       "description": "Crea configs de binds de CS2 en un teclado visual y exporta líneas agrupadas o un fragmento de cfg listo para pegar.",
       "title": "Generador de binds"
@@ -175,7 +180,7 @@
     "copy": "Copiar autoexec.cfg",
     "download": "Descargar autoexec.cfg",
     "include": "Incluir",
-    "includeDescription": "Elige qué partes van al archivo. Edita cada una en su propia herramienta.",
+    "includeDescription": "Lo marcado entra en el autoexec y en el enlace. La config se puede partir por sección.",
     "preview": "Vista previa",
     "slices": {
       "binds": {
@@ -195,11 +200,39 @@
     "title": "Compositor de autoexec",
     "toastCopied": "autoexec.cfg copiado",
     "toastCopyFailed": "No se pudo copiar autoexec.cfg",
-    "subtitleFull": "Une tu mira, config y binds en un solo <code>autoexec.cfg</code>. Activa secciones abajo y copia o descarga.",
+    "subtitleFull": "Elige qué partes de tu mira, config y binds van a un <code>autoexec.cfg</code> o a un enlace para compartir.",
     "bannerDescription": "Muestra un wordmark ASCII de bindr.lol al cargar el cfg.",
     "editLink": "Editar →",
     "bindCount": "{count, plural, one {# bind} other {# binds}}",
-    "previewDescription": "Ejecuta una vez en consola con <code>exec autoexec</code> tras dejar el archivo en tu carpeta cfg."
+    "previewDescription": "Ejecuta una vez en consola con <code>exec autoexec</code> tras dejar el archivo en tu carpeta cfg.",
+    "copyLink": "Copiar enlace",
+    "toastLinkCopied": "Enlace copiado",
+    "toastLinkFailed": "No se pudo copiar el enlace",
+    "toastLinkTooLong": "La config es demasiado grande para un enlace. Desactiva algunas secciones.",
+    "toastNothingSelected": "Activa al menos una sección"
+  },
+  "share": {
+    "bindCount": "{count, plural, one {# bind} other {# binds}}",
+    "binds": "Binds",
+    "config": "Config del juego",
+    "copy": "Copiar autoexec.cfg",
+    "createLink": "Crear un enlace",
+    "crosshair": "Mira",
+    "download": "Descargar autoexec.cfg",
+    "emptyBody": "Arma tu config y copia un enlace desde el compositor de autoexec.",
+    "emptyTitle": "Nada que importar",
+    "import": "Importar selección",
+    "imported": "Importado en este navegador",
+    "include": "Importar",
+    "includeDescription": "Solo se escriben las partes activas. El resto de tu config local se queda igual.",
+    "invalidBody": "Este enlace está vacío, cortado o dañado.",
+    "invalidTitle": "Enlace no válido",
+    "nothingSelected": "Activa al menos una parte",
+    "preview": "Autoexec de la selección",
+    "subtitle": "Elige qué importar en este navegador o qué meter en un autoexec.cfg.",
+    "title": "Config compartida",
+    "toastCopied": "autoexec.cfg copiado",
+    "toastCopyFailed": "No se pudo copiar autoexec.cfg"
   },
   "binds": {
     "addAllDescription": "Esto sustituye toda tu config de binds por el set recomendado completo. Se eliminan los binds personalizados.",

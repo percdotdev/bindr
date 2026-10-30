@@ -50,6 +50,7 @@ interface BindStore {
   hydrated: boolean;
   loadRecommendedBinds: () => void;
   removeBind: (key: string) => void;
+  replaceBinds: (binds: BindEntry[]) => void;
   selectedKey: string | null;
   selectKey: (key: string) => void;
   upsertBind: (key: string, command: string) => void;
@@ -108,6 +109,11 @@ export const useBindStore = create<BindStore>((set, get) => ({
       binds: nextBinds,
       selectedKey: state.selectedKey === key ? null : state.selectedKey,
     }));
+  },
+
+  replaceBinds: (binds) => {
+    saveStoredBinds(binds);
+    set({ binds, hydrated: true, selectedKey: null });
   },
   selectedKey: null,
 

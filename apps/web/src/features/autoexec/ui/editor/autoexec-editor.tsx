@@ -1,6 +1,6 @@
 'use client';
 
-import type { AutoexecSectionId } from '@workspace/cs2/autoexec/compose/compose-autoexec';
+import { CONFIG_SHARE_SECTIONS } from '@workspace/cs2/share/studio-slices';
 import { Label } from '@workspace/ui/components/label';
 import { Switch } from '@workspace/ui/components/switch';
 import { useTranslations } from 'next-intl';
@@ -10,15 +10,24 @@ import { AutoexecExportPanel } from '@/features/autoexec/ui/export/autoexec-expo
 import { Link } from '@/i18n/navigation';
 import { CollapsibleSection } from '@/shared/ui/collapsible-section';
 
-const SECTION_IDS = [
+const TOP_SLICES = [
   { href: '/crosshair' as const, id: 'crosshair' as const },
-  { href: '/config' as const, id: 'config' as const },
   { href: '/binds' as const, id: 'binds' as const },
 ];
 
 export function AutoexecEditor() {
   const t = useTranslations('autoexec');
-  const { bindCount, cfg, include, toggleSection } = useAutoexec();
+  const categories = useTranslations('config.categories');
+  const {
+    bindCount,
+    cfg,
+    configGroupOn,
+    createShareLink,
+    include,
+    toggleBanner,
+    toggleConfigGroup,
+    toggleSlice,
+  } = useAutoexec();
 
   return (
     <div className='mx-auto flex w-full max-w-3xl flex-col gap-5 p-6'>
@@ -35,7 +44,7 @@ export function AutoexecEditor() {
         </p>
       </div>
 
-      <AutoexecExportPanel cfg={cfg} />
+      <AutoexecExportPanel cfg={cfg} createShareLink={createShareLink} />
 
       <CollapsibleSection
         contentClassName='flex flex-col gap-4'
@@ -52,15 +61,12 @@ export function AutoexecEditor() {
           <Switch
             checked={include.banner}
             id='autoexec-banner'
-            onCheckedChange={() => toggleSection('banner')}
+            onCheckedChange={toggleBanner}
           />
         </div>
-        {SECTION_IDS.map((section) => {
-          const id = `autoexec-${section.id}`;
-          const isBinds = section.id === 'binds';
-          const sliceKey = section.id as AutoexecSectionId &
-            ('crosshair' | 'config' | 'binds');
 
+        {TOP_SLICES.map((section) => {
+          const id = `autoexec-${section.id}`;
           return (
             <div
               className='flex items-center justify-between gap-4'
@@ -68,15 +74,15 @@ export function AutoexecEditor() {
             >
               <div className='flex min-w-0 flex-col gap-0.5'>
                 <Label htmlFor={id}>
-                  {t(`slices.${sliceKey}.label`)}
-                  {isBinds ? (
+                  {t(`slices.${section.id}.label`)}
+                  {section.id === 'binds' ? (
                     <span className='text-muted-foreground ml-2 text-xs'>
                       {t('bindCount', { count: bindCount })}
                     </span>
                   ) : null}
                 </Label>
                 <span className='text-muted-foreground text-xs'>
-                  {t(`slices.${sliceKey}.description`)}{' '}
+                  {t(`slices.${section.id}.description`)}{' '}
                   <Link
                     className='underline-offset-4 hover:underline'
                     href={section.href}
@@ -86,13 +92,52 @@ export function AutoexecEditor() {
                 </span>
               </div>
               <Switch
-                checked={include[section.id]}
+                checked={include.slices[section.id]}
                 id={id}
-                onCheckedChange={() => toggleSection(section.id)}
+                onCheckedChange={() => toggleSlice(section.id)}
               />
             </div>
           );
         })}
+
+        <div className='flex items-center justify-between gap-4'>
+          <div className='flex min-w-0 flex-col gap-0.5'>
+            <Label htmlFor='autoexec-config'>{t('slices.config.label')}</Label>
+            <span className='text-muted-foreground text-xs'>
+              {t('slices.config.description')}{' '}
+              <Link
+                className='underline-offset-4 hover:underline'
+                href='/config'
+              >
+                {t('editLink')}
+              </Link>
+            </span>
+          </div>
+          <Switch
+            checked={configGroupOn}
+            id='autoexec-config'
+            onCheckedChange={(checked) => toggleConfigGroup(checked === true)}
+          />
+        </div>
+
+        <div className='border-foreground/10 flex flex-col gap-3 border-l pl-4'>
+          {CONFIG_SHARE_SECTIONS.map((section) => {
+            const id = `autoexec-config-${section}`;
+            return (
+              <div
+                className='flex items-center justify-between gap-4'
+                key={section}
+              >
+                <Label htmlFor={id}>{categories(section)}</Label>
+                <Switch
+                  checked={include.slices[section]}
+                  id={id}
+                  onCheckedChange={() => toggleSlice(section)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </CollapsibleSection>
 
       <CollapsibleSection

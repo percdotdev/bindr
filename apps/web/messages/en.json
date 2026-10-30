@@ -6,7 +6,8 @@
     "config": "Game config",
     "crosshair": "Crosshair",
     "guides": "Guides",
-    "recommended": "Recommended"
+    "recommended": "Recommended",
+    "share": "Shared config"
   },
   "home": {
     "catalogs": {
@@ -30,7 +31,7 @@
         "title": "Customize"
       },
       "export": {
-        "detail": "Copy the share code and console commands, or download one autoexec.cfg.",
+        "detail": "Copy a share link, or download one autoexec.cfg.",
         "title": "Export"
       },
       "import": {
@@ -73,7 +74,7 @@
         "label": "Browser-only"
       },
       "local": {
-        "detail": "Edits persist in your browser until cloud save ships.",
+        "detail": "Edits stay in this browser. Share a link so someone else can import the parts they want.",
         "label": "Local-first"
       },
       "mmSafe": {
@@ -135,6 +136,10 @@
       "description": "Merge your CS2 crosshair, config and binds into a single autoexec.cfg with per-section toggles and an ASCII banner, then copy or download it.",
       "title": "Autoexec composer"
     },
+    "share": {
+      "description": "Open a bindr.lol share link and choose which crosshair, config sections and binds to import or write into an autoexec.cfg.",
+      "title": "Shared config"
+    },
     "binds": {
       "description": "Build CS2 bind configs on a visual keyboard layout, then export grouped bind lines or a ready-to-paste cfg snippet.",
       "title": "Bind generator"
@@ -175,7 +180,7 @@
     "copy": "Copy autoexec.cfg",
     "download": "Download autoexec.cfg",
     "include": "Include",
-    "includeDescription": "Pick which feature slices go into the file. Edit each one in its own tool.",
+    "includeDescription": "Checked parts go into the autoexec and into the share link. Config can be split by section.",
     "preview": "Preview",
     "slices": {
       "binds": {
@@ -195,11 +200,39 @@
     "title": "Autoexec composer",
     "toastCopied": "autoexec.cfg copied",
     "toastCopyFailed": "Could not copy autoexec.cfg",
-    "subtitleFull": "Merge your crosshair, config and binds into a single <code>autoexec.cfg</code>. Toggle sections below, then copy or download.",
+    "subtitleFull": "Pick which parts of your crosshair, config and binds go into one <code>autoexec.cfg</code> or into a share link.",
     "bannerDescription": "Echo a bindr.lol ASCII wordmark when the cfg loads.",
     "editLink": "Edit →",
     "bindCount": "{count, plural, one {# bind} other {# binds}}",
-    "previewDescription": "Run once in console with <code>exec autoexec</code> after dropping the file in your cfg folder."
+    "previewDescription": "Run once in console with <code>exec autoexec</code> after dropping the file in your cfg folder.",
+    "copyLink": "Copy share link",
+    "toastLinkCopied": "Share link copied",
+    "toastLinkFailed": "Could not copy the share link",
+    "toastLinkTooLong": "That config is too big for a link. Turn off some sections.",
+    "toastNothingSelected": "Turn on at least one section"
+  },
+  "share": {
+    "bindCount": "{count, plural, one {# bind} other {# binds}}",
+    "binds": "Binds",
+    "config": "Game config",
+    "copy": "Copy autoexec.cfg",
+    "createLink": "Create a share link",
+    "crosshair": "Crosshair",
+    "download": "Download autoexec.cfg",
+    "emptyBody": "Build your config, then copy a share link from the autoexec composer.",
+    "emptyTitle": "Nothing to import",
+    "import": "Import selected",
+    "imported": "Imported into this browser",
+    "include": "Import",
+    "includeDescription": "Only checked parts are written. The rest of your local config stays as it is.",
+    "invalidBody": "This link is empty, cut off, or damaged.",
+    "invalidTitle": "Link is not valid",
+    "nothingSelected": "Turn on at least one part",
+    "preview": "Autoexec of the selection",
+    "subtitle": "Choose what to import into this browser, or what to put in an autoexec.cfg.",
+    "title": "Shared config",
+    "toastCopied": "autoexec.cfg copied",
+    "toastCopyFailed": "Could not copy autoexec.cfg"
   },
   "binds": {
     "addAllDescription": "This replaces your entire bind config with the full recommended set. Any custom binds are removed.",

@@ -1,13 +1,22 @@
 import { formatAutoexecBanner } from '@workspace/cs2/autoexec/compose/autoexec-banner';
 import { formatBindBody } from '@workspace/cs2/binds/export/format-cfg';
 import type { BindEntry } from '@workspace/cs2/binds/model/types';
-import { formatConfigBody } from '@workspace/cs2/config/export/format-config-cfg';
+import {
+  formatAudioLines,
+  formatHudLines,
+  formatMouseLines,
+  formatNetworkLines,
+  formatPerformanceLines,
+  formatRadarLines,
+  formatViewmodelLines,
+} from '@workspace/cs2/config/export/format-config-cfg';
 import type { ConfigSettings } from '@workspace/cs2/config/model/types';
 import { crosshairSettingsToCfgLines } from '@workspace/cs2/crosshair/export/crosshair-console-commands';
 import type { CrosshairSettings } from '@workspace/cs2/crosshair/model/types';
-
-export type AutoexecSectionId = 'crosshair' | 'config' | 'binds';
-export type AutoexecToggleId = AutoexecSectionId | 'banner';
+import {
+  CONFIG_SHARE_SECTIONS,
+  type StudioSelection,
+} from '@workspace/cs2/share/studio-slices';
 
 export interface AutoexecSource {
   binds: BindEntry[];
@@ -15,7 +24,38 @@ export interface AutoexecSource {
   crosshair: CrosshairSettings;
 }
 
-export type AutoexecInclude = Record<AutoexecToggleId, boolean>;
+export interface AutoexecInclude {
+  banner: boolean;
+  slices: StudioSelection;
+}
+
+const CONFIG_SECTION_LINES = {
+  audio: (config: ConfigSettings) => [
+    '// audio',
+    ...formatAudioLines(config.audio),
+  ],
+  hud: (config: ConfigSettings) => ['// hud', ...formatHudLines(config.hud)],
+  mouse: (config: ConfigSettings) => [
+    '// mouse',
+    ...formatMouseLines(config.mouse),
+  ],
+  network: (config: ConfigSettings) => [
+    '// network',
+    ...formatNetworkLines(config.network),
+  ],
+  performance: (config: ConfigSettings) => [
+    '// performance',
+    ...formatPerformanceLines(config.performance),
+  ],
+  radar: (config: ConfigSettings) => [
+    '// radar',
+    ...formatRadarLines(config.radar),
+  ],
+  viewmodel: (config: ConfigSettings) => [
+    '// viewmodel',
+    ...formatViewmodelLines(config.viewmodel),
+  ],
+} as const;
 
 const CFG_PATH =
   '// Drop in ...\\Steam\\steamapps\\common\\Counter-Strike Global Offensive\\game\\csgo\\cfg\\autoexec.cfg';
@@ -28,8 +68,18 @@ function crosshairSection(crosshair: CrosshairSettings): string[] {
   ];
 }
 
-function configSection(config: ConfigSettings): string[] {
-  return ['// ===== config =====', ...formatConfigBody(config), ''];
+function configSection(
+  config: ConfigSettings,
+  slices: StudioSelection
+): string[] {
+  const lines = ['// ===== config ====='];
+  for (const section of CONFIG_SHARE_SECTIONS) {
+    if (!slices[section]) {
+      continue;
+    }
+    lines.push(...CONFIG_SECTION_LINES[section](config), '');
+  }
+  return lines;
 }
 
 function bindsSection(binds: BindEntry[]): string[] {
@@ -47,15 +97,15 @@ export function composeAutoexec(
     '',
   ];
 
-  if (include.crosshair) {
+  if (include.slices.crosshair) {
     lines.push(...crosshairSection(source.crosshair));
   }
 
-  if (include.config) {
-    lines.push(...configSection(source.config));
+  if (CONFIG_SHARE_SECTIONS.some((section) => include.slices[section])) {
+    lines.push(...configSection(source.config, include.slices));
   }
 
-  if (include.binds) {
+  if (include.slices.binds) {
     lines.push(...bindsSection(source.binds));
   }
 

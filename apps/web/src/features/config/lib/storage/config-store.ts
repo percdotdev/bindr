@@ -28,6 +28,7 @@ interface ConfigStore {
   hydrated: boolean;
   loadAllRecommendedConfigs: () => void;
   removeRecommendedConfig: (templateId: string) => boolean;
+  replaceConfig: (config: ConfigSettings) => void;
   resetConfig: () => void;
   updateField: <S extends ConfigSectionKey, K extends keyof ConfigSettings[S]>(
     section: S,
@@ -99,6 +100,11 @@ export const useConfigStore = create<ConfigStore>((set, get) => ({
     persistConfig(next);
     set({ config: next });
     return true;
+  },
+
+  replaceConfig: (config) => {
+    persistConfig(config);
+    set({ config, hydrated: true });
   },
 
   resetConfig: () => {

@@ -12,6 +12,7 @@ const STATIC_ROUTES = [
   '/config',
   '/config/recommended',
   '/autoexec',
+  '/share',
   '/guides',
 ];
 

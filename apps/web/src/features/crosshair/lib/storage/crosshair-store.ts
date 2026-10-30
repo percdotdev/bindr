@@ -65,6 +65,7 @@ interface CrosshairStore {
   hydrated: boolean;
   importError: CrosshairImportErrorKey | null;
   importShareCode: (code: string) => ShareCodeSource | null;
+  replaceCrosshair: (crosshair: CrosshairSettings) => void;
   resetCrosshair: () => void;
   updateField: <K extends CrosshairField>(
     field: K,
@@ -130,6 +131,11 @@ export const useCrosshairStore = create<CrosshairStore>((set, get) => ({
       });
       return null;
     }
+  },
+
+  replaceCrosshair: (crosshair) => {
+    persistCrosshair(crosshair);
+    set({ crosshair, hydrated: true, importError: null });
   },
 
   resetCrosshair: () => {
